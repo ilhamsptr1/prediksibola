@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/football-data/:match*",
+      "destination": "https://api.football-data.org/:match*"
+    }
+  ]
+}
