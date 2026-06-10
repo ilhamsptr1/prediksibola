@@ -1,0 +1,130 @@
+.standings {
+  padding: var(--spacing-xl) 0;
+}
+
+.standings-header {
+  margin-bottom: var(--spacing-xxl);
+}
+
+.standings-header .lb-trophy-icon {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-sm);
+  filter: drop-shadow(0 0 12px rgba(0, 245, 150, 0.4));
+}
+
+.simulate-btn {
+  margin-top: var(--spacing-md);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.standings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.standings-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.st-card-header {
+  background: rgba(255, 255, 255, 0.03);
+  padding: var(--spacing-md) var(--spacing-lg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.st-card-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.st-table-wrapper {
+  overflow-x: auto;
+}
+
+.st-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.st-table th,
+.st-table td {
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.st-table th {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.st-table td {
+  color: var(--text-secondary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.st-table tr:last-child td {
+  border-bottom: none;
+}
+
+.st-table .team-col {
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.st-flag {
+  width: 20px;
+  height: auto;
+  border-radius: 2px;
+}
+
+.st-team-name {
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+.st-table td.pos {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.st-table td.pts {
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+/* Zone Indicators */
+.st-table tr.zone-qualified td:first-child {
+  border-left: 3px solid var(--primary-color);
+}
+
+.st-table tr.zone-possible td:first-child {
+  border-left: 3px solid #ffcc00; /* Yellowish for possible qualification */
+}
+
+.st-table tr:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+@media (max-width: 480px) {
+  .hide-xs {
+    display: none;
+  }
+  .st-table th, .st-table td {
+    padding: 8px;
+  }
+}

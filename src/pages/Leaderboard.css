@@ -1,0 +1,192 @@
+.leaderboard {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  max-width: 860px;
+  margin: 0 auto;
+  padding-bottom: 5rem;
+}
+
+/* ── Hero ────────────────────────────────────────────────────────────────── */
+.lb-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+.lb-trophy-icon {
+  color: #FFD700;
+  filter: drop-shadow(0 0 18px rgba(255,215,0,0.45));
+  margin-bottom: 0.25rem;
+}
+
+/* ── Podium ──────────────────────────────────────────────────────────────── */
+.podium {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.podium-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1.5rem 1rem 0;
+  flex: 1;
+  max-width: 220px;
+  position: relative;
+  overflow: hidden;
+}
+
+.podium-1 {
+  border-color: rgba(255,215,0,0.3) !important;
+  box-shadow: 0 0 30px rgba(255,215,0,0.08);
+}
+.podium-2 { border-color: rgba(192,192,192,0.2) !important; }
+.podium-3 { border-color: rgba(205,127,50,0.2) !important; }
+
+.podium-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.15);
+}
+.podium-avatar.large {
+  width: 80px;
+  height: 80px;
+  border-color: #FFD700;
+  box-shadow: 0 0 20px rgba(255,215,0,0.3);
+}
+
+.podium-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-align: center;
+}
+.podium-pts {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+.podium-pts span { font-size: 0.75rem; color: var(--text-muted); font-weight: 500; }
+
+.podium-bar {
+  width: 100%;
+  border-radius: 4px 4px 0 0;
+  margin-top: 0.5rem;
+}
+.bar-1 { height: 80px;  background: linear-gradient(to top, rgba(255,215,0,0.3), transparent); }
+.bar-2 { height: 56px;  background: linear-gradient(to top, rgba(192,192,192,0.2), transparent); }
+.bar-3 { height: 40px;  background: linear-gradient(to top, rgba(205,127,50,0.2), transparent); }
+
+/* ── Full List ───────────────────────────────────────────────────────────── */
+.lb-list {
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.lb-list-header {
+  display: grid;
+  grid-template-columns: 48px 1fr 80px 80px 90px;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--border-glass);
+  margin-bottom: 0.5rem;
+}
+
+.lb-row {
+  display: grid;
+  grid-template-columns: 48px 1fr 80px 80px 90px;
+  align-items: center;
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  transition: all 0.2s ease;
+  cursor: default;
+}
+.lb-row:hover { background: rgba(255,255,255,0.04); }
+.lb-row-top   { border-left: 2px solid rgba(0,255,136,0.25); }
+
+.lb-rank {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.rank-icon       { flex-shrink: 0; }
+.rank-icon.gold  { color: #FFD700; filter: drop-shadow(0 0 6px rgba(255,215,0,0.5)); }
+.rank-icon.silver{ color: #C0C0C0; }
+.rank-icon.bronze{ color: #CD7F32; }
+.rank-number {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--text-muted);
+}
+
+.lb-user {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.lb-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 2px solid var(--border-glass);
+  background: rgba(255,255,255,0.05);
+}
+.lb-name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.lb-stat {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.lb-points {
+  display: flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  justify-content: flex-end;
+}
+.pts-value {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--primary);
+}
+.pts-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.lb-note {
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .hide-sm { display: none; }
+  .lb-list-header { grid-template-columns: 40px 1fr 80px; }
+  .lb-row         { grid-template-columns: 40px 1fr 80px; }
+  .podium-card    { padding: 1rem 0.5rem 0; }
+}
