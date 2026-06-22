@@ -263,7 +263,54 @@
   border-radius: var(--radius-full);
   align-self: center;
 }
+.prediction-badge span {
+  display: flex;
+  align-items: center;
+}
 
+/* ── AI Badge ────────────────────────────────────────────────────────────── */
+.ai-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: var(--primary);
+  background: rgba(0, 184, 255, 0.05);
+  border: 1px solid rgba(0, 184, 255, 0.2);
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius-md);
+  margin-top: 0.5rem;
+  box-shadow: 0 0 15px rgba(0, 184, 255, 0.1);
+}
+
+.ai-badge-content {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.ai-stats-row {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-family: monospace;
+}
+
+.ai-icon-pulse {
+  animation: pulse-glow 2s infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { filter: drop-shadow(0 0 2px var(--primary)); opacity: 1; }
+  50% { filter: drop-shadow(0 0 8px var(--primary)); opacity: 0.6; }
+}
+
+/* ── Expanded Stats ───────────────────────────────────────────────────────── */
 /* ── Footer ──────────────────────────────────────────────────────────────── */
 .match-footer {
   display: flex;

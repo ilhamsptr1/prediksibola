@@ -1,92 +1,78 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { fetchTeamRecentForm } from '../services/footballApi';
+import React, { createContext, useContext, useState } from 'react';
+import teamRatingsData from '../data/teamRatings.json';
 
 const PredictionContext = createContext();
 
 export const usePredictions = () => useContext(PredictionContext);
 
 export const PredictionProvider = ({ children }) => {
-  const [predictions, setPredictions] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [predictions, setPredictions] = useState({});
 
-  useEffect(() => {
-    const fetchPredictions = () => {
-      try {
-        const local = localStorage.getItem('system_predictions');
-        if (local) {
-          setPredictions(JSON.parse(local));
-        }
-      } catch (error) {
-        console.error("Error fetching predictions: ", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchPredictions();
-  }, []);
-
+  // Poisson distribution random number generator
   const poissonRandom = (lambda) => {
     let L = Math.exp(-lambda), p = 1.0, k = 0;
     do { k++; p *= Math.random(); } while (p > L);
     return k - 1;
   };
 
-  const calculateScore = (homeStats, awayStats) => {
-    const homeAdvantage = 3; // Slight bump for being "home" team on paper
-    const homeAttack = (homeStats.att || 70) + homeAdvantage;
-    const homeDefense = (homeStats.def || 70) + homeAdvantage;
+  const generateAIPrediction = async (match) => {
+    // 1. Dapatkan nama tim dari match object
+    const homeTeamName = match.homeTeam.name;
+    const awayTeamName = match.awayTeam.name;
+
+    // 2. Cari rating tim dari dataset hasil training
+    const ratings = teamRatingsData.teamRatings;
+    const globalAvg = teamRatingsData.globalAvgGoalsPerTeam; // ~1.3
     
-    const awayAttack = awayStats.att || 70;
-    const awayDefense = awayStats.def || 70;
+    // Default stats if team not found in dataset
+    const homeStats = ratings[homeTeamName] || { attack: 1.0, defense: 1.0 };
+    const awayStats = ratings[awayTeamName] || { attack: 1.0, defense: 1.0 };
 
-    // Base expected goals ~1.2 per team
-    const expectedHomeGoals = Math.max(0.1, (homeAttack - awayDefense) * 0.1 + 1.4);
-    const expectedAwayGoals = Math.max(0.1, (awayAttack - homeDefense) * 0.1 + 1.1);
-
-    return {
-      homeScore: poissonRandom(expectedHomeGoals),
-      awayScore: poissonRandom(expectedAwayGoals)
-    };
-  };
-
-  const generateSystemPrediction = async (match) => {
-    // Attempt to fetch live stats, otherwise fallback to static TEAM_META stats
-    const homeLiveStats = await fetchTeamRecentForm(match.homeTeam.name);
-    const awayLiveStats = await fetchTeamRecentForm(match.awayTeam.name);
+    // 3. Algoritma Prediksi (Poisson Model Expected Goals)
+    // Home Expected Goals = Home Attack * Away Defense * Global Avg * Home Advantage
+    const homeAdvantage = 1.15; // 15% boost for home
+    let expectedHomeGoals = homeStats.attack * awayStats.defense * globalAvg * homeAdvantage;
     
-    const finalHomeStats = homeLiveStats || match.homeTeam;
-    const finalAwayStats = awayLiveStats || match.awayTeam;
+    // Away Expected Goals = Away Attack * Home Defense * Global Avg
+    let expectedAwayGoals = awayStats.attack * homeStats.defense * globalAvg;
 
-    const usedLiveApi = !!(homeLiveStats || awayLiveStats);
+    // Limit extreme values
+    expectedHomeGoals = Math.max(0.1, Math.min(5.0, expectedHomeGoals));
+    expectedAwayGoals = Math.max(0.1, Math.min(5.0, expectedAwayGoals));
 
-    // Generate scores based on stats
-    const { homeScore, awayScore } = calculateScore(finalHomeStats, finalAwayStats);
-    
+    // 4. Generate skor riil menggunakan Poisson
+    const predictedHomeScore = poissonRandom(expectedHomeGoals);
+    const predictedAwayScore = poissonRandom(expectedAwayGoals);
+
     const newPrediction = {
       matchId: match.id,
-      homeScore,
-      awayScore,
-      usedLiveApi,
+      homeScore: predictedHomeScore,
+      awayScore: predictedAwayScore,
+      xG: {
+        home: expectedHomeGoals.toFixed(2),
+        away: expectedAwayGoals.toFixed(2)
+      },
+      powerInfo: {
+        homePower: homeStats.powerIndex || 50,
+        awayPower: awayStats.powerIndex || 50
+      },
       timestamp: new Date().toISOString()
     };
 
-    try {
-      const updatedPredictions = [...predictions.filter(p => p.matchId !== match.id), newPrediction];
-      setPredictions(updatedPredictions);
-      localStorage.setItem('system_predictions', JSON.stringify(updatedPredictions));
-      return true;
-    } catch (error) {
-      console.error("Error saving prediction: ", error);
-      return false;
-    }
+    setPredictions(prev => ({
+      ...prev,
+      [match.id]: newPrediction
+    }));
+
+    return newPrediction;
   };
 
   const getPredictionForMatch = (matchId) => {
-    return predictions.find(p => p.matchId === matchId) || null;
+    return predictions[matchId] || null;
   };
 
   return (
-    <PredictionContext.Provider value={{ predictions, generateSystemPrediction, getPredictionForMatch, loading }}>
+    <PredictionContext.Provider value={{ predictions, generateAIPrediction, getPredictionForMatch }}>
       {children}
     </PredictionContext.Provider>
   );

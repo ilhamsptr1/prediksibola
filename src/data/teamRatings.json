@@ -1,0 +1,2291 @@
+{
+  "globalAvgGoalsPerTeam": 1.3639645345155162,
+  "teamRatings": {
+    "Iran": {
+      "attack": 1.4429151613403552,
+      "defense": 0.47967179687801004,
+      "powerIndex": 74,
+      "matchesAnalyzed": 188
+    },
+    "North Korea": {
+      "attack": 1.005313618142703,
+      "defense": 0.9442172104102734,
+      "powerIndex": 52,
+      "matchesAnalyzed": 132
+    },
+    "Qatar": {
+      "attack": 1.1263418393252722,
+      "defense": 0.8366266155618163,
+      "powerIndex": 57,
+      "matchesAnalyzed": 248
+    },
+    "Mali": {
+      "attack": 1.0040046620997962,
+      "defense": 0.6724496341505611,
+      "powerIndex": 58,
+      "matchesAnalyzed": 157
+    },
+    "Syria": {
+      "attack": 0.9803842171017749,
+      "defense": 0.9164461159864419,
+      "powerIndex": 52,
+      "matchesAnalyzed": 172
+    },
+    "Zimbabwe": {
+      "attack": 0.8706238101871198,
+      "defense": 0.8553497082540125,
+      "powerIndex": 50,
+      "matchesAnalyzed": 144
+    },
+    "Yemen": {
+      "attack": 0.6437475156197445,
+      "defense": 1.2219281546485892,
+      "powerIndex": 36,
+      "matchesAnalyzed": 123
+    },
+    "Tajikistan": {
+      "attack": 1.0066360512105044,
+      "defense": 0.9717238182205447,
+      "powerIndex": 51,
+      "matchesAnalyzed": 126
+    },
+    "Angola": {
+      "attack": 0.7469035845289501,
+      "defense": 0.678170125829967,
+      "powerIndex": 52,
+      "matchesAnalyzed": 160
+    },
+    "Gambia": {
+      "attack": 0.8347826007005212,
+      "defense": 0.9654442251579942,
+      "powerIndex": 47,
+      "matchesAnalyzed": 101
+    },
+    "Egypt": {
+      "attack": 1.2146330611880005,
+      "defense": 0.565369743195616,
+      "powerIndex": 66,
+      "matchesAnalyzed": 201
+    },
+    "Tanzania": {
+      "attack": 0.6837305854101094,
+      "defense": 0.8773169559780319,
+      "powerIndex": 45,
+      "matchesAnalyzed": 178
+    },
+    "Ivory Coast": {
+      "attack": 1.228226753383891,
+      "defense": 0.6348987525184422,
+      "powerIndex": 65,
+      "matchesAnalyzed": 194
+    },
+    "Ghana": {
+      "attack": 1.0287227605627913,
+      "defense": 0.7139643039726835,
+      "powerIndex": 58,
+      "matchesAnalyzed": 191
+    },
+    "Malawi": {
+      "attack": 0.635118471078976,
+      "defense": 0.8056200740531977,
+      "powerIndex": 46,
+      "matchesAnalyzed": 172
+    },
+    "Bahrain": {
+      "attack": 0.9075642593557364,
+      "defense": 0.7880629155971517,
+      "powerIndex": 53,
+      "matchesAnalyzed": 227
+    },
+    "Hong Kong": {
+      "attack": 0.893702197779479,
+      "defense": 1.0863565637678698,
+      "powerIndex": 45,
+      "matchesAnalyzed": 137
+    },
+    "Benin": {
+      "attack": 0.7895535768498576,
+      "defense": 0.9211458396581672,
+      "powerIndex": 47,
+      "matchesAnalyzed": 117
+    },
+    "Libya": {
+      "attack": 0.8158437603969527,
+      "defense": 0.7441818084701934,
+      "powerIndex": 52,
+      "matchesAnalyzed": 133
+    },
+    "China": {
+      "attack": 1.1078815268813875,
+      "defense": 0.8431304267075265,
+      "powerIndex": 57,
+      "matchesAnalyzed": 180
+    },
+    "Gabon": {
+      "attack": 0.8179437443361984,
+      "defense": 0.8129562824804899,
+      "powerIndex": 50,
+      "matchesAnalyzed": 147
+    },
+    "Mozambique": {
+      "attack": 0.7188746156568973,
+      "defense": 0.9521518088170825,
+      "powerIndex": 44,
+      "matchesAnalyzed": 154
+    },
+    "Indonesia": {
+      "attack": 1.139011601297435,
+      "defense": 1.130283543049945,
+      "powerIndex": 50,
+      "matchesAnalyzed": 168
+    },
+    "Oman": {
+      "attack": 0.88630522150511,
+      "defense": 0.7168645173938389,
+      "powerIndex": 54,
+      "matchesAnalyzed": 225
+    },
+    "Kuwait": {
+      "attack": 0.9713398427308075,
+      "defense": 0.922958931023909,
+      "powerIndex": 51,
+      "matchesAnalyzed": 197
+    },
+    "Australia": {
+      "attack": 1.3315714377143546,
+      "defense": 0.7291938825578608,
+      "powerIndex": 65,
+      "matchesAnalyzed": 185
+    },
+    "Lebanon": {
+      "attack": 0.7566555111477803,
+      "defense": 0.944644458016794,
+      "powerIndex": 45,
+      "matchesAnalyzed": 156
+    },
+    "Vietnam": {
+      "attack": 1.190189761021353,
+      "defense": 0.8616973869794596,
+      "powerIndex": 58,
+      "matchesAnalyzed": 154
+    },
+    "Singapore": {
+      "attack": 0.9354070701102993,
+      "defense": 1.2303552453703035,
+      "powerIndex": 43,
+      "matchesAnalyzed": 174
+    },
+    "Thailand": {
+      "attack": 1.19660321880095,
+      "defense": 0.8471191041035298,
+      "powerIndex": 59,
+      "matchesAnalyzed": 193
+    },
+    "Jordan": {
+      "attack": 1.0607376321204776,
+      "defense": 0.7674748750048159,
+      "powerIndex": 57,
+      "matchesAnalyzed": 235
+    },
+    "United Arab Emirates": {
+      "attack": 1.2088147793304092,
+      "defense": 0.758191518396588,
+      "powerIndex": 61,
+      "matchesAnalyzed": 205
+    },
+    "Malaysia": {
+      "attack": 1.1359903503656115,
+      "defense": 1.0433386551230261,
+      "powerIndex": 52,
+      "matchesAnalyzed": 182
+    },
+    "Japan": {
+      "attack": 1.5376830406285784,
+      "defense": 0.6682757518343612,
+      "powerIndex": 72,
+      "matchesAnalyzed": 226
+    },
+    "Rwanda": {
+      "attack": 0.6897105584016481,
+      "defense": 0.8146187697657261,
+      "powerIndex": 47,
+      "matchesAnalyzed": 135
+    },
+    "Kenya": {
+      "attack": 0.7829391509415035,
+      "defense": 0.8055674501016625,
+      "powerIndex": 49,
+      "matchesAnalyzed": 162
+    },
+    "Cameroon": {
+      "attack": 0.9355387434028262,
+      "defense": 0.6911531124731083,
+      "powerIndex": 56,
+      "matchesAnalyzed": 192
+    },
+    "Tunisia": {
+      "attack": 1.0767135043860032,
+      "defense": 0.6658622987650283,
+      "powerIndex": 60,
+      "matchesAnalyzed": 207
+    },
+    "Zambia": {
+      "attack": 0.9075485808797773,
+      "defense": 0.811455201727801,
+      "powerIndex": 52,
+      "matchesAnalyzed": 206
+    },
+    "South Korea": {
+      "attack": 1.225143755055559,
+      "defense": 0.7138632903473336,
+      "powerIndex": 63,
+      "matchesAnalyzed": 228
+    },
+    "Burkina Faso": {
+      "attack": 0.9668002981834991,
+      "defense": 0.729128558213389,
+      "powerIndex": 56,
+      "matchesAnalyzed": 182
+    },
+    "Algeria": {
+      "attack": 1.4139454360933674,
+      "defense": 0.6620855613453069,
+      "powerIndex": 69,
+      "matchesAnalyzed": 196
+    },
+    "Nigeria": {
+      "attack": 1.1229817772477766,
+      "defense": 0.6759348914007318,
+      "powerIndex": 61,
+      "matchesAnalyzed": 205
+    },
+    "Finland": {
+      "attack": 0.8348665195344696,
+      "defense": 0.9323382451653975,
+      "powerIndex": 48,
+      "matchesAnalyzed": 173
+    },
+    "Chile": {
+      "attack": 1.0380340165232569,
+      "defense": 0.8638185172466264,
+      "powerIndex": 54,
+      "matchesAnalyzed": 202
+    },
+    "Panama": {
+      "attack": 1.0276729095506083,
+      "defense": 0.8992137958567823,
+      "powerIndex": 53,
+      "matchesAnalyzed": 234
+    },
+    "Sweden": {
+      "attack": 1.2207062264939406,
+      "defense": 0.8138041509959605,
+      "powerIndex": 60,
+      "matchesAnalyzed": 200
+    },
+    "Poland": {
+      "attack": 1.2258072916474736,
+      "defense": 0.8301353177612638,
+      "powerIndex": 60,
+      "matchesAnalyzed": 189
+    },
+    "Latvia": {
+      "attack": 0.6496326898131739,
+      "defense": 1.1600583746663822,
+      "powerIndex": 37,
+      "matchesAnalyzed": 158
+    },
+    "United States": {
+      "attack": 1.3046728958295173,
+      "defense": 0.7793400041459506,
+      "powerIndex": 63,
+      "matchesAnalyzed": 254
+    },
+    "Honduras": {
+      "attack": 0.836905509693279,
+      "defense": 0.9786952861289172,
+      "powerIndex": 46,
+      "matchesAnalyzed": 212
+    },
+    "Argentina": {
+      "attack": 1.4628878187895726,
+      "defense": 0.5378767858312948,
+      "powerIndex": 73,
+      "matchesAnalyzed": 214
+    },
+    "Costa Rica": {
+      "attack": 0.9489779694543589,
+      "defense": 0.8759796641117158,
+      "powerIndex": 52,
+      "matchesAnalyzed": 231
+    },
+    "South Africa": {
+      "attack": 0.996251471541242,
+      "defense": 0.5682842901045113,
+      "powerIndex": 61,
+      "matchesAnalyzed": 209
+    },
+    "Jamaica": {
+      "attack": 0.9337719629553397,
+      "defense": 0.8827063087312197,
+      "powerIndex": 51,
+      "matchesAnalyzed": 201
+    },
+    "Canada": {
+      "attack": 1.2114970606454913,
+      "defense": 0.7242159550722126,
+      "powerIndex": 62,
+      "matchesAnalyzed": 164
+    },
+    "Venezuela": {
+      "attack": 0.8174278000062977,
+      "defense": 1.0533863402143009,
+      "powerIndex": 44,
+      "matchesAnalyzed": 174
+    },
+    "Sri Lanka": {
+      "attack": 0.5665303262461641,
+      "defense": 1.5412957405226522,
+      "powerIndex": 26,
+      "matchesAnalyzed": 88
+    },
+    "Myanmar": {
+      "attack": 0.7382838640673994,
+      "defense": 1.5124565270825194,
+      "powerIndex": 31,
+      "matchesAnalyzed": 143
+    },
+    "Bangladesh": {
+      "attack": 0.6170737180975375,
+      "defense": 1.2158185138753463,
+      "powerIndex": 35,
+      "matchesAnalyzed": 120
+    },
+    "Turkmenistan": {
+      "attack": 0.9677670984816826,
+      "defense": 1.1339493275138908,
+      "powerIndex": 46,
+      "matchesAnalyzed": 75
+    },
+    "Kyrgyzstan": {
+      "attack": 0.924702387301635,
+      "defense": 1.1492729670748894,
+      "powerIndex": 44,
+      "matchesAnalyzed": 111
+    },
+    "Mexico": {
+      "attack": 1.1761598209409037,
+      "defense": 0.6917063264123816,
+      "powerIndex": 62,
+      "matchesAnalyzed": 283
+    },
+    "Bolivia": {
+      "attack": 0.6635533903091706,
+      "defense": 1.466313785578307,
+      "powerIndex": 30,
+      "matchesAnalyzed": 158
+    },
+    "El Salvador": {
+      "attack": 0.8217802534559743,
+      "defense": 0.9748569673350282,
+      "powerIndex": 46,
+      "matchesAnalyzed": 182
+    },
+    "Azerbaijan": {
+      "attack": 0.657961314041548,
+      "defense": 1.1608317469161598,
+      "powerIndex": 37,
+      "matchesAnalyzed": 156
+    },
+    "Guadeloupe": {
+      "attack": 1.351481983093259,
+      "defense": 0.9009879887288392,
+      "powerIndex": 61,
+      "matchesAnalyzed": 83
+    },
+    "Saint Kitts and Nevis": {
+      "attack": 1.0812212762345093,
+      "defense": 1.1552775280313934,
+      "powerIndex": 48,
+      "matchesAnalyzed": 99
+    },
+    "Republic of Ireland": {
+      "attack": 0.9319791010031612,
+      "defense": 0.7580096688159044,
+      "powerIndex": 54,
+      "matchesAnalyzed": 177
+    },
+    "Brazil": {
+      "attack": 1.5320212429509197,
+      "defense": 0.5049099356000774,
+      "powerIndex": 76,
+      "matchesAnalyzed": 212
+    },
+    "Albania": {
+      "attack": 0.769362171445408,
+      "defense": 0.7965161304375988,
+      "powerIndex": 49,
+      "matchesAnalyzed": 162
+    },
+    "Northern Ireland": {
+      "attack": 0.7331568927891535,
+      "defense": 0.9176599519016556,
+      "powerIndex": 45,
+      "matchesAnalyzed": 151
+    },
+    "Serbia": {
+      "attack": 1.0645272398124999,
+      "defense": 0.8491365142473247,
+      "powerIndex": 55,
+      "matchesAnalyzed": 177
+    },
+    "Armenia": {
+      "attack": 0.9404633245433278,
+      "defense": 1.4157512412480207,
+      "powerIndex": 38,
+      "matchesAnalyzed": 145
+    },
+    "Belarus": {
+      "attack": 0.7601442630758708,
+      "defense": 1.0075284907041129,
+      "powerIndex": 44,
+      "matchesAnalyzed": 163
+    },
+    "Austria": {
+      "attack": 1.2204379983624323,
+      "defense": 0.7957434568077398,
+      "powerIndex": 61,
+      "matchesAnalyzed": 164
+    },
+    "Denmark": {
+      "attack": 1.2407270493354905,
+      "defense": 0.7170435544860951,
+      "powerIndex": 63,
+      "matchesAnalyzed": 182
+    },
+    "Belgium": {
+      "attack": 1.6602706355225276,
+      "defense": 0.6555741528114652,
+      "powerIndex": 75,
+      "matchesAnalyzed": 189
+    },
+    "Croatia": {
+      "attack": 1.2497855840809924,
+      "defense": 0.7217606716577158,
+      "powerIndex": 63,
+      "matchesAnalyzed": 193
+    },
+    "Bosnia and Herzegovina": {
+      "attack": 1.053333004197075,
+      "defense": 0.9466076337277678,
+      "powerIndex": 53,
+      "matchesAnalyzed": 158
+    },
+    "Cyprus": {
+      "attack": 0.6447620901124471,
+      "defense": 1.3519205115260986,
+      "powerIndex": 32,
+      "matchesAnalyzed": 141
+    },
+    "Iceland": {
+      "attack": 0.9814842274435441,
+      "defense": 1.1233855615317674,
+      "powerIndex": 46,
+      "matchesAnalyzed": 186
+    },
+    "Guatemala": {
+      "attack": 1.102012223943945,
+      "defense": 0.9517378297697706,
+      "powerIndex": 54,
+      "matchesAnalyzed": 161
+    },
+    "England": {
+      "attack": 1.4846427078980358,
+      "defense": 0.5315387472721362,
+      "powerIndex": 74,
+      "matchesAnalyzed": 200
+    },
+    "France": {
+      "attack": 1.4181250696203345,
+      "defense": 0.6195692051739325,
+      "powerIndex": 70,
+      "matchesAnalyzed": 213
+    },
+    "Spain": {
+      "attack": 1.6980190299975204,
+      "defense": 0.5533259568220027,
+      "powerIndex": 79,
+      "matchesAnalyzed": 212
+    },
+    "Georgia": {
+      "attack": 0.944644458016794,
+      "defense": 0.9070466686429912,
+      "powerIndex": 51,
+      "matchesAnalyzed": 156
+    },
+    "Estonia": {
+      "attack": 0.6546043685617442,
+      "defense": 1.1708066706275768,
+      "powerIndex": 37,
+      "matchesAnalyzed": 196
+    },
+    "Germany": {
+      "attack": 1.7118521789180707,
+      "defense": 0.7988643501617663,
+      "powerIndex": 73,
+      "matchesAnalyzed": 212
+    },
+    "Greece": {
+      "attack": 0.8832182451144188,
+      "defense": 0.6945696879055138,
+      "powerIndex": 55,
+      "matchesAnalyzed": 171
+    },
+    "Senegal": {
+      "attack": 1.1903945248512062,
+      "defense": 0.5360717065555101,
+      "powerIndex": 66,
+      "matchesAnalyzed": 186
+    },
+    "Hungary": {
+      "attack": 1.0486365254438803,
+      "defense": 0.9286653975329278,
+      "powerIndex": 53,
+      "matchesAnalyzed": 165
+    },
+    "Russia": {
+      "attack": 1.2841630047611259,
+      "defense": 0.6739578890235697,
+      "powerIndex": 65,
+      "matchesAnalyzed": 161
+    },
+    "Italy": {
+      "attack": 1.2547560752212379,
+      "defense": 0.6820912385650333,
+      "powerIndex": 64,
+      "matchesAnalyzed": 201
+    },
+    "Kazakhstan": {
+      "attack": 0.7331568927891535,
+      "defense": 1.2458540206137365,
+      "powerIndex": 37,
+      "matchesAnalyzed": 143
+    },
+    "Moldova": {
+      "attack": 0.5657074790039764,
+      "defense": 1.3124413512892255,
+      "powerIndex": 31,
+      "matchesAnalyzed": 162
+    },
+    "Luxembourg": {
+      "attack": 0.5654412637197394,
+      "defense": 1.3704762832529274,
+      "powerIndex": 30,
+      "matchesAnalyzed": 153
+    },
+    "North Macedonia": {
+      "attack": 0.8660415796071875,
+      "defense": 0.9347750383061706,
+      "powerIndex": 48,
+      "matchesAnalyzed": 160
+    },
+    "Montenegro": {
+      "attack": 0.8706238101871198,
+      "defense": 0.9928166256519787,
+      "powerIndex": 47,
+      "matchesAnalyzed": 144
+    },
+    "Malta": {
+      "attack": 0.507183877888387,
+      "defense": 1.4311624277048545,
+      "powerIndex": 27,
+      "matchesAnalyzed": 146
+    },
+    "New Zealand": {
+      "attack": 1.0835150539450322,
+      "defense": 0.856431060603259,
+      "powerIndex": 56,
+      "matchesAnalyzed": 113
+    },
+    "Botswana": {
+      "attack": 0.6701863621201465,
+      "defense": 0.8366084788882365,
+      "powerIndex": 46,
+      "matchesAnalyzed": 163
+    },
+    "Netherlands": {
+      "attack": 1.6218319143517637,
+      "defense": 0.7257512676094651,
+      "powerIndex": 72,
+      "matchesAnalyzed": 198
+    },
+    "DR Congo": {
+      "attack": 0.9688144654713814,
+      "defense": 0.7418849510366434,
+      "powerIndex": 56,
+      "matchesAnalyzed": 168
+    },
+    "Bulgaria": {
+      "attack": 0.7132070453663194,
+      "defense": 1.097241608255876,
+      "powerIndex": 40,
+      "matchesAnalyzed": 147
+    },
+    "Portugal": {
+      "attack": 1.5592995378344925,
+      "defense": 0.6044073896652046,
+      "powerIndex": 74,
+      "matchesAnalyzed": 205
+    },
+    "Romania": {
+      "attack": 1.0845516165520022,
+      "defense": 0.7808771639174417,
+      "powerIndex": 58,
+      "matchesAnalyzed": 169
+    },
+    "Israel": {
+      "attack": 1.124173902276702,
+      "defense": 1.216497362850151,
+      "powerIndex": 48,
+      "matchesAnalyzed": 135
+    },
+    "Scotland": {
+      "attack": 1.0339392077795755,
+      "defense": 0.9211458396581672,
+      "powerIndex": 53,
+      "matchesAnalyzed": 156
+    },
+    "Czech Republic": {
+      "attack": 1.1747172941280755,
+      "defense": 0.8664581460235451,
+      "powerIndex": 58,
+      "matchesAnalyzed": 176
+    },
+    "Slovakia": {
+      "attack": 0.9831930585380556,
+      "defense": 0.796725409504976,
+      "powerIndex": 55,
+      "matchesAnalyzed": 173
+    },
+    "Norway": {
+      "attack": 1.1846742474946688,
+      "defense": 0.8002139256662103,
+      "powerIndex": 60,
+      "matchesAnalyzed": 164
+    },
+    "Slovenia": {
+      "attack": 0.9280466997331057,
+      "defense": 0.7563580602824811,
+      "powerIndex": 54,
+      "matchesAnalyzed": 158
+    },
+    "Namibia": {
+      "attack": 0.6675010516438561,
+      "defense": 0.7933414138390094,
+      "powerIndex": 47,
+      "matchesAnalyzed": 134
+    },
+    "Switzerland": {
+      "attack": 1.2619913728337888,
+      "defense": 0.7612011455187933,
+      "powerIndex": 63,
+      "matchesAnalyzed": 183
+    },
+    "Uruguay": {
+      "attack": 1.1580119127131245,
+      "defense": 0.7181177770396324,
+      "powerIndex": 61,
+      "matchesAnalyzed": 195
+    },
+    "Uganda": {
+      "attack": 0.7635468158063204,
+      "defense": 0.6457858641147984,
+      "powerIndex": 53,
+      "matchesAnalyzed": 193
+    },
+    "Turkey": {
+      "attack": 1.2018965455559893,
+      "defense": 0.8653655128003123,
+      "powerIndex": 58,
+      "matchesAnalyzed": 183
+    },
+    "Uzbekistan": {
+      "attack": 1.0638744042103476,
+      "defense": 0.7052650544765227,
+      "powerIndex": 59,
+      "matchesAnalyzed": 184
+    },
+    "Wales": {
+      "attack": 0.8750582268773768,
+      "defense": 0.8372178711205172,
+      "powerIndex": 51,
+      "matchesAnalyzed": 155
+    },
+    "Niger": {
+      "attack": 0.7107704227803243,
+      "defense": 1.0801471779260048,
+      "powerIndex": 41,
+      "matchesAnalyzed": 131
+    },
+    "Padania": {
+      "attack": 1.9550850474377426,
+      "defense": 0.6516950158125808,
+      "powerIndex": 83,
+      "matchesAnalyzed": 36
+    },
+    "Provence": {
+      "attack": 3.5435916484809082,
+      "defense": 1.344120970113448,
+      "powerIndex": 99,
+      "matchesAnalyzed": 12
+    },
+    "Alderney": {
+      "attack": 0.5332050129375662,
+      "defense": 2.865976944539418,
+      "powerIndex": 10,
+      "matchesAnalyzed": 33
+    },
+    "Jersey": {
+      "attack": 1.8573307950658555,
+      "defense": 0.68427976660321,
+      "powerIndex": 79,
+      "matchesAnalyzed": 45
+    },
+    "Faroe Islands": {
+      "attack": 0.5583271722009707,
+      "defense": 1.3591600858629693,
+      "powerIndex": 30,
+      "matchesAnalyzed": 130
+    },
+    "Martinique": {
+      "attack": 1.1035940596720941,
+      "defense": 0.902940594277168,
+      "powerIndex": 55,
+      "matchesAnalyzed": 95
+    },
+    "Haiti": {
+      "attack": 1.3535204174568989,
+      "defense": 0.9418246238137588,
+      "powerIndex": 60,
+      "matchesAnalyzed": 130
+    },
+    "Paraguay": {
+      "attack": 0.7834305082946954,
+      "defense": 0.9468197586877067,
+      "powerIndex": 46,
+      "matchesAnalyzed": 175
+    },
+    "Occitania": {
+      "attack": 2.618417474246977,
+      "defense": 0.5935079608293148,
+      "powerIndex": 99,
+      "matchesAnalyzed": 21
+    },
+    "Trinidad and Tobago": {
+      "attack": 1.0789070183658567,
+      "defense": 1.087238346693006,
+      "powerIndex": 50,
+      "matchesAnalyzed": 176
+    },
+    "Ecuador": {
+      "attack": 1.0106795584212058,
+      "defense": 0.7870045741804473,
+      "powerIndex": 56,
+      "matchesAnalyzed": 177
+    },
+    "Guernsey": {
+      "attack": 1.806069418822061,
+      "defense": 0.6795112664875081,
+      "powerIndex": 78,
+      "matchesAnalyzed": 41
+    },
+    "Togo": {
+      "attack": 0.7273840038695538,
+      "defense": 0.964072449573139,
+      "powerIndex": 44,
+      "matchesAnalyzed": 127
+    },
+    "Aruba": {
+      "attack": 1.0219762747970018,
+      "defense": 1.466313785578307,
+      "powerIndex": 39,
+      "matchesAnalyzed": 66
+    },
+    "Saudi Arabia": {
+      "attack": 0.9721595803063225,
+      "defense": 0.7848331495496226,
+      "powerIndex": 55,
+      "matchesAnalyzed": 227
+    },
+    "Cape Verde": {
+      "attack": 0.8967072765651956,
+      "defense": 0.7331568927891535,
+      "powerIndex": 54,
+      "matchesAnalyzed": 130
+    },
+    "Ukraine": {
+      "attack": 1.1081624299054447,
+      "defense": 0.8216413453671547,
+      "powerIndex": 57,
+      "matchesAnalyzed": 174
+    },
+    "Lithuania": {
+      "attack": 0.491924624839174,
+      "defense": 1.2865720957332243,
+      "powerIndex": 30,
+      "matchesAnalyzed": 155
+    },
+    "Colombia": {
+      "attack": 1.097753834068084,
+      "defense": 0.5904885244626155,
+      "powerIndex": 63,
+      "matchesAnalyzed": 185
+    },
+    "Andorra": {
+      "attack": 0.2339862423795171,
+      "defense": 1.4871125626787085,
+      "powerIndex": 19,
+      "matchesAnalyzed": 141
+    },
+    "Grenada": {
+      "attack": 0.8328092859837957,
+      "defense": 1.501903926004965,
+      "powerIndex": 33,
+      "matchesAnalyzed": 103
+    },
+    "Gozo": {
+      "attack": 1.799566918664286,
+      "defense": 1.0664100258751323,
+      "powerIndex": 68,
+      "matchesAnalyzed": 11
+    },
+    "Iraqi Kurdistan": {
+      "attack": 1.751430354996311,
+      "defense": 0.6516950158125808,
+      "powerIndex": 77,
+      "matchesAnalyzed": 18
+    },
+    "Sudan": {
+      "attack": 0.6133600148824291,
+      "defense": 0.9535831481375264,
+      "powerIndex": 41,
+      "matchesAnalyzed": 153
+    },
+    "Palestine": {
+      "attack": 1.0527381024664768,
+      "defense": 0.8506499845822871,
+      "powerIndex": 55,
+      "matchesAnalyzed": 156
+    },
+    "Chad": {
+      "attack": 0.4807586182223957,
+      "defense": 1.2740103382893486,
+      "powerIndex": 30,
+      "matchesAnalyzed": 61
+    },
+    "Northern Mariana Islands": {
+      "attack": 0.558595727839355,
+      "defense": 3.2468376680662514,
+      "powerIndex": 10,
+      "matchesAnalyzed": 21
+    },
+    "Guam": {
+      "attack": 0.7895535768498576,
+      "defense": 1.78213521631825,
+      "powerIndex": 25,
+      "matchesAnalyzed": 65
+    },
+    "Saint Martin": {
+      "attack": 1.2663619057267197,
+      "defense": 1.7329162920470902,
+      "powerIndex": 38,
+      "matchesAnalyzed": 44
+    },
+    "Saint Barthélemy": {
+      "attack": 1.8328922319728838,
+      "defense": 2.1994706783674607,
+      "powerIndex": 41,
+      "matchesAnalyzed": 10
+    },
+    "Anguilla": {
+      "attack": 0.35348635902334186,
+      "defense": 2.566049124762037,
+      "powerIndex": 10,
+      "matchesAnalyzed": 56
+    },
+    "Congo": {
+      "attack": 0.7924018942266609,
+      "defense": 1.1774944035704586,
+      "powerIndex": 40,
+      "matchesAnalyzed": 99
+    },
+    "Liechtenstein": {
+      "attack": 0.27231541732168557,
+      "defense": 1.9009710863033051,
+      "powerIndex": 10,
+      "matchesAnalyzed": 140
+    },
+    "Guinea": {
+      "attack": 0.9411446637931686,
+      "defense": 0.8943474153172652,
+      "powerIndex": 51,
+      "matchesAnalyzed": 141
+    },
+    "Mauritania": {
+      "attack": 0.5747950039466964,
+      "defense": 0.8739230162046709,
+      "powerIndex": 43,
+      "matchesAnalyzed": 125
+    },
+    "Morocco": {
+      "attack": 1.2360027197806671,
+      "defense": 0.45294509606869165,
+      "powerIndex": 70,
+      "matchesAnalyzed": 191
+    },
+    "Equatorial Guinea": {
+      "attack": 0.702861153417701,
+      "defense": 0.8967538853949976,
+      "powerIndex": 45,
+      "matchesAnalyzed": 121
+    },
+    "Eswatini": {
+      "attack": 0.5902534306353354,
+      "defense": 1.1618672792506077,
+      "powerIndex": 36,
+      "matchesAnalyzed": 118
+    },
+    "Ethiopia": {
+      "attack": 0.8128478593966703,
+      "defense": 1.057233490326388,
+      "powerIndex": 44,
+      "matchesAnalyzed": 138
+    },
+    "Madagascar": {
+      "attack": 0.8422215545263829,
+      "defense": 1.0300551386293892,
+      "powerIndex": 45,
+      "matchesAnalyzed": 121
+    },
+    "Mayotte": {
+      "attack": 1.0850722013279472,
+      "defense": 0.7331568927891535,
+      "powerIndex": 59,
+      "matchesAnalyzed": 25
+    },
+    "Saint Lucia": {
+      "attack": 0.8188505555826908,
+      "defense": 1.4282277132256236,
+      "powerIndex": 35,
+      "matchesAnalyzed": 77
+    },
+    "Antigua and Barbuda": {
+      "attack": 0.9286653975329278,
+      "defense": 1.3196824070204762,
+      "powerIndex": 40,
+      "matchesAnalyzed": 90
+    },
+    "Comoros": {
+      "attack": 0.7087183296961818,
+      "defense": 1.020310009131572,
+      "powerIndex": 42,
+      "matchesAnalyzed": 120
+    },
+    "San Marino": {
+      "attack": 0.151286342956492,
+      "defense": 2.746428995210162,
+      "powerIndex": 10,
+      "matchesAnalyzed": 126
+    },
+    "Peru": {
+      "attack": 0.7945731770018575,
+      "defense": 0.8252813191082093,
+      "powerIndex": 49,
+      "matchesAnalyzed": 191
+    },
+    "Nicaragua": {
+      "attack": 0.967274219898295,
+      "defense": 1.0535279719911366,
+      "powerIndex": 48,
+      "matchesAnalyzed": 119
+    },
+    "Guinea-Bissau": {
+      "attack": 0.6707605614879489,
+      "defense": 0.9905417594066223,
+      "powerIndex": 42,
+      "matchesAnalyzed": 94
+    },
+    "Mauritius": {
+      "attack": 0.5895488416242678,
+      "defense": 1.1790976832485356,
+      "powerIndex": 35,
+      "matchesAnalyzed": 97
+    },
+    "Central African Republic": {
+      "attack": 0.7672572133839979,
+      "defense": 1.270236942157952,
+      "powerIndex": 37,
+      "matchesAnalyzed": 86
+    },
+    "India": {
+      "attack": 0.9634433527036953,
+      "defense": 1.0527381024664768,
+      "powerIndex": 48,
+      "matchesAnalyzed": 156
+    },
+    "Burundi": {
+      "attack": 0.8757151774981555,
+      "defense": 0.9503885647266804,
+      "powerIndex": 48,
+      "matchesAnalyzed": 108
+    },
+    "Sierra Leone": {
+      "attack": 0.7249191748926461,
+      "defense": 1.0461901728564325,
+      "powerIndex": 42,
+      "matchesAnalyzed": 89
+    },
+    "Liberia": {
+      "attack": 0.6415122811905093,
+      "defense": 1.061550084350962,
+      "powerIndex": 39,
+      "matchesAnalyzed": 96
+    },
+    "Belize": {
+      "attack": 0.8378935917590326,
+      "defense": 1.2306562128960792,
+      "powerIndex": 40,
+      "matchesAnalyzed": 84
+    },
+    "Saint Vincent and the Grenadines": {
+      "attack": 1.1580546374737766,
+      "defense": 1.4746451139054564,
+      "powerIndex": 42,
+      "matchesAnalyzed": 88
+    },
+    "French Guiana": {
+      "attack": 1.3213874230502185,
+      "defense": 0.9803842171017749,
+      "powerIndex": 59,
+      "matchesAnalyzed": 86
+    },
+    "Suriname": {
+      "attack": 1.2663619057267197,
+      "defense": 0.8886750215626104,
+      "powerIndex": 59,
+      "matchesAnalyzed": 99
+    },
+    "Iraq": {
+      "attack": 0.8735486382168637,
+      "defense": 0.7175578099638523,
+      "powerIndex": 54,
+      "matchesAnalyzed": 235
+    },
+    "British Virgin Islands": {
+      "attack": 0.6320318041285805,
+      "defense": 2.4270021278537497,
+      "powerIndex": 10,
+      "matchesAnalyzed": 58
+    },
+    "Réunion": {
+      "attack": 1.683545457515834,
+      "defense": 0.48877126185943565,
+      "powerIndex": 80,
+      "matchesAnalyzed": 27
+    },
+    "Tahiti": {
+      "attack": 1.5350472442772902,
+      "defense": 1.2372022565816965,
+      "powerIndex": 57,
+      "matchesAnalyzed": 64
+    },
+    "New Caledonia": {
+      "attack": 1.7911301304848941,
+      "defense": 0.8909248317437815,
+      "powerIndex": 73,
+      "matchesAnalyzed": 79
+    },
+    "Barbados": {
+      "attack": 0.9381254864721427,
+      "defense": 1.4111299334328868,
+      "powerIndex": 38,
+      "matchesAnalyzed": 93
+    },
+    "Dominica": {
+      "attack": 0.8838055693896645,
+      "defense": 1.3257083540844967,
+      "powerIndex": 39,
+      "matchesAnalyzed": 73
+    },
+    "Guyana": {
+      "attack": 1.1990883760570268,
+      "defense": 1.2333480439443703,
+      "powerIndex": 49,
+      "matchesAnalyzed": 107
+    },
+    "Cayman Islands": {
+      "attack": 0.6134578082521489,
+      "defense": 1.6907495690851908,
+      "powerIndex": 23,
+      "matchesAnalyzed": 49
+    },
+    "Puerto Rico": {
+      "attack": 1.2943387119610983,
+      "defense": 1.176671556328271,
+      "powerIndex": 53,
+      "matchesAnalyzed": 81
+    },
+    "Montserrat": {
+      "attack": 0.8925388260041869,
+      "defense": 1.5300665588643203,
+      "powerIndex": 34,
+      "matchesAnalyzed": 46
+    },
+    "Taiwan": {
+      "attack": 0.8845697293434353,
+      "defense": 1.705386685400857,
+      "powerIndex": 29,
+      "matchesAnalyzed": 92
+    },
+    "Macau": {
+      "attack": 0.6067505319634374,
+      "defense": 1.7696890515600256,
+      "powerIndex": 21,
+      "matchesAnalyzed": 58
+    },
+    "Philippines": {
+      "attack": 1.0652338383465936,
+      "defense": 0.9444785854166154,
+      "powerIndex": 53,
+      "matchesAnalyzed": 170
+    },
+    "Maldives": {
+      "attack": 0.9426302907289117,
+      "defense": 1.3800600334854654,
+      "powerIndex": 39,
+      "matchesAnalyzed": 119
+    },
+    "Curaçao": {
+      "attack": 1.273704771370987,
+      "defense": 1.0189638170967896,
+      "powerIndex": 56,
+      "matchesAnalyzed": 118
+    },
+    "Dominican Republic": {
+      "attack": 1.4285221931664949,
+      "defense": 0.9372314918129384,
+      "powerIndex": 62,
+      "matchesAnalyzed": 97
+    },
+    "Timor-Leste": {
+      "attack": 0.5679384380761048,
+      "defense": 2.333710672821813,
+      "powerIndex": 10,
+      "matchesAnalyzed": 71
+    },
+    "Laos": {
+      "attack": 0.8313475480734152,
+      "defense": 1.8918066251434407,
+      "powerIndex": 23,
+      "matchesAnalyzed": 112
+    },
+    "Cambodia": {
+      "attack": 0.8750582268773768,
+      "defense": 1.6969034534716698,
+      "powerIndex": 29,
+      "matchesAnalyzed": 124
+    },
+    "Cuba": {
+      "attack": 0.7918094442122858,
+      "defense": 1.3314129173051028,
+      "powerIndex": 37,
+      "matchesAnalyzed": 125
+    },
+    "Bonaire": {
+      "attack": 1.0497473692208334,
+      "defense": 1.8162295753185846,
+      "powerIndex": 31,
+      "matchesAnalyzed": 44
+    },
+    "Afghanistan": {
+      "attack": 0.8304123989754698,
+      "defense": 1.0698105680494792,
+      "powerIndex": 44,
+      "matchesAnalyzed": 98
+    },
+    "Somalia": {
+      "attack": 0.23246438064046332,
+      "defense": 1.8597150451237066,
+      "powerIndex": 10,
+      "matchesAnalyzed": 41
+    },
+    "Zanzibar": {
+      "attack": 1.0886269014141976,
+      "defense": 0.7998075194063492,
+      "powerIndex": 57,
+      "matchesAnalyzed": 33
+    },
+    "Basque Country": {
+      "attack": 1.7281555330030047,
+      "defense": 0.6284201938192744,
+      "powerIndex": 77,
+      "matchesAnalyzed": 14
+    },
+    "Vanuatu": {
+      "attack": 1.466313785578307,
+      "defense": 1.2499724073782288,
+      "powerIndex": 55,
+      "matchesAnalyzed": 61
+    },
+    "Mongolia": {
+      "attack": 0.8675689898004983,
+      "defense": 1.4540945040318212,
+      "powerIndex": 35,
+      "matchesAnalyzed": 60
+    },
+    "Gibraltar": {
+      "attack": 0.47402385309643547,
+      "defense": 2.180509724243603,
+      "powerIndex": 10,
+      "matchesAnalyzed": 116
+    },
+    "Nepal": {
+      "attack": 0.5574416044347283,
+      "defense": 1.1512380961151998,
+      "powerIndex": 35,
+      "matchesAnalyzed": 121
+    },
+    "Bhutan": {
+      "attack": 0.38460689457791664,
+      "defense": 2.704267227500976,
+      "powerIndex": 10,
+      "matchesAnalyzed": 61
+    },
+    "Pakistan": {
+      "attack": 0.43268275640015613,
+      "defense": 1.3461241310227081,
+      "powerIndex": 27,
+      "matchesAnalyzed": 61
+    },
+    "United States Virgin Islands": {
+      "attack": 0.5921651826373933,
+      "defense": 2.1148756522764045,
+      "powerIndex": 12,
+      "matchesAnalyzed": 52
+    },
+    "Greenland": {
+      "attack": 1.605962717538146,
+      "defense": 1.2568403876385488,
+      "powerIndex": 59,
+      "matchesAnalyzed": 21
+    },
+    "Menorca": {
+      "attack": 1.3800600334854654,
+      "defense": 0.9919181490676783,
+      "powerIndex": 60,
+      "matchesAnalyzed": 17
+    },
+    "Isle of Wight": {
+      "attack": 1.6919005218211234,
+      "defense": 0.6203635246677452,
+      "powerIndex": 77,
+      "matchesAnalyzed": 13
+    },
+    "Ynys Môn": {
+      "attack": 1.6496030087755953,
+      "defense": 1.2219281546485892,
+      "powerIndex": 61,
+      "matchesAnalyzed": 24
+    },
+    "Gotland": {
+      "attack": 2.016181455170172,
+      "defense": 1.710699416508025,
+      "powerIndex": 58,
+      "matchesAnalyzed": 12
+    },
+    "Isle of Man": {
+      "attack": 2.932627571156614,
+      "defense": 0.8960806467422988,
+      "powerIndex": 99,
+      "matchesAnalyzed": 27
+    },
+    "Falkland Islands": {
+      "attack": 0.7698147374286112,
+      "defense": 2.6393648140409525,
+      "powerIndex": 10,
+      "matchesAnalyzed": 20
+    },
+    "Åland Islands": {
+      "attack": 0.8248015043877976,
+      "defense": 1.2830245623810186,
+      "powerIndex": 39,
+      "matchesAnalyzed": 16
+    },
+    "Saare County": {
+      "attack": 1.2663619057267197,
+      "defense": 1.5996150388126984,
+      "powerIndex": 42,
+      "matchesAnalyzed": 11
+    },
+    "Western Isles": {
+      "attack": 0.7331568927891535,
+      "defense": 1.8503483484678636,
+      "powerIndex": 22,
+      "matchesAnalyzed": 21
+    },
+    "Turks and Caicos Islands": {
+      "attack": 0.8064725820680689,
+      "defense": 2.6760226586804103,
+      "powerIndex": 10,
+      "matchesAnalyzed": 40
+    },
+    "Bahamas": {
+      "attack": 0.9207086560607974,
+      "defense": 2.148320197475194,
+      "powerIndex": 19,
+      "matchesAnalyzed": 43
+    },
+    "Solomon Islands": {
+      "attack": 1.372537903942485,
+      "defense": 1.17646106052213,
+      "powerIndex": 55,
+      "matchesAnalyzed": 86
+    },
+    "Fiji": {
+      "attack": 1.4394909724274842,
+      "defense": 0.9656212734296169,
+      "powerIndex": 62,
+      "matchesAnalyzed": 82
+    },
+    "Seychelles": {
+      "attack": 0.4480403233711494,
+      "defense": 1.841038419670541,
+      "powerIndex": 15,
+      "matchesAnalyzed": 90
+    },
+    "Samoa": {
+      "attack": 0.9393572688861029,
+      "defense": 2.520226818962715,
+      "powerIndex": 10,
+      "matchesAnalyzed": 32
+    },
+    "Eritrea": {
+      "attack": 0.3383801043642247,
+      "defense": 1.5791071536997152,
+      "powerIndex": 19,
+      "matchesAnalyzed": 13
+    },
+    "Lesotho": {
+      "attack": 0.53908595058026,
+      "defense": 1.0458267441257043,
+      "powerIndex": 37,
+      "matchesAnalyzed": 136
+    },
+    "Tuvalu": {
+      "attack": 0.8797882713469841,
+      "defense": 3.6364581882342013,
+      "powerIndex": 10,
+      "matchesAnalyzed": 25
+    },
+    "Papua New Guinea": {
+      "attack": 1.371274929105639,
+      "defense": 1.2626590931368755,
+      "powerIndex": 53,
+      "matchesAnalyzed": 54
+    },
+    "Cook Islands": {
+      "attack": 0.6231833588707805,
+      "defense": 2.0528392998096296,
+      "powerIndex": 14,
+      "matchesAnalyzed": 20
+    },
+    "American Samoa": {
+      "attack": 0.45822305799322094,
+      "defense": 3.6352362600795525,
+      "powerIndex": 10,
+      "matchesAnalyzed": 24
+    },
+    "Bermuda": {
+      "attack": 1.4013505165969895,
+      "defense": 1.3735091156049963,
+      "powerIndex": 51,
+      "matchesAnalyzed": 79
+    },
+    "Djibouti": {
+      "attack": 0.425230997817709,
+      "defense": 2.1994706783674607,
+      "powerIndex": 10,
+      "matchesAnalyzed": 50
+    },
+    "São Tomé and Príncipe": {
+      "attack": 0.5236834948493954,
+      "defense": 1.8553358103235722,
+      "powerIndex": 17,
+      "matchesAnalyzed": 49
+    },
+    "Tonga": {
+      "attack": 0.7012805061461469,
+      "defense": 2.8369984112275937,
+      "powerIndex": 10,
+      "matchesAnalyzed": 23
+    },
+    "Chagos Islands": {
+      "attack": 1.2830245623810186,
+      "defense": 3.482495240748479,
+      "powerIndex": 10,
+      "matchesAnalyzed": 16
+    },
+    "Raetia": {
+      "attack": 1.2125287073051385,
+      "defense": 2.904429229126262,
+      "powerIndex": 10,
+      "matchesAnalyzed": 26
+    },
+    "Sápmi": {
+      "attack": 1.0997353391837303,
+      "defense": 1.5121360913776292,
+      "powerIndex": 40,
+      "matchesAnalyzed": 16
+    },
+    "Sealand": {
+      "attack": 1.6662656654298944,
+      "defense": 1.8662175452814815,
+      "powerIndex": 45,
+      "matchesAnalyzed": 11
+    },
+    "Northern Cyprus": {
+      "attack": 2.1994706783674607,
+      "defense": 0.5865255142313228,
+      "powerIndex": 90,
+      "matchesAnalyzed": 20
+    },
+    "Tamil Eelam": {
+      "attack": 1.8852605814578234,
+      "defense": 1.5972346592906557,
+      "powerIndex": 57,
+      "matchesAnalyzed": 28
+    },
+    "South Sudan": {
+      "attack": 0.4699723671725343,
+      "defense": 1.3347215227699973,
+      "powerIndex": 28,
+      "matchesAnalyzed": 78
+    },
+    "Abkhazia": {
+      "attack": 1.199711279109524,
+      "defense": 0.5776387640156967,
+      "powerIndex": 66,
+      "matchesAnalyzed": 33
+    },
+    "Artsakh": {
+      "attack": 2.1328200517502647,
+      "defense": 0.9331087726407408,
+      "powerIndex": 80,
+      "matchesAnalyzed": 11
+    },
+    "Brunei": {
+      "attack": 0.7331568927891535,
+      "defense": 2.0196397424003094,
+      "powerIndex": 18,
+      "matchesAnalyzed": 53
+    },
+    "Tibet": {
+      "attack": 1.5791071536997152,
+      "defense": 4.850114829220554,
+      "powerIndex": 10,
+      "matchesAnalyzed": 13
+    },
+    "Frøya": {
+      "attack": 0.7331568927891535,
+      "defense": 3.616907337759824,
+      "powerIndex": 10,
+      "matchesAnalyzed": 15
+    },
+    "South Ossetia": {
+      "attack": 1.5094406616247276,
+      "defense": 1.5956944137175693,
+      "powerIndex": 48,
+      "matchesAnalyzed": 17
+    },
+    "Kosovo": {
+      "attack": 1.0321140723730802,
+      "defense": 0.9822878757757592,
+      "powerIndex": 51,
+      "matchesAnalyzed": 103
+    },
+    "Ellan Vannin": {
+      "attack": 1.799566918664286,
+      "defense": 1.0664100258751323,
+      "powerIndex": 68,
+      "matchesAnalyzed": 22
+    },
+    "Székely Land": {
+      "attack": 1.5206217035626886,
+      "defense": 1.5206217035626886,
+      "powerIndex": 50,
+      "matchesAnalyzed": 27
+    },
+    "Felvidék": {
+      "attack": 0.8553497082540125,
+      "defense": 1.2219281546485892,
+      "powerIndex": 41,
+      "matchesAnalyzed": 12
+    },
+    "Panjab": {
+      "attack": 2.0837090637165416,
+      "defense": 1.1576161465091896,
+      "powerIndex": 73,
+      "matchesAnalyzed": 19
+    },
+    "Hitra": {
+      "attack": 1.5151909117642508,
+      "defense": 2.1505935521815167,
+      "powerIndex": 34,
+      "matchesAnalyzed": 15
+    },
+    "Shetland": {
+      "attack": 1.5029716302177645,
+      "defense": 1.3929980962993915,
+      "powerIndex": 53,
+      "matchesAnalyzed": 20
+    },
+    "Sint Maarten": {
+      "attack": 1.1492729670748894,
+      "defense": 2.1598405760545334,
+      "powerIndex": 25,
+      "matchesAnalyzed": 37
+    },
+    "Western Armenia": {
+      "attack": 1.5579583971769513,
+      "defense": 0.9164461159864419,
+      "powerIndex": 66,
+      "matchesAnalyzed": 16
+    },
+    "United Koreans in Japan": {
+      "attack": 1.2219281546485892,
+      "defense": 0.672060485056724,
+      "powerIndex": 64,
+      "matchesAnalyzed": 12
+    },
+    "Kárpátalja": {
+      "attack": 1.6662656654298944,
+      "defense": 0.8664581460235451,
+      "powerIndex": 70,
+      "matchesAnalyzed": 11
+    },
+    "Barawa": {
+      "attack": 0.9775425237188713,
+      "defense": 2.8104347556917553,
+      "powerIndex": 10,
+      "matchesAnalyzed": 12
+    },
+    "Orkney": {
+      "attack": 1.2219281546485892,
+      "defense": 1.36855953320642,
+      "powerIndex": 46,
+      "matchesAnalyzed": 15
+    }
+  },
+  "aiPowerRanking": [
+    {
+      "name": "Provence",
+      "powerIndex": 99,
+      "attack": "3.54",
+      "defense": "1.34",
+      "matches": 12
+    },
+    {
+      "name": "Occitania",
+      "powerIndex": 99,
+      "attack": "2.62",
+      "defense": "0.59",
+      "matches": 21
+    },
+    {
+      "name": "Isle of Man",
+      "powerIndex": 99,
+      "attack": "2.93",
+      "defense": "0.90",
+      "matches": 27
+    },
+    {
+      "name": "Northern Cyprus",
+      "powerIndex": 90,
+      "attack": "2.20",
+      "defense": "0.59",
+      "matches": 20
+    },
+    {
+      "name": "Padania",
+      "powerIndex": 83,
+      "attack": "1.96",
+      "defense": "0.65",
+      "matches": 36
+    },
+    {
+      "name": "Réunion",
+      "powerIndex": 80,
+      "attack": "1.68",
+      "defense": "0.49",
+      "matches": 27
+    },
+    {
+      "name": "Artsakh",
+      "powerIndex": 80,
+      "attack": "2.13",
+      "defense": "0.93",
+      "matches": 11
+    },
+    {
+      "name": "Spain",
+      "powerIndex": 79,
+      "attack": "1.70",
+      "defense": "0.55",
+      "matches": 212
+    },
+    {
+      "name": "Jersey",
+      "powerIndex": 79,
+      "attack": "1.86",
+      "defense": "0.68",
+      "matches": 45
+    },
+    {
+      "name": "Guernsey",
+      "powerIndex": 78,
+      "attack": "1.81",
+      "defense": "0.68",
+      "matches": 41
+    },
+    {
+      "name": "Iraqi Kurdistan",
+      "powerIndex": 77,
+      "attack": "1.75",
+      "defense": "0.65",
+      "matches": 18
+    },
+    {
+      "name": "Basque Country",
+      "powerIndex": 77,
+      "attack": "1.73",
+      "defense": "0.63",
+      "matches": 14
+    },
+    {
+      "name": "Isle of Wight",
+      "powerIndex": 77,
+      "attack": "1.69",
+      "defense": "0.62",
+      "matches": 13
+    },
+    {
+      "name": "Brazil",
+      "powerIndex": 76,
+      "attack": "1.53",
+      "defense": "0.50",
+      "matches": 212
+    },
+    {
+      "name": "Belgium",
+      "powerIndex": 75,
+      "attack": "1.66",
+      "defense": "0.66",
+      "matches": 189
+    },
+    {
+      "name": "Iran",
+      "powerIndex": 74,
+      "attack": "1.44",
+      "defense": "0.48",
+      "matches": 188
+    },
+    {
+      "name": "England",
+      "powerIndex": 74,
+      "attack": "1.48",
+      "defense": "0.53",
+      "matches": 200
+    },
+    {
+      "name": "Portugal",
+      "powerIndex": 74,
+      "attack": "1.56",
+      "defense": "0.60",
+      "matches": 205
+    },
+    {
+      "name": "Argentina",
+      "powerIndex": 73,
+      "attack": "1.46",
+      "defense": "0.54",
+      "matches": 214
+    },
+    {
+      "name": "Germany",
+      "powerIndex": 73,
+      "attack": "1.71",
+      "defense": "0.80",
+      "matches": 212
+    },
+    {
+      "name": "New Caledonia",
+      "powerIndex": 73,
+      "attack": "1.79",
+      "defense": "0.89",
+      "matches": 79
+    },
+    {
+      "name": "Panjab",
+      "powerIndex": 73,
+      "attack": "2.08",
+      "defense": "1.16",
+      "matches": 19
+    },
+    {
+      "name": "Japan",
+      "powerIndex": 72,
+      "attack": "1.54",
+      "defense": "0.67",
+      "matches": 226
+    },
+    {
+      "name": "Netherlands",
+      "powerIndex": 72,
+      "attack": "1.62",
+      "defense": "0.73",
+      "matches": 198
+    },
+    {
+      "name": "France",
+      "powerIndex": 70,
+      "attack": "1.42",
+      "defense": "0.62",
+      "matches": 213
+    },
+    {
+      "name": "Morocco",
+      "powerIndex": 70,
+      "attack": "1.24",
+      "defense": "0.45",
+      "matches": 191
+    },
+    {
+      "name": "Kárpátalja",
+      "powerIndex": 70,
+      "attack": "1.67",
+      "defense": "0.87",
+      "matches": 11
+    },
+    {
+      "name": "Algeria",
+      "powerIndex": 69,
+      "attack": "1.41",
+      "defense": "0.66",
+      "matches": 196
+    },
+    {
+      "name": "Gozo",
+      "powerIndex": 68,
+      "attack": "1.80",
+      "defense": "1.07",
+      "matches": 11
+    },
+    {
+      "name": "Ellan Vannin",
+      "powerIndex": 68,
+      "attack": "1.80",
+      "defense": "1.07",
+      "matches": 22
+    },
+    {
+      "name": "Egypt",
+      "powerIndex": 66,
+      "attack": "1.21",
+      "defense": "0.57",
+      "matches": 201
+    },
+    {
+      "name": "Senegal",
+      "powerIndex": 66,
+      "attack": "1.19",
+      "defense": "0.54",
+      "matches": 186
+    },
+    {
+      "name": "Abkhazia",
+      "powerIndex": 66,
+      "attack": "1.20",
+      "defense": "0.58",
+      "matches": 33
+    },
+    {
+      "name": "Western Armenia",
+      "powerIndex": 66,
+      "attack": "1.56",
+      "defense": "0.92",
+      "matches": 16
+    },
+    {
+      "name": "Ivory Coast",
+      "powerIndex": 65,
+      "attack": "1.23",
+      "defense": "0.63",
+      "matches": 194
+    },
+    {
+      "name": "Australia",
+      "powerIndex": 65,
+      "attack": "1.33",
+      "defense": "0.73",
+      "matches": 185
+    },
+    {
+      "name": "Russia",
+      "powerIndex": 65,
+      "attack": "1.28",
+      "defense": "0.67",
+      "matches": 161
+    },
+    {
+      "name": "Italy",
+      "powerIndex": 64,
+      "attack": "1.25",
+      "defense": "0.68",
+      "matches": 201
+    },
+    {
+      "name": "United Koreans in Japan",
+      "powerIndex": 64,
+      "attack": "1.22",
+      "defense": "0.67",
+      "matches": 12
+    },
+    {
+      "name": "South Korea",
+      "powerIndex": 63,
+      "attack": "1.23",
+      "defense": "0.71",
+      "matches": 228
+    },
+    {
+      "name": "United States",
+      "powerIndex": 63,
+      "attack": "1.30",
+      "defense": "0.78",
+      "matches": 254
+    },
+    {
+      "name": "Denmark",
+      "powerIndex": 63,
+      "attack": "1.24",
+      "defense": "0.72",
+      "matches": 182
+    },
+    {
+      "name": "Croatia",
+      "powerIndex": 63,
+      "attack": "1.25",
+      "defense": "0.72",
+      "matches": 193
+    },
+    {
+      "name": "Switzerland",
+      "powerIndex": 63,
+      "attack": "1.26",
+      "defense": "0.76",
+      "matches": 183
+    },
+    {
+      "name": "Colombia",
+      "powerIndex": 63,
+      "attack": "1.10",
+      "defense": "0.59",
+      "matches": 185
+    },
+    {
+      "name": "Canada",
+      "powerIndex": 62,
+      "attack": "1.21",
+      "defense": "0.72",
+      "matches": 164
+    },
+    {
+      "name": "Mexico",
+      "powerIndex": 62,
+      "attack": "1.18",
+      "defense": "0.69",
+      "matches": 283
+    },
+    {
+      "name": "Dominican Republic",
+      "powerIndex": 62,
+      "attack": "1.43",
+      "defense": "0.94",
+      "matches": 97
+    },
+    {
+      "name": "Fiji",
+      "powerIndex": 62,
+      "attack": "1.44",
+      "defense": "0.97",
+      "matches": 82
+    },
+    {
+      "name": "United Arab Emirates",
+      "powerIndex": 61,
+      "attack": "1.21",
+      "defense": "0.76",
+      "matches": 205
+    },
+    {
+      "name": "Nigeria",
+      "powerIndex": 61,
+      "attack": "1.12",
+      "defense": "0.68",
+      "matches": 205
+    },
+    {
+      "name": "South Africa",
+      "powerIndex": 61,
+      "attack": "1.00",
+      "defense": "0.57",
+      "matches": 209
+    },
+    {
+      "name": "Guadeloupe",
+      "powerIndex": 61,
+      "attack": "1.35",
+      "defense": "0.90",
+      "matches": 83
+    },
+    {
+      "name": "Austria",
+      "powerIndex": 61,
+      "attack": "1.22",
+      "defense": "0.80",
+      "matches": 164
+    },
+    {
+      "name": "Uruguay",
+      "powerIndex": 61,
+      "attack": "1.16",
+      "defense": "0.72",
+      "matches": 195
+    },
+    {
+      "name": "Ynys Môn",
+      "powerIndex": 61,
+      "attack": "1.65",
+      "defense": "1.22",
+      "matches": 24
+    },
+    {
+      "name": "Tunisia",
+      "powerIndex": 60,
+      "attack": "1.08",
+      "defense": "0.67",
+      "matches": 207
+    },
+    {
+      "name": "Sweden",
+      "powerIndex": 60,
+      "attack": "1.22",
+      "defense": "0.81",
+      "matches": 200
+    },
+    {
+      "name": "Poland",
+      "powerIndex": 60,
+      "attack": "1.23",
+      "defense": "0.83",
+      "matches": 189
+    },
+    {
+      "name": "Norway",
+      "powerIndex": 60,
+      "attack": "1.18",
+      "defense": "0.80",
+      "matches": 164
+    },
+    {
+      "name": "Haiti",
+      "powerIndex": 60,
+      "attack": "1.35",
+      "defense": "0.94",
+      "matches": 130
+    },
+    {
+      "name": "Menorca",
+      "powerIndex": 60,
+      "attack": "1.38",
+      "defense": "0.99",
+      "matches": 17
+    },
+    {
+      "name": "Thailand",
+      "powerIndex": 59,
+      "attack": "1.20",
+      "defense": "0.85",
+      "matches": 193
+    },
+    {
+      "name": "Uzbekistan",
+      "powerIndex": 59,
+      "attack": "1.06",
+      "defense": "0.71",
+      "matches": 184
+    },
+    {
+      "name": "Mayotte",
+      "powerIndex": 59,
+      "attack": "1.09",
+      "defense": "0.73",
+      "matches": 25
+    },
+    {
+      "name": "French Guiana",
+      "powerIndex": 59,
+      "attack": "1.32",
+      "defense": "0.98",
+      "matches": 86
+    },
+    {
+      "name": "Suriname",
+      "powerIndex": 59,
+      "attack": "1.27",
+      "defense": "0.89",
+      "matches": 99
+    },
+    {
+      "name": "Greenland",
+      "powerIndex": 59,
+      "attack": "1.61",
+      "defense": "1.26",
+      "matches": 21
+    },
+    {
+      "name": "Mali",
+      "powerIndex": 58,
+      "attack": "1.00",
+      "defense": "0.67",
+      "matches": 157
+    },
+    {
+      "name": "Ghana",
+      "powerIndex": 58,
+      "attack": "1.03",
+      "defense": "0.71",
+      "matches": 191
+    },
+    {
+      "name": "Vietnam",
+      "powerIndex": 58,
+      "attack": "1.19",
+      "defense": "0.86",
+      "matches": 154
+    },
+    {
+      "name": "Romania",
+      "powerIndex": 58,
+      "attack": "1.08",
+      "defense": "0.78",
+      "matches": 169
+    },
+    {
+      "name": "Czech Republic",
+      "powerIndex": 58,
+      "attack": "1.17",
+      "defense": "0.87",
+      "matches": 176
+    },
+    {
+      "name": "Turkey",
+      "powerIndex": 58,
+      "attack": "1.20",
+      "defense": "0.87",
+      "matches": 183
+    },
+    {
+      "name": "Gotland",
+      "powerIndex": 58,
+      "attack": "2.02",
+      "defense": "1.71",
+      "matches": 12
+    },
+    {
+      "name": "Qatar",
+      "powerIndex": 57,
+      "attack": "1.13",
+      "defense": "0.84",
+      "matches": 248
+    },
+    {
+      "name": "China",
+      "powerIndex": 57,
+      "attack": "1.11",
+      "defense": "0.84",
+      "matches": 180
+    },
+    {
+      "name": "Jordan",
+      "powerIndex": 57,
+      "attack": "1.06",
+      "defense": "0.77",
+      "matches": 235
+    },
+    {
+      "name": "Ukraine",
+      "powerIndex": 57,
+      "attack": "1.11",
+      "defense": "0.82",
+      "matches": 174
+    },
+    {
+      "name": "Tahiti",
+      "powerIndex": 57,
+      "attack": "1.54",
+      "defense": "1.24",
+      "matches": 64
+    },
+    {
+      "name": "Zanzibar",
+      "powerIndex": 57,
+      "attack": "1.09",
+      "defense": "0.80",
+      "matches": 33
+    },
+    {
+      "name": "Tamil Eelam",
+      "powerIndex": 57,
+      "attack": "1.89",
+      "defense": "1.60",
+      "matches": 28
+    },
+    {
+      "name": "Cameroon",
+      "powerIndex": 56,
+      "attack": "0.94",
+      "defense": "0.69",
+      "matches": 192
+    },
+    {
+      "name": "Burkina Faso",
+      "powerIndex": 56,
+      "attack": "0.97",
+      "defense": "0.73",
+      "matches": 182
+    },
+    {
+      "name": "New Zealand",
+      "powerIndex": 56,
+      "attack": "1.08",
+      "defense": "0.86",
+      "matches": 113
+    },
+    {
+      "name": "DR Congo",
+      "powerIndex": 56,
+      "attack": "0.97",
+      "defense": "0.74",
+      "matches": 168
+    },
+    {
+      "name": "Ecuador",
+      "powerIndex": 56,
+      "attack": "1.01",
+      "defense": "0.79",
+      "matches": 177
+    },
+    {
+      "name": "Curaçao",
+      "powerIndex": 56,
+      "attack": "1.27",
+      "defense": "1.02",
+      "matches": 118
+    },
+    {
+      "name": "Serbia",
+      "powerIndex": 55,
+      "attack": "1.06",
+      "defense": "0.85",
+      "matches": 177
+    },
+    {
+      "name": "Greece",
+      "powerIndex": 55,
+      "attack": "0.88",
+      "defense": "0.69",
+      "matches": 171
+    },
+    {
+      "name": "Slovakia",
+      "powerIndex": 55,
+      "attack": "0.98",
+      "defense": "0.80",
+      "matches": 173
+    },
+    {
+      "name": "Martinique",
+      "powerIndex": 55,
+      "attack": "1.10",
+      "defense": "0.90",
+      "matches": 95
+    },
+    {
+      "name": "Saudi Arabia",
+      "powerIndex": 55,
+      "attack": "0.97",
+      "defense": "0.78",
+      "matches": 227
+    },
+    {
+      "name": "Palestine",
+      "powerIndex": 55,
+      "attack": "1.05",
+      "defense": "0.85",
+      "matches": 156
+    },
+    {
+      "name": "Vanuatu",
+      "powerIndex": 55,
+      "attack": "1.47",
+      "defense": "1.25",
+      "matches": 61
+    },
+    {
+      "name": "Solomon Islands",
+      "powerIndex": 55,
+      "attack": "1.37",
+      "defense": "1.18",
+      "matches": 86
+    },
+    {
+      "name": "Oman",
+      "powerIndex": 54,
+      "attack": "0.89",
+      "defense": "0.72",
+      "matches": 225
+    },
+    {
+      "name": "Chile",
+      "powerIndex": 54,
+      "attack": "1.04",
+      "defense": "0.86",
+      "matches": 202
+    },
+    {
+      "name": "Republic of Ireland",
+      "powerIndex": 54,
+      "attack": "0.93",
+      "defense": "0.76",
+      "matches": 177
+    },
+    {
+      "name": "Guatemala",
+      "powerIndex": 54,
+      "attack": "1.10",
+      "defense": "0.95",
+      "matches": 161
+    }
+  ]
+}
