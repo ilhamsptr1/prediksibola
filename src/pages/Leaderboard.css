@@ -20,6 +20,22 @@
   filter: drop-shadow(0 0 18px rgba(255,215,0,0.45));
   margin-bottom: 0.25rem;
 }
+.lb-cpu-icon {
+  filter: drop-shadow(0 0 14px rgba(0,255,136,0.5));
+  margin-bottom: 0.25rem;
+}
+.lb-algo-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #00b8ff;
+  background: rgba(0, 184, 255, 0.08);
+  border: 1px solid rgba(0, 184, 255, 0.2);
+  padding: 0.3rem 0.9rem;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.05em;
+  text-align: center;
+  margin-top: 0.25rem;
+}
 
 /* ── Podium ──────────────────────────────────────────────────────────────── */
 .podium {
@@ -183,10 +199,60 @@
   font-size: 0.8rem;
 }
 
+/* ── Grid columns ────────────────────────────────────────────────────────── */
+.lb-list-header,
+.lb-row {
+  display: grid;
+  grid-template-columns: 48px 1fr 70px 64px 64px 68px 64px;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.col-rank  { justify-self: center; }
+.col-name  { justify-self: start; }
+.col-elo   { justify-self: center; }
+.col-atk   { justify-self: center; }
+.col-def   { justify-self: center; }
+.col-form  { justify-self: center; }
+.col-power { justify-self: end; }
+
+/* ── Podium extras ───────────────────────────────────────────────────────── */
+.podium-medal   { font-size: 2rem; line-height: 1; }
+.podium-elo     { font-size: 0.75rem; color: var(--text-muted); font-family: monospace; }
+.podium-elo strong { color: var(--text-main); }
+.podium-atk-def {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  font-family: monospace;
+  font-weight: 700;
+}
+.podium-emoji   { font-size: 1.3rem; }
+
+/* ── Search Box ──────────────────────────────────────────────────────────── */
+.lb-search-wrap { display: flex; justify-content: center; }
+.lb-search {
+  width: 100%;
+  max-width: 420px;
+  padding: 0.65rem 1.1rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-glass);
+  background: rgba(255,255,255,0.05);
+  color: var(--text-main);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.lb-search:focus {
+  border-color: rgba(0,184,255,0.4);
+  box-shadow: 0 0 12px rgba(0,184,255,0.12);
+}
+.lb-search::placeholder { color: var(--text-muted); }
+
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 @media (max-width: 640px) {
-  .hide-sm { display: none; }
-  .lb-list-header { grid-template-columns: 40px 1fr 80px; }
-  .lb-row         { grid-template-columns: 40px 1fr 80px; }
-  .podium-card    { padding: 1rem 0.5rem 0; }
+  .hide-sm { display: none !important; }
+  .lb-list-header,
+  .lb-row { grid-template-columns: 40px 1fr 60px; }
+  .podium-card { padding: 1rem 0.5rem 0; }
 }

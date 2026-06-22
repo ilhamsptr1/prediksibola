@@ -310,7 +310,108 @@
   50% { filter: drop-shadow(0 0 8px var(--primary)); opacity: 0.6; }
 }
 
-/* ── Expanded Stats ───────────────────────────────────────────────────────── */
+/* ── AI Result Card ──────────────────────────────────────────────────────── */
+.ai-result-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: rgba(0, 184, 255, 0.04);
+  border: 1px solid rgba(0, 184, 255, 0.18);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1rem;
+  box-shadow: 0 0 20px rgba(0, 184, 255, 0.07);
+}
+
+.prob-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.home-label { color: #4ade80; }
+.away-label { color: #f87171; text-align: right; }
+.draw-label { text-align: center; color: var(--text-muted); }
+
+.prob-bar-outer {
+  display: flex;
+  height: 28px;
+  border-radius: 6px;
+  overflow: hidden;
+  gap: 2px;
+}
+
+.prob-seg {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+  overflow: hidden;
+}
+
+.prob-seg.prob-home { background: linear-gradient(90deg, #16a34a, #4ade80); border-radius: 6px 0 0 6px; }
+.prob-seg.prob-draw { background: linear-gradient(90deg, #475569, #94a3b8); }
+.prob-seg.prob-away { background: linear-gradient(90deg, #dc2626, #f87171); border-radius: 0 6px 6px 0; }
+
+.prob-pct { white-space: nowrap; }
+
+.ai-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  font-family: monospace;
+}
+
+.ai-meta-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.ai-meta-label {
+  color: var(--text-muted);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.ai-meta-value {
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+/* Predicted score styling */
+.predicted-score {
+  color: #00b8ff;
+  text-shadow: 0 0 12px rgba(0, 184, 255, 0.5);
+}
+
+/* Spinner */
+.spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
 /* ── Footer ──────────────────────────────────────────────────────────────── */
 .match-footer {
   display: flex;

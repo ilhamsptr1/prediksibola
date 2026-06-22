@@ -2,74 +2,107 @@ import React, { createContext, useContext, useState } from 'react';
 import teamRatingsData from '../data/teamRatings.json';
 
 const PredictionContext = createContext();
-
 export const usePredictions = () => useContext(PredictionContext);
+
+/**
+ * Poisson PMF — P(X = k | lambda)
+ */
+const poissonPMF = (k, lambda) => {
+  if (lambda <= 0) return k === 0 ? 1 : 0;
+  let result = Math.exp(-lambda);
+  for (let i = 1; i <= k; i++) result *= lambda / i;
+  return result;
+};
+
+/**
+ * Generate score probability matrix (up to maxGoals x maxGoals)
+ * Returns the most likely score and win/draw/loss probabilities.
+ */
+const scoreMatrix = (xGHome, xGAway, maxGoals = 8) => {
+  let probHome = 0, probDraw = 0, probAway = 0;
+  let bestProb = -1, bestHome = 0, bestAway = 0;
+
+  for (let h = 0; h <= maxGoals; h++) {
+    for (let a = 0; a <= maxGoals; a++) {
+      const p = poissonPMF(h, xGHome) * poissonPMF(a, xGAway);
+      if (p > bestProb) { bestProb = p; bestHome = h; bestAway = a; }
+      if (h > a) probHome += p;
+      else if (h === a) probDraw += p;
+      else probAway += p;
+    }
+  }
+
+  const total = probHome + probDraw + probAway;
+  return {
+    likelyHome: bestHome,
+    likelyAway: bestAway,
+    pHome: ((probHome / total) * 100).toFixed(1),
+    pDraw: ((probDraw / total) * 100).toFixed(1),
+    pAway: ((probAway / total) * 100).toFixed(1),
+  };
+};
 
 export const PredictionProvider = ({ children }) => {
   const [predictions, setPredictions] = useState({});
 
-  // Poisson distribution random number generator
-  const poissonRandom = (lambda) => {
-    let L = Math.exp(-lambda), p = 1.0, k = 0;
-    do { k++; p *= Math.random(); } while (p > L);
-    return k - 1;
-  };
-
   const generateAIPrediction = async (match) => {
-    // 1. Dapatkan nama tim dari match object
-    const homeTeamName = match.homeTeam.name;
-    const awayTeamName = match.awayTeam.name;
-
-    // 2. Cari rating tim dari dataset hasil training
     const ratings = teamRatingsData.teamRatings;
-    const globalAvg = teamRatingsData.globalAvgGoalsPerTeam; // ~1.3
-    
-    // Default stats if team not found in dataset
-    const homeStats = ratings[homeTeamName] || { attack: 1.0, defense: 1.0 };
-    const awayStats = ratings[awayTeamName] || { attack: 1.0, defense: 1.0 };
+    const globalAvg = teamRatingsData.globalAvgGoalsPerTeam; // ~1.37
 
-    // 3. Algoritma Prediksi (Poisson Model Expected Goals)
-    // Home Expected Goals = Home Attack * Away Defense * Global Avg * Home Advantage
-    const homeAdvantage = 1.15; // 15% boost for home
-    let expectedHomeGoals = homeStats.attack * awayStats.defense * globalAvg * homeAdvantage;
-    
-    // Away Expected Goals = Away Attack * Home Defense * Global Avg
-    let expectedAwayGoals = awayStats.attack * homeStats.defense * globalAvg;
+    const homeStats = ratings[match.homeTeam.name];
+    const awayStats = ratings[match.awayTeam.name];
 
-    // Limit extreme values
-    expectedHomeGoals = Math.max(0.1, Math.min(5.0, expectedHomeGoals));
-    expectedAwayGoals = Math.max(0.1, Math.min(5.0, expectedAwayGoals));
+    // Fallback stats for unknown teams
+    const homeAtk = homeStats?.attack  ?? 1.0;
+    const homeDef = homeStats?.defense ?? 1.0;
+    const awayAtk = awayStats?.attack  ?? 1.0;
+    const awayDef = awayStats?.defense ?? 1.0;
+    const homeElo = homeStats?.elo ?? 1500;
+    const awayElo = awayStats?.elo ?? 1500;
 
-    // 4. Generate skor riil menggunakan Poisson
-    const predictedHomeScore = poissonRandom(expectedHomeGoals);
-    const predictedAwayScore = poissonRandom(expectedAwayGoals);
+    // Elo-based home advantage factor on top of Poisson
+    const eloDiff        = homeElo - awayElo;
+    const eloFactor      = 1 + eloDiff / 2000; // mild adjustment
+    const homeAdvantage  = 1.12; // +12% for playing at home
 
-    const newPrediction = {
-      matchId: match.id,
-      homeScore: predictedHomeScore,
-      awayScore: predictedAwayScore,
+    // xG = Attack × Opponent Defense × Global Avg × adjustments
+    let xGHome = homeAtk * awayDef * globalAvg * homeAdvantage * Math.max(0.7, Math.min(1.3, eloFactor));
+    let xGAway = awayAtk * homeDef * globalAvg * Math.max(0.7, Math.min(1.3, 1 / eloFactor));
+
+    // Clamp to reasonable range
+    xGHome = Math.max(0.1, Math.min(5.0, xGHome));
+    xGAway = Math.max(0.1, Math.min(5.0, xGAway));
+
+    // Build full probability matrix
+    const matrix = scoreMatrix(xGHome, xGAway);
+
+    const prediction = {
+      matchId:   match.id,
+      homeScore: matrix.likelyHome,
+      awayScore: matrix.likelyAway,
       xG: {
-        home: expectedHomeGoals.toFixed(2),
-        away: expectedAwayGoals.toFixed(2)
+        home: xGHome.toFixed(2),
+        away: xGAway.toFixed(2),
+      },
+      probabilities: {
+        home: matrix.pHome,
+        draw: matrix.pDraw,
+        away: matrix.pAway,
       },
       powerInfo: {
-        homePower: homeStats.powerIndex || 50,
-        awayPower: awayStats.powerIndex || 50
+        homeElo:   homeElo,
+        awayElo:   awayElo,
+        homePower: homeStats?.powerIndex ?? 50,
+        awayPower: awayStats?.powerIndex ?? 50,
       },
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
 
-    setPredictions(prev => ({
-      ...prev,
-      [match.id]: newPrediction
-    }));
-
-    return newPrediction;
+    setPredictions(prev => ({ ...prev, [match.id]: prediction }));
+    return prediction;
   };
 
-  const getPredictionForMatch = (matchId) => {
-    return predictions[matchId] || null;
-  };
+  const getPredictionForMatch = (matchId) => predictions[matchId] ?? null;
 
   return (
     <PredictionContext.Provider value={{ predictions, generateAIPrediction, getPredictionForMatch }}>

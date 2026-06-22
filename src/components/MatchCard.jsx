@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { usePredictions } from '../context/PredictionContext';
-import { Calendar, MapPin, CheckCircle, Clock, Zap, BarChart2, Cpu } from 'lucide-react';
+import { Calendar, MapPin, CheckCircle, Clock, BarChart2, Cpu } from 'lucide-react';
 import './MatchCard.css';
 
 const TeamBadge = ({ team }) => {
@@ -20,20 +20,19 @@ const StatusBadge = ({ status, minute }) => {
 
 const MatchCard = ({ match }) => {
   const { generateAIPrediction, getPredictionForMatch } = usePredictions();
-  const existingPrediction = getPredictionForMatch(match.id);
+  const pred = getPredictionForMatch(match.id);
 
   const [isPredicting, setIsPredicting] = useState(false);
   const [showStats, setShowStats] = useState(false);
   const [matchStats, setMatchStats] = useState(null);
 
-  const isFinished  = match.status === 'FINISHED';
-  const isLive      = match.status === 'LIVE';
-  const canPredict  = match.status === 'SCHEDULED';
+  const isFinished = match.status === 'FINISHED';
+  const isLive     = match.status === 'LIVE';
+  const canPredict = match.status === 'SCHEDULED';
 
   const handlePredict = async () => {
     setIsPredicting(true);
-    // Simulate thinking delay for effect
-    await new Promise(r => setTimeout(r, 800));
+    await new Promise(r => setTimeout(r, 900));
     await generateAIPrediction(match);
     setIsPredicting(false);
   };
@@ -68,30 +67,32 @@ const MatchCard = ({ match }) => {
         </div>
       </div>
 
-      {/* Teams & Score */}
+      {/* Teams & Scores */}
       <div className="match-teams">
+        {/* Home */}
         <div className="team home-team">
           <TeamBadge team={match.homeTeam} />
           <span className="team-name">{match.homeTeam.name}</span>
           {(isLive || isFinished) && match.score.home !== null ? (
             <span className={`real-score${isLive ? ' live-score' : ''}`}>{match.score.home}</span>
           ) : (
-            <span className="real-score" style={{ opacity: existingPrediction ? 1 : 0.2 }}>
-              {existingPrediction ? existingPrediction.homeScore : '-'}
+            <span className="real-score predicted-score" style={{ opacity: pred ? 1 : 0.2 }}>
+              {pred ? pred.homeScore : '-'}
             </span>
           )}
         </div>
 
-        <div className="match-vs">
-          {(isLive || isFinished) && match.score.home !== null ? <span className="score-divider">—</span> : <span>VS</span>}
-        </div>
+        <span className="match-vs">
+          {(isLive || isFinished) && match.score.home !== null ? '—' : 'VS'}
+        </span>
 
+        {/* Away */}
         <div className="team away-team">
           {(isLive || isFinished) && match.score.away !== null ? (
             <span className={`real-score${isLive ? ' live-score' : ''}`}>{match.score.away}</span>
           ) : (
-            <span className="real-score" style={{ opacity: existingPrediction ? 1 : 0.2 }}>
-              {existingPrediction ? existingPrediction.awayScore : '-'}
+            <span className="real-score predicted-score" style={{ opacity: pred ? 1 : 0.2 }}>
+              {pred ? pred.awayScore : '-'}
             </span>
           )}
           <span className="team-name">{match.awayTeam.name}</span>
@@ -99,31 +100,57 @@ const MatchCard = ({ match }) => {
         </div>
       </div>
 
-      {/* AI Prediction info */}
-      {existingPrediction && (
-        <div className="prediction-badge ai-badge">
-          <div className="ai-badge-content">
-            <Cpu size={14} className="ai-icon-pulse" />
-            <span>AI Prediction Generated</span>
+      {/* AI Prediction Result Card */}
+      {pred && (
+        <div className="ai-result-card">
+          {/* Win/Draw/Loss probability bar */}
+          <div className="prob-row">
+            <span className="prob-label home-label">{match.homeTeam.name}</span>
+            <span className="prob-label draw-label">Seri</span>
+            <span className="prob-label away-label">{match.awayTeam.name}</span>
           </div>
-          <div className="ai-stats-row">
-            <span className="ai-xg" title="Expected Goals (xG)">xG: {existingPrediction.xG.home} - {existingPrediction.xG.away}</span>
-            <span className="ai-power" title="Historical AI Power Index">Power: {existingPrediction.powerInfo.homePower} vs {existingPrediction.powerInfo.awayPower}</span>
+          <div className="prob-bar-outer">
+            <div className="prob-seg prob-home" style={{ width: `${pred.probabilities.home}%` }}>
+              <span className="prob-pct">{pred.probabilities.home}%</span>
+            </div>
+            <div className="prob-seg prob-draw" style={{ width: `${pred.probabilities.draw}%` }}>
+              <span className="prob-pct">{pred.probabilities.draw}%</span>
+            </div>
+            <div className="prob-seg prob-away" style={{ width: `${pred.probabilities.away}%` }}>
+              <span className="prob-pct">{pred.probabilities.away}%</span>
+            </div>
+          </div>
+
+          {/* xG & Elo row */}
+          <div className="ai-meta-row">
+            <div className="ai-meta-item">
+              <span className="ai-meta-label">xG</span>
+              <span className="ai-meta-value">{pred.xG.home} — {pred.xG.away}</span>
+            </div>
+            <div className="ai-meta-item">
+              <Cpu size={12} className="ai-icon-pulse" />
+              <span className="ai-meta-label">AI Score</span>
+            </div>
+            <div className="ai-meta-item">
+              <span className="ai-meta-label">Elo</span>
+              <span className="ai-meta-value">{pred.powerInfo.homeElo} — {pred.powerInfo.awayElo}</span>
+            </div>
           </div>
         </div>
       )}
 
+      {/* Footer Buttons */}
       <div className="match-footer">
         {canPredict ? (
           <button
-            className={`btn ${existingPrediction ? 'btn-saved' : 'btn-primary'} predict-btn`}
+            className={`btn ${pred ? 'btn-saved' : 'btn-primary'} predict-btn`}
             onClick={handlePredict}
             disabled={isPredicting}
           >
             {isPredicting
-              ? 'Menghitung Probabilitas...'
-              : existingPrediction
-              ? <><CheckCircle size={16} /> Prediksi AI Selesai</>
+              ? <><span className="spinner" /> Menghitung probabilitas...</>
+              : pred
+              ? <><CheckCircle size={16} /> AI Prediksi Selesai — Prediksi Ulang</>
               : <><Cpu size={16} /> Generate AI Prediction</>}
           </button>
         ) : isLive ? (
@@ -137,22 +164,55 @@ const MatchCard = ({ match }) => {
           <BarChart2 size={16} /> {showStats ? 'Tutup Statistik' : 'Statistik & Odds'}
         </button>
       </div>
-      
-      {/* Expanded Stats Section (kept from original) */}
+
+      {/* Expanded Stats Section */}
       {showStats && matchStats && (
         <div className="stats-container animate-fade-in">
-          {/* Include original probability and H2H stats ... */}
-          <div className="stats-header"><h4>Peluang & Odds Riil</h4></div>
+          <div className="stats-header"><h4>Analisis Mendalam</h4></div>
           <div className="probability-section">
             <div className="prob-labels">
-              <span>{match.homeTeam.name} ({matchStats.percentages.home}%)</span>
-              <span>Seri ({matchStats.percentages.draw}%)</span>
-              <span>{match.awayTeam.name} ({matchStats.percentages.away}%)</span>
+              <span>{match.homeTeam.name} ({matchStats.percentages.home}%)<br/><small>Odds: {matchStats.odds.home}</small></span>
+              <span>Seri ({matchStats.percentages.draw}%)<br/><small>Odds: {matchStats.odds.draw}</small></span>
+              <span>{match.awayTeam.name} ({matchStats.percentages.away}%)<br/><small>Odds: {matchStats.odds.away}</small></span>
             </div>
             <div className="probability-bar">
               <div className="prob-home" style={{ width: `${matchStats.percentages.home}%` }}></div>
               <div className="prob-draw" style={{ width: `${matchStats.percentages.draw}%` }}></div>
               <div className="prob-away" style={{ width: `${matchStats.percentages.away}%` }}></div>
+            </div>
+          </div>
+
+          <div className="form-section">
+            <div className="team-form">
+              <span className="team-name-form">{match.homeTeam.name} Form</span>
+              <div className="form-badges">
+                {matchStats.form.home.map((f, i) => <span key={i} className={`form-badge form-${f}`}>{f}</span>)}
+              </div>
+            </div>
+            <div className="team-form right">
+              <span className="team-name-form">{match.awayTeam.name} Form</span>
+              <div className="form-badges">
+                {matchStats.form.away.map((f, i) => <span key={i} className={`form-badge form-${f}`}>{f}</span>)}
+              </div>
+            </div>
+          </div>
+
+          <div className="h2h-section">
+            <h4>Head-to-Head (3 Pertemuan Terakhir)</h4>
+            <div className="h2h-list">
+              {matchStats.h2h.length > 0 ? matchStats.h2h.map((h, i) => (
+                <div key={i} className="h2h-item">
+                  <div className="h2h-meta">
+                    <span className="h2h-year">{h.date}</span>
+                    <span className="h2h-tourney">{h.tournament}</span>
+                  </div>
+                  <span className="h2h-match">
+                    {h.homeTeam} <strong>{h.homeScore} - {h.awayScore}</strong> {h.awayTeam}
+                  </span>
+                </div>
+              )) : (
+                <div className="h2h-item h2h-empty">Belum ada catatan pertemuan.</div>
+              )}
             </div>
           </div>
         </div>
