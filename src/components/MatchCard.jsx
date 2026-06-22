@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { usePredictions } from '../context/PredictionContext';
-import { Calendar, MapPin, CheckCircle, Clock, Save, BarChart2 } from 'lucide-react';
+import { Calendar, MapPin, CheckCircle, Clock, Zap, BarChart2 } from 'lucide-react';
 import './MatchCard.css';
 
 // Shows official crest or falls back to emoji flag
@@ -38,14 +38,11 @@ const StatusBadge = ({ status, minute }) => {
 };
 
 const MatchCard = ({ match }) => {
-  const { saveUserPrediction, getPredictionForMatch } = usePredictions();
+  const { generateSystemPrediction, getPredictionForMatch } = usePredictions();
   const existingPrediction = getPredictionForMatch(match.id);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  
-  const [inputHome, setInputHome] = useState(existingPrediction ? existingPrediction.homeScore.toString() : '');
-  const [inputAway, setInputAway] = useState(existingPrediction ? existingPrediction.awayScore.toString() : '');
 
   const [showStats, setShowStats] = useState(false);
   const [matchStats, setMatchStats] = useState(null);
@@ -55,15 +52,11 @@ const MatchCard = ({ match }) => {
   const canPredict  = match.status === 'SCHEDULED';
 
   const handlePredict = async () => {
-    if (inputHome === '' || inputAway === '') return;
-    
     setIsSubmitting(true);
-    // Simulate slight delay
-    await new Promise(r => setTimeout(r, 400));
-    
-    const success = saveUserPrediction(match.id, inputHome, inputAway);
+    // Simulate thinking delay for effect
+    await new Promise(r => setTimeout(r, 600));
+    const success = await generateSystemPrediction(match);
     setIsSubmitting(false);
-    
     if (success) {
       setIsSaved(true);
       setTimeout(() => setIsSaved(false), 3000);
@@ -108,43 +101,37 @@ const MatchCard = ({ match }) => {
         <div className="team home-team">
           <TeamBadge team={match.homeTeam} />
           <span className="team-name">{match.homeTeam.name}</span>
+          {/* Live / Finished / Predicted real score */}
+          {(isLive || isFinished) && match.score.home !== null ? (
+            <span className={`real-score${isLive ? ' live-score' : ''}`}>
+              {match.score.home}
+            </span>
+          ) : (
+            <span className="real-score" style={{ opacity: existingPrediction ? 1 : 0.2 }}>
+              {existingPrediction ? existingPrediction.homeScore : '-'}
+            </span>
+          )}
         </div>
 
-        {/* VS / Score area */}
-        <div className="match-score-area">
-          {(isLive || isFinished) && match.score.home !== null ? (
-             <div className="real-score-board">
-               <span className={`real-score${isLive ? ' live-score' : ''}`}>{match.score.home}</span>
-               <span className="score-divider">-</span>
-               <span className={`real-score${isLive ? ' live-score' : ''}`}>{match.score.away}</span>
-             </div>
-          ) : (
-            <div className="predict-inputs">
-              <input 
-                type="number" 
-                min="0" max="20"
-                value={inputHome}
-                onChange={(e) => setInputHome(e.target.value)}
-                disabled={!canPredict}
-                className="score-input"
-                placeholder="-"
-              />
-              <span className="score-divider">VS</span>
-              <input 
-                type="number" 
-                min="0" max="20"
-                value={inputAway}
-                onChange={(e) => setInputAway(e.target.value)}
-                disabled={!canPredict}
-                className="score-input"
-                placeholder="-"
-              />
-            </div>
-          )}
+        {/* VS / separator */}
+        <div className="match-vs">
+          {(isLive || isFinished) && match.score.home !== null
+            ? <span className="score-divider">—</span>
+            : <span>VS</span>
+          }
         </div>
 
         {/* Away Team */}
         <div className="team away-team">
+          {(isLive || isFinished) && match.score.away !== null ? (
+            <span className={`real-score${isLive ? ' live-score' : ''}`}>
+              {match.score.away}
+            </span>
+          ) : (
+            <span className="real-score" style={{ opacity: existingPrediction ? 1 : 0.2 }}>
+              {existingPrediction ? existingPrediction.awayScore : '-'}
+            </span>
+          )}
           <span className="team-name">{match.awayTeam.name}</span>
           <TeamBadge team={match.awayTeam} />
         </div>
@@ -162,18 +149,15 @@ const MatchCard = ({ match }) => {
         </div>
       </div>
 
-      {/* Prediction info/points badge */}
+      {/* Prediction section */}
       {existingPrediction && (
-        <div className="prediction-badge" style={{ justifyContent: 'center' }}>
-          {existingPrediction.evaluated ? (
-             <span>
-               Tebakan Anda: <strong>{existingPrediction.homeScore} - {existingPrediction.awayScore}</strong> 
-               <span style={{ marginLeft: '8px', color: existingPrediction.pointsEarned > 0 ? 'var(--primary)' : 'inherit' }}>
-                 ( +{existingPrediction.pointsEarned} Pts )
-               </span>
-             </span>
-          ) : (
-             <span>Tebakan tersimpan: <strong>{existingPrediction.homeScore} - {existingPrediction.awayScore}</strong></span>
+        <div className="prediction-badge">
+          <Zap size={14} />
+          Prediksi Sistem 
+          {existingPrediction.usedLiveApi && (
+            <span style={{ fontSize: '0.65rem', background: 'var(--primary)', color: 'var(--secondary)', padding: '2px 6px', borderRadius: '4px', marginLeft: '6px', fontWeight: 'bold' }}>
+              API LIVE
+            </span>
           )}
         </div>
       )}
@@ -183,13 +167,13 @@ const MatchCard = ({ match }) => {
           <button
             className={`btn ${isSaved ? 'btn-saved' : 'btn-primary'} predict-btn`}
             onClick={handlePredict}
-            disabled={isSubmitting || inputHome === '' || inputAway === ''}
+            disabled={isSubmitting}
           >
             {isSubmitting
-              ? 'Menyimpan...'
+              ? 'Mengambil Data API...'
               : isSaved
-              ? <><CheckCircle size={16} /> Tersimpan!</>
-              : <><Save size={16} /> Simpan Prediksi</>}
+              ? <><CheckCircle size={16} /> Ditampilkan!</>
+              : 'Tampilkan Prediksi Sistem'}
           </button>
         ) : isLive ? (
           <div className="info-text live-info">
@@ -211,7 +195,6 @@ const MatchCard = ({ match }) => {
           <BarChart2 size={16} /> {showStats ? 'Tutup Statistik' : 'Statistik & Odds'}
         </button>
       </div>
-      
       {/* Expanded Stats Section */}
       {showStats && matchStats && (
         <div className="stats-container animate-fade-in">
