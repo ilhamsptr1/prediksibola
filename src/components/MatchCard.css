@@ -264,6 +264,37 @@
   align-self: center;
 }
 
+.prediction-badge span {
+  display: flex;
+  align-items: center;
+}
+
+/* ── Score Input Area ────────────────────────────────────────────────────── */
+.match-score-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 1rem;
+}
+
+.predict-inputs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.score-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.real-score-board {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 /* ── Footer ──────────────────────────────────────────────────────────────── */
 .match-footer {
   display: flex;
