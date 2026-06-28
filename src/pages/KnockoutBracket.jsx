@@ -5,6 +5,8 @@ import { calculateStandings } from '../utils/standings';
 import { generateBracket32 } from '../utils/bracket';
 import teamRatingsData from '../data/teamRatings.json';
 import { Trophy, Shield } from 'lucide-react';
+import Confetti from 'react-confetti';
+import { useWindowSize } from 'react-use';
 import './KnockoutBracket.css';
 
 const getTeamPower = (teamName) => {
@@ -73,6 +75,8 @@ const KnockoutBracket = () => {
   const { matches } = useMatches();
   const { predictions } = usePredictions();
   const [bracketState, setBracketState] = useState(null);
+  const [showConfetti, setShowConfetti] = useState(false);
+  const { width, height } = useWindowSize();
 
   const standings = useMemo(() => calculateStandings(matches, predictions), [matches, predictions]);
   const r32 = useMemo(() => generateBracket32(standings), [standings]);
@@ -124,6 +128,8 @@ const KnockoutBracket = () => {
     }
 
     setBracketState(rounds);
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 8000); // Hide after 8 seconds
   };
 
   const renderColumn = (matches, title) => (
@@ -137,6 +143,7 @@ const KnockoutBracket = () => {
 
   return (
     <div className="bracket-container animate-fade-in">
+      {showConfetti && <Confetti width={width} height={height} recycle={false} numberOfPieces={800} />}
       <header className="bracket-header text-center">
         <Trophy size={42} className="text-primary mb-2" />
         <h1 className="heading-lg">Bagan <span className="text-gradient">Knockout</span></h1>

@@ -14,8 +14,13 @@
     "firebase": "^12.14.0",
     "lucide-react": "^1.17.0",
     "react": "^19.2.6",
+    "react-confetti": "^6.4.0",
+    "react-countup": "^6.5.3",
     "react-dom": "^19.2.6",
-    "react-router-dom": "^7.17.0"
+    "react-parallax-tilt": "^1.7.333",
+    "react-router-dom": "^7.17.0",
+    "react-use": "^17.6.1",
+    "recharts": "^3.9.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

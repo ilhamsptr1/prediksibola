@@ -53,11 +53,19 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   background-image: 
-    radial-gradient(circle at 15% 50%, rgba(109, 40, 217, 0.15), transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(0, 255, 136, 0.1), transparent 25%);
+    radial-gradient(circle at 15% 50%, rgba(109, 40, 217, 0.15), transparent 40%),
+    radial-gradient(circle at 85% 30%, rgba(0, 255, 136, 0.1), transparent 40%),
+    radial-gradient(circle at 50% 80%, rgba(0, 184, 255, 0.1), transparent 40%);
   background-attachment: fixed;
+  background-size: 200% 200%;
+  animation: bgMesh 15s ease infinite alternate;
 }
 
+@keyframes bgMesh {
+  0% { background-position: 0% 0%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 100%; }
+}
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
   font-weight: 700;

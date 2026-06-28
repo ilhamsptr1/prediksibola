@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { usePredictions } from '../context/PredictionContext';
 import { Calendar, MapPin, CheckCircle, Clock, BarChart2, Cpu } from 'lucide-react';
+import Tilt from 'react-parallax-tilt';
+import CountUp from 'react-countup';
 import { generateMatchStats } from '../services/footballApi';
 import teamRatingsData from '../data/teamRatings.json';
+import {
+  Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip
+} from 'recharts';
 import './MatchCard.css';
 
 const TeamBadge = ({ team }) => {
@@ -54,6 +59,7 @@ const MatchCard = ({ match }) => {
   const cardClass = `match-card glass-card animate-fade-in${isLive ? ' card-live' : ''}${isFinished ? ' card-finished' : ''}`;
 
   return (
+    <Tilt tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.01} transitionSpeed={2000} glareEnable={true} glareMaxOpacity={0.1} glarePosition="all" className="tilt-wrapper">
     <div className={cardClass}>
       {/* Header */}
       <div className="match-header">
@@ -112,13 +118,13 @@ const MatchCard = ({ match }) => {
           </div>
           <div className="prob-bar-outer">
             <div className="prob-seg prob-home" style={{ width: `${pred.probabilities.home}%` }}>
-              <span className="prob-pct">{pred.probabilities.home}%</span>
+              <span className="prob-pct"><CountUp end={parseFloat(pred.probabilities.home)} duration={2} decimals={1} suffix="%" /></span>
             </div>
             <div className="prob-seg prob-draw" style={{ width: `${pred.probabilities.draw}%` }}>
-              <span className="prob-pct">{pred.probabilities.draw}%</span>
+              <span className="prob-pct"><CountUp end={parseFloat(pred.probabilities.draw)} duration={2} decimals={1} suffix="%" /></span>
             </div>
             <div className="prob-seg prob-away" style={{ width: `${pred.probabilities.away}%` }}>
-              <span className="prob-pct">{pred.probabilities.away}%</span>
+              <span className="prob-pct"><CountUp end={parseFloat(pred.probabilities.away)} duration={2} decimals={1} suffix="%" /></span>
             </div>
           </div>
 
@@ -183,19 +189,23 @@ const MatchCard = ({ match }) => {
             </div>
           </div>
 
-          <div className="form-section">
-            <div className="team-form">
-              <span className="team-name-form">{match.homeTeam.name} Form</span>
-              <div className="form-badges">
-                {matchStats.form.home.map((f, i) => <span key={i} className={`form-badge form-${f}`}>{f}</span>)}
-              </div>
-            </div>
-            <div className="team-form right">
-              <span className="team-name-form">{match.awayTeam.name} Form</span>
-              <div className="form-badges">
-                {matchStats.form.away.map((f, i) => <span key={i} className={`form-badge form-${f}`}>{f}</span>)}
-              </div>
-            </div>
+          <div className="radar-chart-section" style={{ height: '220px', width: '100%', marginTop: '1rem', marginBottom: '1rem' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart cx="50%" cy="50%" outerRadius="70%" data={[
+                { subject: 'Attack', A: match.homeTeam.att || 70, B: match.awayTeam.att || 70, fullMark: 100 },
+                { subject: 'Defense', A: match.homeTeam.def || 70, B: match.awayTeam.def || 70, fullMark: 100 },
+                { subject: 'Form', A: (matchStats.form.home.filter(x=>x==='W').length * 20) + 40, B: (matchStats.form.away.filter(x=>x==='W').length * 20) + 40, fullMark: 100 },
+                { subject: 'Elo PWR', A: pred?.powerInfo?.homePower || 50, B: pred?.powerInfo?.awayPower || 50, fullMark: 100 },
+                { subject: 'Win Odds', A: matchStats.percentages.home, B: matchStats.percentages.away, fullMark: 100 },
+              ]}>
+                <PolarGrid stroke="rgba(255,255,255,0.1)" />
+                <PolarAngleAxis dataKey="subject" tick={{ fill: '#a1a1aa', fontSize: 10 }} />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+                <Tooltip contentStyle={{ backgroundColor: 'rgba(0,0,0,0.8)', border: 'none', borderRadius: '8px' }} />
+                <Radar name={match.homeTeam.name} dataKey="A" stroke="#4ade80" fill="#4ade80" fillOpacity={0.4} />
+                <Radar name={match.awayTeam.name} dataKey="B" stroke="#f87171" fill="#f87171" fillOpacity={0.4} />
+              </RadarChart>
+            </ResponsiveContainer>
           </div>
 
           <div className="h2h-section">
@@ -219,6 +229,7 @@ const MatchCard = ({ match }) => {
         </div>
       )}
     </div>
+    </Tilt>
   );
 };
 
