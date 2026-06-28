@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { usePredictions } from '../context/PredictionContext';
 import { Calendar, MapPin, CheckCircle, Clock, BarChart2, Cpu } from 'lucide-react';
-import Tilt from 'react-parallax-tilt';
-import CountUp from 'react-countup';
 import { generateMatchStats } from '../services/footballApi';
 import teamRatingsData from '../data/teamRatings.json';
 import {
@@ -56,10 +54,9 @@ const MatchCard = ({ match }) => {
     hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta',
   });
 
-  const cardClass = `match-card glass-card animate-fade-in${isLive ? ' card-live' : ''}${isFinished ? ' card-finished' : ''}`;
+  const cardClass = `match-card glass-card animate-fade-in${isLive ? ' card-live' : ''}${isFinished ? ' card-finished' : ''} tilt-wrapper`;
 
   return (
-    <Tilt tiltMaxAngleX={4} tiltMaxAngleY={4} scale={1.01} transitionSpeed={2000} glareEnable={true} glareMaxOpacity={0.1} glarePosition="all" className="tilt-wrapper">
     <div className={cardClass}>
       {/* Header */}
       <div className="match-header">
@@ -118,13 +115,13 @@ const MatchCard = ({ match }) => {
           </div>
           <div className="prob-bar-outer">
             <div className="prob-seg prob-home" style={{ width: `${pred.probabilities.home}%` }}>
-              <span className="prob-pct"><CountUp end={parseFloat(pred.probabilities.home)} duration={2} decimals={1} suffix="%" /></span>
+              <span className="prob-pct">{pred.probabilities.home}%</span>
             </div>
             <div className="prob-seg prob-draw" style={{ width: `${pred.probabilities.draw}%` }}>
-              <span className="prob-pct"><CountUp end={parseFloat(pred.probabilities.draw)} duration={2} decimals={1} suffix="%" /></span>
+              <span className="prob-pct">{pred.probabilities.draw}%</span>
             </div>
             <div className="prob-seg prob-away" style={{ width: `${pred.probabilities.away}%` }}>
-              <span className="prob-pct"><CountUp end={parseFloat(pred.probabilities.away)} duration={2} decimals={1} suffix="%" /></span>
+              <span className="prob-pct">{pred.probabilities.away}%</span>
             </div>
           </div>
 
@@ -229,7 +226,6 @@ const MatchCard = ({ match }) => {
         </div>
       )}
     </div>
-    </Tilt>
   );
 };
 

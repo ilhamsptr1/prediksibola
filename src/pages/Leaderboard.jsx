@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Trophy, Target, Shield, TrendingUp } from 'lucide-react';
-import Tilt from 'react-parallax-tilt';
-import CountUp from 'react-countup';
 import teamRatingsData from '../data/teamRatings.json';
 import './Leaderboard.css';
 
@@ -58,19 +56,17 @@ const Leaderboard = () => {
           if (!team) return null;
           const podiumOrder = [2, 1, 3][idx];
           return (
-            <Tilt key={team.name} tiltMaxAngleX={10} tiltMaxAngleY={10} scale={1.05} transitionSpeed={2000} glareEnable={true} glareMaxOpacity={0.1} glarePosition="all" className="tilt-wrapper">
-            <div className={`podium-card podium-${podiumOrder} glass-card`}>
+            <div key={team.name} className={`podium-card podium-${podiumOrder} glass-card`}>
               <div className="podium-medal">{MEDAL[podiumOrder - 1]}</div>
               <p className="podium-name">{team.name}</p>
               <p className="podium-elo">Elo <strong>{team.elo}</strong></p>
-              <p className="podium-pts"><CountUp end={team.powerIndex} duration={2} /> <span>PWR</span></p>
+              <p className="podium-pts">{team.powerIndex} <span>PWR</span></p>
               <div className="podium-atk-def">
                 <span style={{ color: '#4ade80' }}>ATK {team.attack}</span>
                 <span style={{ color: '#f87171' }}>DEF {team.defense}</span>
               </div>
               <div className={`podium-bar bar-${podiumOrder}`} />
             </div>
-            </Tilt>
           );
         })}
       </div>
@@ -136,7 +132,7 @@ const Leaderboard = () => {
                   background: `linear-gradient(90deg, #00ff88, #00b8ff)`,
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
-                }}><CountUp end={team.powerIndex} duration={1.5} /></span>
+                }}>{team.powerIndex}</span>
               </div>
             </div>
           );
