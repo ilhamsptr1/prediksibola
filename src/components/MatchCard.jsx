@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { usePredictions } from '../context/PredictionContext';
 import { Calendar, MapPin, CheckCircle, Clock, BarChart2, Cpu } from 'lucide-react';
+import { generateMatchStats } from '../services/footballApi';
+import teamRatingsData from '../data/teamRatings.json';
 import './MatchCard.css';
 
 const TeamBadge = ({ team }) => {
@@ -37,9 +39,8 @@ const MatchCard = ({ match }) => {
     setIsPredicting(false);
   };
 
-  const toggleStats = async () => {
+  const toggleStats = () => {
     if (!showStats && !matchStats) {
-      const { generateMatchStats } = await import('../services/footballApi');
       setMatchStats(generateMatchStats(match.homeTeam, match.awayTeam));
     }
     setShowStats(!showStats);

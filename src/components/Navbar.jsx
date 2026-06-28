@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Wifi, List } from 'lucide-react';
+import { Home, Wifi, List, Trophy, TrendingUp } from 'lucide-react';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -9,6 +9,8 @@ const Navbar = () => {
   const navItems = [
     { path: '/', label: 'Jadwal', icon: <Home size={18} /> },
     { path: '/standings', label: 'Klasemen', icon: <List size={18} /> },
+    { path: '/bracket', label: 'Bagan', icon: <Trophy size={18} /> },
+    { path: '/leaderboard', label: 'AI Ranking', icon: <TrendingUp size={18} /> },
   ];
 
   return (

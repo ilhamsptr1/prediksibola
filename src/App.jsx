@@ -4,6 +4,8 @@ import { PredictionProvider } from './context/PredictionContext';
 import Navbar from './components/Navbar';
 import Dashboard from './pages/Dashboard';
 import Standings from './pages/Standings';
+import Leaderboard from './pages/Leaderboard';
+import KnockoutBracket from './pages/KnockoutBracket';
 
 function App() {
   return (
@@ -15,6 +17,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Dashboard />} />
               <Route path="/standings" element={<Standings />} />
+              <Route path="/leaderboard" element={<Leaderboard />} />
+              <Route path="/bracket" element={<KnockoutBracket />} />
             </Routes>
           </main>
         </div>
