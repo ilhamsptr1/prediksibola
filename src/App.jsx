@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { PredictionProvider } from './context/PredictionContext';
 import Navbar from './components/Navbar';
+import LiveMatchBanner from './components/LiveMatchBanner';
 import Dashboard from './pages/Dashboard';
 import Standings from './pages/Standings';
 import Leaderboard from './pages/Leaderboard';
@@ -13,6 +14,7 @@ function App() {
       <Router>
         <div className="app-wrapper">
           <Navbar />
+          <LiveMatchBanner />
           <main className="container">
             <Routes>
               <Route path="/" element={<Dashboard />} />

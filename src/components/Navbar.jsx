@@ -25,8 +25,8 @@ const Navbar = () => {
             onError={(e) => { e.currentTarget.style.display='none'; }}
           />
           <div className="brand-text-group">
-            <span className="brand-title">WC <span className="text-gradient">2026</span></span>
-            <span className="brand-sub">Prediksi Babak Grup</span>
+            <span className="brand-title">Prediksi <span className="text-gradient">Bola</span></span>
+            <span className="brand-sub">AI-Powered • Live Data</span>
           </div>
         </Link>
 
