@@ -65,7 +65,8 @@ export const getTeamMeta = (name) => {
   return TEAM_META[name] || { name, code: name.substring(0, 3).toUpperCase(), flag: "🏳️", crest: "", att: 70, def: 70 };
 };
 
-const VENUES = [
+// ── WC 2026 Venues (untuk pertandingan World Cup) ─────────────────
+const WC_VENUES = [
   "Estadio Azteca, Mexico City",
   "SoFi Stadium, Los Angeles",
   "MetLife Stadium, New York/New Jersey",
@@ -83,14 +84,117 @@ const VENUES = [
   "Lincoln Financial Field, Philadelphia"
 ];
 
-export const getVenueForMatch = (matchId) => {
-  // Use a simple hash of the match ID to consistently pick a venue
+// ── Home Stadiums per Club ────────────────────────────────────────
+const HOME_STADIUMS = {
+  // Premier League
+  'Arsenal':                  'Emirates Stadium, London',
+  'Arsenal FC':               'Emirates Stadium, London',
+  'Aston Villa':              'Villa Park, Birmingham',
+  'AFC Bournemouth':          'Vitality Stadium, Bournemouth',
+  'Brentford':                'Gtech Community Stadium, London',
+  'Brentford FC':             'Gtech Community Stadium, London',
+  'Brighton & Hove Albion':   'Amex Stadium, Brighton',
+  'Brighton & Hove Albion FC':'Amex Stadium, Brighton',
+  'Chelsea':                  'Stamford Bridge, London',
+  'Chelsea FC':               'Stamford Bridge, London',
+  'Crystal Palace':           'Selhurst Park, London',
+  'Everton':                  'Goodison Park, Liverpool',
+  'Everton FC':               'Goodison Park, Liverpool',
+  'Fulham':                   'Craven Cottage, London',
+  'Fulham FC':                'Craven Cottage, London',
+  'Ipswich Town':             'Portman Road, Ipswich',
+  'Ipswich Town FC':          'Portman Road, Ipswich',
+  'Leeds United':             'Elland Road, Leeds',
+  'Leicester City':           'King Power Stadium, Leicester',
+  'Liverpool':                'Anfield, Liverpool',
+  'Liverpool FC':             'Anfield, Liverpool',
+  'Manchester City':          'Etihad Stadium, Manchester',
+  'Manchester United':        'Old Trafford, Manchester',
+  'Newcastle United':         "St. James' Park, Newcastle",
+  'Newcastle United FC':      "St. James' Park, Newcastle",
+  'Nottingham Forest':        'City Ground, Nottingham',
+  'Nottingham Forest FC':     'City Ground, Nottingham',
+  'Southampton':              "St. Mary's Stadium, Southampton",
+  'Southampton FC':           "St. Mary's Stadium, Southampton",
+  'Tottenham Hotspur':        'Tottenham Hotspur Stadium, London',
+  'West Ham United':          'London Stadium, London',
+  'West Ham United FC':       'London Stadium, London',
+  'Wolverhampton Wanderers':  'Molineux Stadium, Wolverhampton',
+  'Sunderland':               'Stadium of Light, Sunderland',
+  'Sunderland AFC':           'Stadium of Light, Sunderland',
+  'Coventry City':            'Coventry Building Society Arena',
+  'Coventry City FC':         'Coventry Building Society Arena',
+  'Hull City':                'MKM Stadium, Hull',
+  'Hull City AFC':            'MKM Stadium, Hull',
+  // La Liga
+  'Real Madrid':              'Santiago Bernabéu, Madrid',
+  'Real Madrid CF':           'Santiago Bernabéu, Madrid',
+  'Barcelona':                'Estadi Olímpic Lluís Companys',
+  'FC Barcelona':             'Estadi Olímpic Lluís Companys',
+  'Atletico Madrid':          'Civitas Metropolitano, Madrid',
+  'Atlético de Madrid':       'Civitas Metropolitano, Madrid',
+  'Sevilla FC':               'Ramón Sánchez-Pizjuán, Sevilla',
+  'Sevilla':                  'Ramón Sánchez-Pizjuán, Sevilla',
+  'Real Betis':               'Estadio Benito Villamarín, Sevilla',
+  'Real Betis Balompié':      'Estadio Benito Villamarín, Sevilla',
+  'Athletic Bilbao':          'San Mamés, Bilbao',
+  'Athletic Club':            'San Mamés, Bilbao',
+  'Real Sociedad':            'Reale Arena, San Sebastián',
+  'Valencia':                 'Mestalla, Valencia',
+  'Valencia CF':              'Mestalla, Valencia',
+  'Villarreal':               'Estadio de la Cerámica, Villarreal',
+  'Villarreal CF':            'Estadio de la Cerámica, Villarreal',
+  'Osasuna':                  'El Sadar, Pamplona',
+  'Rayo Vallecano':           'Estadio de Vallecas, Madrid',
+  'Getafe':                   'Coliseum Alfonso Pérez, Getafe',
+  'Getafe CF':                'Coliseum Alfonso Pérez, Getafe',
+  'Girona':                   'Estadio Montilivi, Girona',
+  'Girona FC':                'Estadio Montilivi, Girona',
+  'Alavés':                   'Mendizorrotza, Vitoria-Gasteiz',
+  'Celta Vigo':               'Abanca-Balaídos, Vigo',
+  'Mallorca':                 'Visit Mallorca Estadi, Palma',
+  'Las Palmas':               'Estadio Gran Canaria, Las Palmas',
+  'Racing Santander':         'El Sardinero, Santander',
+  // Serie A
+  'Juventus':                 'Juventus Stadium, Turin',
+  'Inter Milan':              'San Siro, Milan',
+  'Milan':                    'San Siro, Milan',
+  'Roma':                     'Stadio Olimpico, Rome',
+  'Lazio':                    'Stadio Olimpico, Rome',
+  'Napoli':                   'Stadio Diego Armando Maradona, Napoli',
+  'Fiorentina':               'Stadio Artemio Franchi, Florence',
+  'Atalanta':                 'Gewiss Stadium, Bergamo',
+  // Bundesliga
+  'Bayern Munich':            'Allianz Arena, Munich',
+  'Dortmund':                 'Signal Iduna Park, Dortmund',
+  'Bayer Leverkusen':         'BayArena, Leverkusen',
+  'Leipzig':                  'Red Bull Arena, Leipzig',
+  'Frankfurt':                'Deutsche Bank Park, Frankfurt',
+  // Ligue 1
+  'Paris Saint-Germain':      'Parc des Princes, Paris',
+  'Marseille':                'Stade Vélodrome, Marseille',
+  'Lyon':                     'Groupama Stadium, Lyon',
+  'Monaco':                   'Stade Louis II, Monaco',
+  // Liga Portugal
+  'Benfica':                  'Estádio da Luz, Lisbon',
+  'Porto':                    'Estádio do Dragão, Porto',
+  'Sporting CP':              'Estádio José Alvalade, Lisbon',
+};
+
+export const getVenueForMatch = (matchId, homeTeamName = null) => {
+  // 1. Kalau ada nama tim home, cari stadionnya
+  if (homeTeamName && HOME_STADIUMS[homeTeamName]) {
+    return HOME_STADIUMS[homeTeamName];
+  }
+  // 2. Fallback: WC venue (hanya untuk pertandingan WC)
   let hash = 0;
   const str = String(matchId);
   for (let i = 0; i < str.length; i++) {
     hash = ((hash << 5) - hash) + str.charCodeAt(i);
-    hash = hash & hash; // Convert to 32bit integer
+    hash = hash & hash;
   }
-  return VENUES[Math.abs(hash) % VENUES.length];
+  return WC_VENUES[Math.abs(hash) % WC_VENUES.length];
 };
+
+
 

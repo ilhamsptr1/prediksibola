@@ -48,7 +48,7 @@ const mapMatchData = (apiMatch) => {
     group: groupName,
     groupCode: groupCode,
     matchday: apiMatch.matchday || 1,
-    venue: apiMatch.venue || getVenueForMatch(apiMatch.id),
+    venue: apiMatch.venue || getVenueForMatch(apiMatch.id, apiMatch.homeTeam?.name),
     homeTeam: {
       name: apiMatch.homeTeam?.name || 'TBD',
       code: apiMatch.homeTeam?.tla || homeMeta.code,
