@@ -2,7 +2,7 @@ import { getH2H } from '../data/h2hData';
 import { getTeamMeta, getVenueForMatch } from '../data/teamMeta';
 import { MOCK_MATCHES } from '../data/mockMatches';
 
-const API_KEY = import.meta.env.VITE_FOOTBALL_API_KEY;
+const API_KEY = import.meta.env.VITE_FOOTBALL_API_KEY || '4eda5db232484db3b743c1544bf90b86';
 const BASE_URL = '/api/football-data/v4'; // Gunakan proxy Vite untuk menghindari CORS
 
 const mapMatchData = (apiMatch) => {
