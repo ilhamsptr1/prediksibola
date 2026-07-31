@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { usePredictions } from '../context/PredictionContext';
-import { Calendar, MapPin, CheckCircle, Clock, BarChart2, Cpu } from 'lucide-react';
+import { Calendar, MapPin, CheckCircle, Clock, BarChart2, Cpu, Users } from 'lucide-react';
 import { generateMatchStats } from '../services/footballApi';
 import teamRatingsData from '../data/teamRatings.json';
+import H2HModal from './H2HModal';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip
 } from 'recharts';
@@ -28,8 +29,9 @@ const MatchCard = ({ match }) => {
   const pred = getPredictionForMatch(match.id);
 
   const [isPredicting, setIsPredicting] = useState(false);
-  const [showStats, setShowStats] = useState(false);
-  const [matchStats, setMatchStats] = useState(null);
+  const [showStats,    setShowStats]    = useState(false);
+  const [matchStats,   setMatchStats]   = useState(null);
+  const [showH2H,      setShowH2H]      = useState(false);
 
   const isFinished = match.status === 'FINISHED';
   const isLive     = match.status === 'LIVE';
@@ -229,9 +231,14 @@ const MatchCard = ({ match }) => {
         ) : (
           <div className="info-text"><Clock size={14} /> Prediksi ditutup</div>
         )}
-        <button className="btn btn-secondary btn-stats" onClick={toggleStats}>
-          <BarChart2 size={16} /> {showStats ? 'Tutup Statistik' : 'Statistik & Odds'}
-        </button>
+        <div className="match-footer__row">
+          <button className="btn btn-secondary btn-stats" onClick={toggleStats}>
+            <BarChart2 size={16} /> {showStats ? 'Tutup Statistik' : 'Statistik & Odds'}
+          </button>
+          <button className="btn btn-h2h" onClick={() => setShowH2H(true)}>
+            <Users size={16} /> H2H
+          </button>
+        </div>
       </div>
 
       {/* Expanded Stats Section */}
@@ -289,6 +296,11 @@ const MatchCard = ({ match }) => {
             </div>
           </div>
         </div>
+      )}
+
+      {/* H2H Modal */}
+      {showH2H && (
+        <H2HModal match={match} onClose={() => setShowH2H(false)} />
       )}
     </div>
   );
