@@ -112,7 +112,7 @@ const MatchCard = ({ match }) => {
       {/* AI Prediction Result Card */}
       {pred && (
         <div className="ai-result-card">
-          {/* Win/Draw/Loss probability bar */}
+          {/* Main probability bar */}
           <div className="prob-row">
             <span className="prob-label home-label">{match.homeTeam.name}</span>
             <span className="prob-label draw-label">Seri</span>
@@ -130,7 +130,47 @@ const MatchCard = ({ match }) => {
             </div>
           </div>
 
-          {/* xG & Elo row */}
+          {/* Ensemble model breakdown */}
+          {pred.modelBreakdown && (
+            <div className="ensemble-breakdown">
+              <div className="ensemble-title">
+                <Cpu size={11} className="ai-icon-pulse" />
+                <span>Ensemble Breakdown</span>
+              </div>
+              <div className="ensemble-rows">
+                {[
+                  { key: 'elo',  label: 'Elo Rating',      color: '#a78bfa', w: pred.ensembleWeights?.elo  },
+                  { key: 'dc',   label: 'Dixon-Coles xG',  color: '#38bdf8', w: pred.ensembleWeights?.dc   },
+                  { key: 'form', label: 'Weighted Form',   color: '#34d399', w: pred.ensembleWeights?.form },
+                  { key: 'gb',   label: 'XGBoost',         color: '#fb923c', w: pred.ensembleWeights?.gb   },
+                ].map(({ key, label, color, w }) => {
+                  const b = pred.modelBreakdown[key];
+                  if (!b) return null;
+                  return (
+                    <div className="ensemble-row" key={key}>
+                      <div className="ensemble-row-label">
+                        <span className="ensemble-dot" style={{ background: color }} />
+                        <span className="ensemble-model-name">{label}</span>
+                        {w !== undefined && <span className="ensemble-weight">{Math.round(w * 100)}%</span>}
+                      </div>
+                      <div className="ensemble-mini-bar">
+                        <div className="emb-seg emb-home"  style={{ width: `${b.home}%`, background: '#16a34a88' }} />
+                        <div className="emb-seg emb-draw"  style={{ width: `${b.draw}%`, background: '#47556988' }} />
+                        <div className="emb-seg emb-away"  style={{ width: `${b.away}%`, background: '#dc262688' }} />
+                      </div>
+                      <div className="ensemble-mini-vals">
+                        <span style={{ color: '#4ade80' }}>{b.home}%</span>
+                        <span style={{ color: '#94a3b8' }}>{b.draw}%</span>
+                        <span style={{ color: '#f87171' }}>{b.away}%</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* xG & Elo meta */}
           <div className="ai-meta-row">
             <div className="ai-meta-item">
               <span className="ai-meta-label">xG</span>
@@ -138,8 +178,8 @@ const MatchCard = ({ match }) => {
             </div>
             <div className="ai-meta-item">
               <Cpu size={12} className="ai-icon-pulse" />
-              <span className="ai-meta-label" style={{ fontSize: '0.6rem', textAlign: 'center' }}>
-                {pred.method?.includes('gradient') ? '🤖 GB Model' : '📐 Elo+Poisson'}
+              <span className="ai-meta-label" style={{ fontSize: '0.58rem', textAlign: 'center' }}>
+                {pred.modelBreakdown ? '🤖 Ensemble v2' : '📐 Elo+Poisson'}
               </span>
             </div>
             <div className="ai-meta-item">
@@ -147,7 +187,6 @@ const MatchCard = ({ match }) => {
               <span className="ai-meta-value">{pred.powerInfo.homeElo} — {pred.powerInfo.awayElo}</span>
             </div>
           </div>
-
         </div>
       )}
 

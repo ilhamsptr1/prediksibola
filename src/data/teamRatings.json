@@ -1,6 +1,6 @@
 {
-  "modelVersion": "gradient-boosting-v1",
-  "algorithm": "Gradient Boosting (XGBoost-style) + Elo + Dixon-Coles correction",
+  "modelVersion": "ensemble-v2",
+  "algorithm": "Ensemble: Elo + Dixon-Coles + Weighted Form + Gradient Boosting + Platt Calibration",
   "globalAvgGoalsPerTeam": 1.372530982677121,
   "homeAdvantageElo": 50,
   "teamRatings": {
@@ -9,1645 +9,2820 @@
       "attack": 1.5570105117462516,
       "defense": 0.5988126902651741,
       "powerIndex": 78,
-      "matchesAnalyzed": 392
+      "matchesAnalyzed": 392,
+      "formWinRate": 0.6757,
+      "formDrawRate": 0.2096,
+      "formAvgGF": 1.8649,
+      "formAvgGA": 0.3632,
+      "formScore": 0.6448
     },
     "Mali": {
       "elo": 1699,
       "attack": 1.0402887182225606,
       "defense": 0.49709567081935846,
       "powerIndex": 66,
-      "matchesAnalyzed": 384
+      "matchesAnalyzed": 384,
+      "formWinRate": 0.154,
+      "formDrawRate": 0.5243,
+      "formAvgGF": 0.7377,
+      "formAvgGA": 0.9471,
+      "formScore": 0.042
     },
     "Cameroon": {
       "elo": 1695,
       "attack": 0.9952349994483312,
       "defense": 0.6043333423756049,
       "powerIndex": 65,
-      "matchesAnalyzed": 428
+      "matchesAnalyzed": 428,
+      "formWinRate": 0.5127,
+      "formDrawRate": 0.1338,
+      "formAvgGF": 1.0378,
+      "formAvgGA": 0.7836,
+      "formScore": 0.2126
     },
     "Greece": {
       "elo": 1722,
       "attack": 1.0306088067749861,
       "defense": 0.7403157017576865,
       "powerIndex": 66,
-      "matchesAnalyzed": 380
+      "matchesAnalyzed": 380,
+      "formWinRate": 0.1261,
+      "formDrawRate": 0.3912,
+      "formAvgGF": 0.9127,
+      "formAvgGA": 1.3716,
+      "formScore": -0.2001
     },
     "Belgium": {
       "elo": 1908,
       "attack": 1.756488557616138,
       "defense": 0.627561194662732,
       "powerIndex": 82,
-      "matchesAnalyzed": 374
+      "matchesAnalyzed": 374,
+      "formWinRate": 0.7223,
+      "formDrawRate": 0.2777,
+      "formAvgGF": 3.5718,
+      "formAvgGA": 0.5881,
+      "formScore": 0.8334
     },
     "Mexico": {
       "elo": 1922,
       "attack": 1.1140759335801385,
       "defense": 0.6252592160337933,
       "powerIndex": 81,
-      "matchesAnalyzed": 656
+      "matchesAnalyzed": 656,
+      "formWinRate": 0.6937,
+      "formDrawRate": 0.2555,
+      "formAvgGF": 1.9899,
+      "formAvgGA": 0.4033,
+      "formScore": 0.7449
     },
     "Argentina": {
       "elo": 2095,
       "attack": 1.342372229881765,
       "defense": 0.47140809740339584,
       "powerIndex": 87,
-      "matchesAnalyzed": 467
+      "matchesAnalyzed": 467,
+      "formWinRate": 0.8787,
+      "formDrawRate": 0.0509,
+      "formAvgGF": 2.6082,
+      "formAvgGA": 0.2563,
+      "formScore": 0.8286
     },
     "Malawi": {
       "elo": 1430,
       "attack": 0.638882766340075,
       "defense": 0.8467431396181252,
       "powerIndex": 45,
-      "matchesAnalyzed": 372
+      "matchesAnalyzed": 372,
+      "formWinRate": 0.2777,
+      "formDrawRate": 0.1851,
+      "formAvgGF": 0.6442,
+      "formAvgGA": 0.7888,
+      "formScore": -0.1854
     },
     "Tanzania": {
       "elo": 1396,
       "attack": 0.6225407494020279,
       "defense": 0.8338078064000969,
       "powerIndex": 42,
-      "matchesAnalyzed": 351
+      "matchesAnalyzed": 351,
+      "formWinRate": 0.1868,
+      "formDrawRate": 0.2122,
+      "formAvgGF": 1.627,
+      "formAvgGA": 1.1673,
+      "formScore": -0.3294
     },
     "Eswatini": {
       "elo": 1303,
       "attack": 0.6083162109919953,
       "defense": 1.1647497553336479,
       "powerIndex": 34,
-      "matchesAnalyzed": 253
+      "matchesAnalyzed": 253,
+      "formWinRate": 0,
+      "formDrawRate": 0.4423,
+      "formAvgGF": 0.7131,
+      "formAvgGA": 2.4627,
+      "formScore": -0.3808
     },
     "Botswana": {
       "elo": 1382,
       "attack": 0.6420377830473349,
       "defense": 0.9601762386198454,
       "powerIndex": 40,
-      "matchesAnalyzed": 313
+      "matchesAnalyzed": 313,
+      "formWinRate": 0.23,
+      "formDrawRate": 0.0829,
+      "formAvgGF": 0.4899,
+      "formAvgGA": 1.7969,
+      "formScore": -0.4239
     },
     "Kuwait": {
       "elo": 1479,
       "attack": 0.8812993927386374,
       "defense": 1.032618809275201,
       "powerIndex": 48,
-      "matchesAnalyzed": 470
+      "matchesAnalyzed": 470,
+      "formWinRate": 0.1679,
+      "formDrawRate": 0.4352,
+      "formAvgGF": 1.5262,
+      "formAvgGA": 2.141,
+      "formScore": -0.0548
     },
     "France": {
       "elo": 2059,
       "attack": 1.5178092880673324,
       "defense": 0.5953697972613317,
       "powerIndex": 87,
-      "matchesAnalyzed": 450
+      "matchesAnalyzed": 450,
+      "formWinRate": 0.7708,
+      "formDrawRate": 0.0704,
+      "formAvgGF": 2.4861,
+      "formAvgGA": 1.0432,
+      "formScore": 0.6402
     },
     "Liberia": {
       "elo": 1448,
       "attack": 0.7018814937680322,
       "defense": 1.0437429276692562,
       "powerIndex": 46,
-      "matchesAnalyzed": 200
+      "matchesAnalyzed": 200,
+      "formWinRate": 0.1338,
+      "formDrawRate": 0.3267,
+      "formAvgGF": 0.9063,
+      "formAvgGA": 1.4636,
+      "formScore": -0.2751
     },
     "Senegal": {
       "elo": 1884,
       "attack": 1.304422536356232,
       "defense": 0.4932977021237424,
       "powerIndex": 79,
-      "matchesAnalyzed": 415
+      "matchesAnalyzed": 415,
+      "formWinRate": 0.6476,
+      "formDrawRate": 0.0509,
+      "formAvgGF": 1.8717,
+      "formAvgGA": 1.1845,
+      "formScore": 0.3665
     },
     "Nigeria": {
       "elo": 1848,
       "attack": 1.1768761258974225,
       "defense": 0.6021939262370174,
       "powerIndex": 76,
-      "matchesAnalyzed": 417
+      "matchesAnalyzed": 417,
+      "formWinRate": 0.5452,
+      "formDrawRate": 0.4548,
+      "formAvgGF": 1.9972,
+      "formAvgGA": 0.7437,
+      "formScore": 0.7271
     },
     "Ivory Coast": {
       "elo": 1807,
       "attack": 1.3113212152229896,
       "defense": 0.49650340714501434,
       "powerIndex": 74,
-      "matchesAnalyzed": 412
+      "matchesAnalyzed": 412,
+      "formWinRate": 0.7716,
+      "formDrawRate": 0.0704,
+      "formAvgGF": 2.0747,
+      "formAvgGA": 0.8103,
+      "formScore": 0.6418
     },
     "United Arab Emirates": {
       "elo": 1682,
       "attack": 1.135566221377253,
       "defense": 0.7487743223792508,
       "powerIndex": 64,
-      "matchesAnalyzed": 488
+      "matchesAnalyzed": 488,
+      "formWinRate": 0.2291,
+      "formDrawRate": 0.3439,
+      "formAvgGF": 1.134,
+      "formAvgGA": 1.5705,
+      "formScore": -0.0604
     },
     "Egypt": {
       "elo": 1781,
       "attack": 1.1388076704711123,
       "defense": 0.5108347236039771,
       "powerIndex": 71,
-      "matchesAnalyzed": 510
+      "matchesAnalyzed": 510,
+      "formWinRate": 0.447,
+      "formDrawRate": 0.2833,
+      "formAvgGF": 1.2385,
+      "formAvgGA": 0.6572,
+      "formScore": 0.2907
     },
     "Thailand": {
       "elo": 1548,
       "attack": 1.275087760748501,
       "defense": 0.8676108222148187,
       "powerIndex": 55,
-      "matchesAnalyzed": 457
+      "matchesAnalyzed": 457,
+      "formWinRate": 0.6705,
+      "formDrawRate": 0.1868,
+      "formAvgGF": 2.7128,
+      "formAvgGA": 1.0206,
+      "formScore": 0.6024
     },
     "Kenya": {
       "elo": 1461,
       "attack": 0.897625115371505,
       "defense": 0.8863611999093706,
       "powerIndex": 47,
-      "matchesAnalyzed": 376
+      "matchesAnalyzed": 376,
+      "formWinRate": 0.363,
+      "formDrawRate": 0.365,
+      "formAvgGF": 1.3947,
+      "formAvgGA": 1.7623,
+      "formScore": 0.2369
     },
     "Colombia": {
       "elo": 1992,
       "attack": 1.0917507925846832,
       "defense": 0.6512448556462831,
       "powerIndex": 86,
-      "matchesAnalyzed": 451
+      "matchesAnalyzed": 451,
+      "formWinRate": 0.6799,
+      "formDrawRate": 0.0704,
+      "formAvgGF": 2.2323,
+      "formAvgGA": 1.0285,
+      "formScore": 0.4585
     },
     "Uruguay": {
       "elo": 1907,
       "attack": 0.9822721290460213,
       "defense": 0.6395151360372889,
       "powerIndex": 80,
-      "matchesAnalyzed": 422
+      "matchesAnalyzed": 422,
+      "formWinRate": 0.2911,
+      "formDrawRate": 0.5307,
+      "formAvgGF": 0.853,
+      "formAvgGA": 1.0175,
+      "formScore": 0.3252
     },
     "Indonesia": {
       "elo": 1539,
       "attack": 1.1015600204982265,
       "defense": 1.2039865568377155,
       "powerIndex": 53,
-      "matchesAnalyzed": 345
+      "matchesAnalyzed": 345,
+      "formWinRate": 0.4863,
+      "formDrawRate": 0.0829,
+      "formAvgGF": 1.8119,
+      "formAvgGA": 0.9252,
+      "formScore": 0.0886
     },
     "Iran": {
       "elo": 1886,
       "attack": 1.4928754415485372,
       "defense": 0.5167061603981811,
       "powerIndex": 80,
-      "matchesAnalyzed": 452
+      "matchesAnalyzed": 452,
+      "formWinRate": 0.6018,
+      "formDrawRate": 0.1804,
+      "formAvgGF": 1.9926,
+      "formAvgGA": 0.5512,
+      "formScore": 0.4561
     },
     "Poland": {
       "elo": 1730,
       "attack": 1.2545145571527718,
       "defense": 0.8982750349892683,
       "powerIndex": 67,
-      "matchesAnalyzed": 445
+      "matchesAnalyzed": 445,
+      "formWinRate": 0.3934,
+      "formDrawRate": 0.3129,
+      "formAvgGF": 1.6449,
+      "formAvgGA": 1.5826,
+      "formScore": 0.2249
     },
     "United States": {
       "elo": 1824,
       "attack": 1.3167724598827297,
       "defense": 0.7251268758010164,
       "powerIndex": 74,
-      "matchesAnalyzed": 618
+      "matchesAnalyzed": 618,
+      "formWinRate": 0.4605,
+      "formDrawRate": 0.0599,
+      "formAvgGF": 1.8482,
+      "formAvgGA": 1.9316,
+      "formScore": 0.0047
     },
     "Costa Rica": {
       "elo": 1710,
       "attack": 1.1153585885067554,
       "defense": 0.8259010401873685,
       "powerIndex": 66,
-      "matchesAnalyzed": 514
+      "matchesAnalyzed": 514,
+      "formWinRate": 0.0829,
+      "formDrawRate": 0.4741,
+      "formAvgGF": 1.1052,
+      "formAvgGA": 2.1214,
+      "formScore": -0.1705
     },
     "Romania": {
       "elo": 1621,
       "attack": 1.1414142539132452,
       "defense": 0.7613146806414431,
       "powerIndex": 59,
-      "matchesAnalyzed": 395
+      "matchesAnalyzed": 395,
+      "formWinRate": 0.4146,
+      "formDrawRate": 0.2096,
+      "formAvgGF": 1.5896,
+      "formAvgGA": 1.3677,
+      "formScore": 0.1227
     },
     "South Korea": {
       "elo": 1883,
       "attack": 1.3607906665451344,
       "defense": 0.6018954001083157,
       "powerIndex": 79,
-      "matchesAnalyzed": 554
+      "matchesAnalyzed": 554,
+      "formWinRate": 0.6396,
+      "formDrawRate": 0.0509,
+      "formAvgGF": 1.573,
+      "formAvgGA": 0.9949,
+      "formScore": 0.3504
     },
     "Norway": {
       "elo": 1955,
       "attack": 1.5856031120268301,
       "defense": 0.7433269179796528,
       "powerIndex": 85,
-      "matchesAnalyzed": 394
+      "matchesAnalyzed": 394,
+      "formWinRate": 0.4931,
+      "formDrawRate": 0.3922,
+      "formAvgGF": 2.4721,
+      "formAvgGA": 0.8766,
+      "formScore": 0.5353
     },
     "Denmark": {
       "elo": 1856,
       "attack": 1.3828319754103924,
       "defense": 0.6680612842277367,
       "powerIndex": 77,
-      "matchesAnalyzed": 392
+      "matchesAnalyzed": 392,
+      "formWinRate": 0.4827,
+      "formDrawRate": 0.4198,
+      "formAvgGF": 2.1862,
+      "formAvgGA": 1.0828,
+      "formScore": 0.5531
     },
     "Malta": {
       "elo": 1342,
       "attack": 0.47625071420087634,
       "defense": 1.5698490499119222,
       "powerIndex": 36,
-      "matchesAnalyzed": 338
+      "matchesAnalyzed": 338,
+      "formWinRate": 0.3719,
+      "formDrawRate": 0.1031,
+      "formAvgGF": 1.2856,
+      "formAvgGA": 1.9813,
+      "formScore": -0.1118
     },
     "Uganda": {
       "elo": 1539,
       "attack": 0.772252984763466,
       "defense": 0.6978335688727635,
       "powerIndex": 53,
-      "matchesAnalyzed": 395
+      "matchesAnalyzed": 395,
+      "formWinRate": 0.2787,
+      "formDrawRate": 0.202,
+      "formAvgGF": 1.1953,
+      "formAvgGA": 1.8892,
+      "formScore": -0.1598
     },
     "Mauritius": {
       "elo": 1245,
       "attack": 0.5614321579468278,
       "defense": 1.1323408842051284,
       "powerIndex": 31,
-      "matchesAnalyzed": 218
+      "matchesAnalyzed": 218,
+      "formWinRate": 0.0433,
+      "formDrawRate": 0.3352,
+      "formAvgGF": 0.5139,
+      "formAvgGA": 1.5605,
+      "formScore": -0.4443
     },
     "Togo": {
       "elo": 1459,
       "attack": 0.664253515726903,
       "defense": 0.8720265930907628,
       "powerIndex": 47,
-      "matchesAnalyzed": 306
+      "matchesAnalyzed": 306,
+      "formWinRate": 0.2849,
+      "formDrawRate": 0.4873,
+      "formAvgGF": 0.9298,
+      "formAvgGA": 0.9166,
+      "formScore": 0.252
     },
     "Finland": {
       "elo": 1537,
       "attack": 0.8398673934669637,
       "defense": 0.9911185885233094,
       "powerIndex": 52,
-      "matchesAnalyzed": 396
+      "matchesAnalyzed": 396,
+      "formWinRate": 0.2721,
+      "formDrawRate": 0.1349,
+      "formAvgGF": 1.1117,
+      "formAvgGA": 1.7639,
+      "formScore": -0.2669
     },
     "Bermuda": {
       "elo": 1352,
       "attack": 1.20258554741971,
       "defense": 1.732838787364786,
       "powerIndex": 38,
-      "matchesAnalyzed": 156
+      "matchesAnalyzed": 156,
+      "formWinRate": 0.2809,
+      "formDrawRate": 0.1349,
+      "formAvgGF": 1.2892,
+      "formAvgGA": 2.5306,
+      "formScore": -0.2492
     },
     "Sweden": {
       "elo": 1712,
       "attack": 1.2110993667745078,
       "defense": 0.8984883050619771,
       "powerIndex": 66,
-      "matchesAnalyzed": 460
+      "matchesAnalyzed": 460,
+      "formWinRate": 0.2496,
+      "formDrawRate": 0.3275,
+      "formAvgGF": 1.5481,
+      "formAvgGA": 2.0419,
+      "formScore": -0.0422
     },
     "Iraq": {
       "elo": 1774,
       "attack": 0.9764431079055444,
       "defense": 0.664557175536011,
       "powerIndex": 70,
-      "matchesAnalyzed": 432
+      "matchesAnalyzed": 432,
+      "formWinRate": 0.5069,
+      "formDrawRate": 0.2809,
+      "formAvgGF": 1.0927,
+      "formAvgGA": 0.8126,
+      "formScore": 0.4071
     },
     "Russia": {
       "elo": 1808,
       "attack": 1.4035379162658552,
       "defense": 0.6630921054484235,
       "powerIndex": 74,
-      "matchesAnalyzed": 387
+      "matchesAnalyzed": 387,
+      "formWinRate": 0.4827,
+      "formDrawRate": 0.2611,
+      "formAvgGF": 1.5219,
+      "formAvgGA": 0.6621,
+      "formScore": 0.3309
     },
     "Gambia": {
       "elo": 1529,
       "attack": 1.1559397889711378,
       "defense": 1.0356028732780693,
       "powerIndex": 53,
-      "matchesAnalyzed": 177
+      "matchesAnalyzed": 177,
+      "formWinRate": 0.3189,
+      "formDrawRate": 0.1948,
+      "formAvgGF": 2.2495,
+      "formAvgGA": 1.9209,
+      "formScore": -0.0894
     },
     "Guinea-Bissau": {
       "elo": 1356,
       "attack": 0.6401915148457507,
       "defense": 0.970598479514347,
       "powerIndex": 39,
-      "matchesAnalyzed": 139
+      "matchesAnalyzed": 139,
+      "formWinRate": 0.0975,
+      "formDrawRate": 0.2696,
+      "formAvgGF": 0.5588,
+      "formAvgGA": 1.7454,
+      "formScore": -0.4275
     },
     "Bahrain": {
       "elo": 1516,
       "attack": 0.9208574302921212,
       "defense": 0.8202112607842421,
       "powerIndex": 52,
-      "matchesAnalyzed": 463
+      "matchesAnalyzed": 463,
+      "formWinRate": 0.2563,
+      "formDrawRate": 0.0509,
+      "formAvgGF": 1.0081,
+      "formAvgGA": 1.8775,
+      "formScore": -0.4162
     },
     "Morocco": {
       "elo": 1981,
       "attack": 1.429538151467826,
       "defense": 0.3633790742078519,
       "powerIndex": 87,
-      "matchesAnalyzed": 404
+      "matchesAnalyzed": 404,
+      "formWinRate": 0.6453,
+      "formDrawRate": 0.3547,
+      "formAvgGF": 2.3724,
+      "formAvgGA": 0.399,
+      "formScore": 0.7872
     },
     "Netherlands": {
       "elo": 1954,
       "attack": 1.7310328644961417,
       "defense": 0.683522654633034,
       "powerIndex": 85,
-      "matchesAnalyzed": 424
+      "matchesAnalyzed": 424,
+      "formWinRate": 0.5802,
+      "formDrawRate": 0.2611,
+      "formAvgGF": 1.9279,
+      "formAvgGA": 0.8231,
+      "formScore": 0.5258
     },
     "Italy": {
       "elo": 1844,
       "attack": 1.3528257414185019,
       "defense": 0.6956361889726839,
       "powerIndex": 76,
-      "matchesAnalyzed": 433
+      "matchesAnalyzed": 433,
+      "formWinRate": 0.7676,
+      "formDrawRate": 0.1349,
+      "formAvgGF": 1.8348,
+      "formAvgGA": 0.7884,
+      "formScore": 0.724
     },
     "Spain": {
       "elo": 2148,
       "attack": 1.7870809792133358,
       "defense": 0.5386634600990087,
       "powerIndex": 88,
-      "matchesAnalyzed": 440
+      "matchesAnalyzed": 440,
+      "formWinRate": 0.6088,
+      "formDrawRate": 0.3912,
+      "formAvgGF": 2.4263,
+      "formAvgGA": 0.5405,
+      "formScore": 0.7653
     },
     "Czechoslovakia": {
       "elo": 1630,
       "attack": 1.300001820633854,
       "defense": 0.7445485826538595,
       "powerIndex": 61,
-      "matchesAnalyzed": 40
+      "matchesAnalyzed": 40,
+      "formWinRate": 0.4218,
+      "formDrawRate": 0.5349,
+      "formAvgGF": 2.0377,
+      "formAvgGA": 0.7646,
+      "formScore": 0.5925
     },
     "Oman": {
       "elo": 1583,
       "attack": 0.8950419207413995,
       "defense": 0.7090207755527186,
       "powerIndex": 56,
-      "matchesAnalyzed": 476
+      "matchesAnalyzed": 476,
+      "formWinRate": 0.2292,
+      "formDrawRate": 0.3266,
+      "formAvgGF": 0.6762,
+      "formAvgGA": 1.2772,
+      "formScore": -0.0844
     },
     "Qatar": {
       "elo": 1586,
       "attack": 1.176664806921691,
       "defense": 0.908310546192279,
       "powerIndex": 57,
-      "matchesAnalyzed": 501
+      "matchesAnalyzed": 501,
+      "formWinRate": 0.0704,
+      "formDrawRate": 0.4046,
+      "formAvgGF": 0.4759,
+      "formAvgGA": 1.302,
+      "formScore": -0.2927
     },
     "Austria": {
       "elo": 1832,
       "attack": 1.3677064610532823,
       "defense": 0.7607150624939724,
       "powerIndex": 75,
-      "matchesAnalyzed": 342
+      "matchesAnalyzed": 342,
+      "formWinRate": 0.8024,
+      "formDrawRate": 0.1147,
+      "formAvgGF": 2.378,
+      "formAvgGA": 0.3924,
+      "formScore": 0.7654
     },
     "Germany": {
       "elo": 1962,
       "attack": 1.7854096994180035,
       "defense": 0.7309387664447831,
       "powerIndex": 85,
-      "matchesAnalyzed": 481
+      "matchesAnalyzed": 481,
+      "formWinRate": 0.9567,
+      "formDrawRate": 0,
+      "formAvgGF": 2.9506,
+      "formAvgGA": 0.8032,
+      "formScore": 0.9135
     },
     "Zambia": {
       "elo": 1509,
       "attack": 0.8794904075673844,
       "defense": 0.9031786788057287,
       "powerIndex": 51,
-      "matchesAnalyzed": 505
+      "matchesAnalyzed": 505,
+      "formWinRate": 0.0599,
+      "formDrawRate": 0.2496,
+      "formAvgGF": 0.4524,
+      "formAvgGA": 2.4544,
+      "formScore": -0.5308
     },
     "Mozambique": {
       "elo": 1489,
       "attack": 0.7773802173504303,
       "defense": 1.014392591346904,
       "powerIndex": 49,
-      "matchesAnalyzed": 324
+      "matchesAnalyzed": 324,
+      "formWinRate": 0.2563,
+      "formDrawRate": 0.0975,
+      "formAvgGF": 0.9907,
+      "formAvgGA": 2.0198,
+      "formScore": -0.351
     },
     "Angola": {
       "elo": 1548,
       "attack": 0.785194234007956,
       "defense": 0.6740267143151226,
       "powerIndex": 54,
-      "matchesAnalyzed": 349
+      "matchesAnalyzed": 349,
+      "formWinRate": 0.1484,
+      "formDrawRate": 0.6108,
+      "formAvgGF": 1.0013,
+      "formAvgGA": 1.1257,
+      "formScore": 0.1519
     },
     "Lesotho": {
       "elo": 1420,
       "attack": 0.5526389356646274,
       "defense": 1.0353270802475107,
       "powerIndex": 43,
-      "matchesAnalyzed": 264
+      "matchesAnalyzed": 264,
+      "formWinRate": 0.1656,
+      "formDrawRate": 0.3816,
+      "formAvgGF": 0.6115,
+      "formAvgGA": 1.446,
+      "formScore": -0.1346
     },
     "Zimbabwe": {
       "elo": 1434,
       "attack": 0.6953892975723912,
       "defense": 0.8489861150359148,
       "powerIndex": 45,
-      "matchesAnalyzed": 364
+      "matchesAnalyzed": 364,
+      "formWinRate": 0.3922,
+      "formDrawRate": 0.1408,
+      "formAvgGF": 1.2021,
+      "formAvgGA": 1.2258,
+      "formScore": -0.0186
     },
     "Jamaica": {
       "elo": 1656,
       "attack": 0.9553527812526945,
       "defense": 0.8299372772274352,
       "powerIndex": 62,
-      "matchesAnalyzed": 512
+      "matchesAnalyzed": 512,
+      "formWinRate": 0.3662,
+      "formDrawRate": 0.1303,
+      "formAvgGF": 0.7137,
+      "formAvgGA": 0.9241,
+      "formScore": -0.0852
     },
     "Barbados": {
       "elo": 1158,
       "attack": 0.9682995325384179,
       "defense": 1.5528419332092114,
       "powerIndex": 24,
-      "matchesAnalyzed": 217
+      "matchesAnalyzed": 217,
+      "formWinRate": 0.1147,
+      "formDrawRate": 0.2132,
+      "formAvgGF": 1.2527,
+      "formAvgGA": 2.3762,
+      "formScore": -0.4721
     },
     "Hungary": {
       "elo": 1714,
       "attack": 1.0375334468345876,
       "defense": 0.968375360369478,
       "powerIndex": 65,
-      "matchesAnalyzed": 373
+      "matchesAnalyzed": 373,
+      "formWinRate": 0.5329,
+      "formDrawRate": 0.2925,
+      "formAvgGF": 1.4501,
+      "formAvgGA": 1.0213,
+      "formScore": 0.4753
     },
     "Basque Country": {
       "elo": 1714,
       "attack": 1.5539645304114866,
       "defense": 0.5380851818259716,
       "powerIndex": 68,
-      "matchesAnalyzed": 33
+      "matchesAnalyzed": 33,
+      "formWinRate": 0.6052,
+      "formDrawRate": 0.3948,
+      "formAvgGF": 2.0683,
+      "formAvgGA": 0.6929,
+      "formScore": 0.7631
     },
     "Sint Maarten": {
       "elo": 1329,
       "attack": 1.1480411724307282,
       "defense": 1.8640401370541153,
       "powerIndex": 36,
-      "matchesAnalyzed": 57
+      "matchesAnalyzed": 57,
+      "formWinRate": 0.4943,
+      "formDrawRate": 0.3015,
+      "formAvgGF": 1.3152,
+      "formAvgGA": 1.8163,
+      "formScore": 0.4107
     },
     "Cayman Islands": {
       "elo": 1090,
       "attack": 0.5813291571042748,
       "defense": 1.7295110715860873,
       "powerIndex": 19,
-      "matchesAnalyzed": 118
+      "matchesAnalyzed": 118,
+      "formWinRate": 0.2324,
+      "formDrawRate": 0.1147,
+      "formAvgGF": 1.068,
+      "formAvgGA": 2.3428,
+      "formScore": -0.3745
     },
     "Saint Kitts and Nevis": {
       "elo": 1288,
       "attack": 1.1045636884458074,
       "defense": 1.4412161845492952,
       "powerIndex": 34,
-      "matchesAnalyzed": 213
+      "matchesAnalyzed": 213,
+      "formWinRate": 0.4104,
+      "formDrawRate": 0.1147,
+      "formAvgGF": 2.06,
+      "formAvgGA": 2.7255,
+      "formScore": -0.0186
     },
     "Antigua and Barbuda": {
       "elo": 1157,
       "attack": 0.7425820704100432,
       "defense": 1.4400914462444272,
       "powerIndex": 24,
-      "matchesAnalyzed": 199
+      "matchesAnalyzed": 199,
+      "formWinRate": 0,
+      "formDrawRate": 0.2563,
+      "formAvgGF": 0.3129,
+      "formAvgGA": 2.0864,
+      "formScore": -0.6412
     },
     "Saint Martin": {
       "elo": 1327,
       "attack": 1.3450630367046172,
       "defense": 1.3707136537460711,
       "powerIndex": 38,
-      "matchesAnalyzed": 68
+      "matchesAnalyzed": 68,
+      "formWinRate": 0.5816,
+      "formDrawRate": 0,
+      "formAvgGF": 1.8216,
+      "formAvgGA": 1.4036,
+      "formScore": 0.1631
     },
     "British Virgin Islands": {
       "elo": 1078,
       "attack": 0.6255816063706323,
       "defense": 1.7616656047883164,
       "powerIndex": 18,
-      "matchesAnalyzed": 119
+      "matchesAnalyzed": 119,
+      "formWinRate": 0.5021,
+      "formDrawRate": 0.158,
+      "formAvgGF": 1.8924,
+      "formAvgGA": 1.3702,
+      "formScore": 0.2253
     },
     "Northern Ireland": {
       "elo": 1620,
       "attack": 0.7697220543477593,
       "defense": 0.8698658083622162,
       "powerIndex": 58,
-      "matchesAnalyzed": 305
+      "matchesAnalyzed": 305,
+      "formWinRate": 0.3594,
+      "formDrawRate": 0.1349,
+      "formAvgGF": 0.8784,
+      "formAvgGA": 1.2739,
+      "formScore": -0.0923
     },
     "England": {
       "elo": 2045,
       "attack": 1.6466324509066905,
       "defense": 0.43482667672324526,
       "powerIndex": 88,
-      "matchesAnalyzed": 429
+      "matchesAnalyzed": 429,
+      "formWinRate": 0.663,
+      "formDrawRate": 0.1349,
+      "formAvgGF": 1.8162,
+      "formAvgGA": 0.4235,
+      "formScore": 0.515
     },
     "Brazil": {
       "elo": 1989,
       "attack": 1.3731739387264796,
       "defense": 0.5303997802559245,
       "powerIndex": 87,
-      "matchesAnalyzed": 530
+      "matchesAnalyzed": 530,
+      "formWinRate": 0.6665,
+      "formDrawRate": 0.0975,
+      "formAvgGF": 2.6789,
+      "formAvgGA": 1.2283,
+      "formScore": 0.4694
     },
     "Israel": {
       "elo": 1621,
       "attack": 1.191650759716985,
       "defense": 1.282396338964778,
       "powerIndex": 58,
-      "matchesAnalyzed": 308
+      "matchesAnalyzed": 308,
+      "formWinRate": 0.4757,
+      "formDrawRate": 0.2735,
+      "formAvgGF": 1.746,
+      "formAvgGA": 1.5548,
+      "formScore": 0.3343
     },
     "Republic of Ireland": {
       "elo": 1736,
       "attack": 0.8942168035823336,
       "defense": 0.7968807177932932,
       "powerIndex": 67,
-      "matchesAnalyzed": 379
+      "matchesAnalyzed": 379,
+      "formWinRate": 0.5069,
+      "formDrawRate": 0.399,
+      "formAvgGF": 1.7079,
+      "formAvgGA": 0.6849,
+      "formScore": 0.5723
     },
     "Wales": {
       "elo": 1706,
       "attack": 1.0370408100626547,
       "defense": 0.8304589726082955,
       "powerIndex": 65,
-      "matchesAnalyzed": 309
+      "matchesAnalyzed": 309,
+      "formWinRate": 0.2236,
+      "formDrawRate": 0.4084,
+      "formAvgGF": 1.5446,
+      "formAvgGA": 1.3917,
+      "formScore": 0.019
     },
     "Luxembourg": {
       "elo": 1408,
       "attack": 0.5485479867133375,
       "defense": 1.3708165262746763,
       "powerIndex": 41,
-      "matchesAnalyzed": 291
+      "matchesAnalyzed": 291,
+      "formWinRate": 0.1868,
+      "formDrawRate": 0.0509,
+      "formAvgGF": 0.2466,
+      "formAvgGA": 1.3429,
+      "formScore": -0.5552
     },
     "Iceland": {
       "elo": 1584,
       "attack": 1.0451674026980056,
       "defense": 1.1851905196378847,
       "powerIndex": 55,
-      "matchesAnalyzed": 366
+      "matchesAnalyzed": 366,
+      "formWinRate": 0.1261,
+      "formDrawRate": 0.3641,
+      "formAvgGF": 1.1821,
+      "formAvgGA": 1.8112,
+      "formScore": -0.2379
     },
     "Yugoslavia": {
       "elo": 1635,
       "attack": 1.4945911618139298,
       "defense": 0.6860489848211985,
       "powerIndex": 62,
-      "matchesAnalyzed": 22
+      "matchesAnalyzed": 22,
+      "formWinRate": 0.3948,
+      "formDrawRate": 0.1261,
+      "formAvgGF": 1.7741,
+      "formAvgGA": 1.3822,
+      "formScore": -0.0338
     },
     "Scotland": {
       "elo": 1826,
       "attack": 1.114838921991349,
       "defense": 0.912043328144053,
       "powerIndex": 74,
-      "matchesAnalyzed": 332
+      "matchesAnalyzed": 332,
+      "formWinRate": 0.6242,
+      "formDrawRate": 0.0433,
+      "formAvgGF": 2.3601,
+      "formAvgGA": 0.9823,
+      "formScore": 0.309
     },
     "Switzerland": {
       "elo": 1911,
       "attack": 1.322232126960276,
       "defense": 0.7522535128551769,
       "powerIndex": 80,
-      "matchesAnalyzed": 381
+      "matchesAnalyzed": 381,
+      "formWinRate": 0.3957,
+      "formDrawRate": 0.4896,
+      "formAvgGF": 2.0403,
+      "formAvgGA": 0.9847,
+      "formScore": 0.4768
     },
     "Turkey": {
       "elo": 1940,
       "attack": 1.3400112721407487,
       "defense": 0.9101864868522916,
       "powerIndex": 82,
-      "matchesAnalyzed": 397
+      "matchesAnalyzed": 397,
+      "formWinRate": 0.8516,
+      "formDrawRate": 0.0975,
+      "formAvgGF": 2.3897,
+      "formAvgGA": 0.904,
+      "formScore": 0.8397
     },
     "Saint Lucia": {
       "elo": 1245,
       "attack": 0.8972989714922872,
       "defense": 1.4857528665003032,
       "powerIndex": 31,
-      "matchesAnalyzed": 183
+      "matchesAnalyzed": 183,
+      "formWinRate": 0.2089,
+      "formDrawRate": 0,
+      "formAvgGF": 0.8461,
+      "formAvgGA": 3.4533,
+      "formScore": -0.5823
     },
     "Grenada": {
       "elo": 1321,
       "attack": 0.9575877638421416,
       "defense": 1.4823507670530578,
       "powerIndex": 36,
-      "matchesAnalyzed": 201
+      "matchesAnalyzed": 201,
+      "formWinRate": 0.3616,
+      "formDrawRate": 0,
+      "formAvgGF": 1.1988,
+      "formAvgGA": 2.5046,
+      "formScore": -0.2769
     },
     "Curaçao": {
       "elo": 1644,
       "attack": 1.4330976593302935,
       "defense": 0.8020283335092472,
       "powerIndex": 62,
-      "matchesAnalyzed": 176
+      "matchesAnalyzed": 176,
+      "formWinRate": 0.3804,
+      "formDrawRate": 0.2112,
+      "formAvgGF": 1.9637,
+      "formAvgGA": 1.7114,
+      "formScore": 0.0565
     },
     "Martinique": {
       "elo": 1481,
       "attack": 0.8662893818780608,
       "defense": 1.039350483691795,
       "powerIndex": 48,
-      "matchesAnalyzed": 215
+      "matchesAnalyzed": 215,
+      "formWinRate": 0.0599,
+      "formDrawRate": 0.415,
+      "formAvgGF": 0.5224,
+      "formAvgGA": 1.1456,
+      "formScore": -0.2992
     },
     "French Guiana": {
       "elo": 1447,
       "attack": 1.176272611754002,
       "defense": 0.9799816459141103,
       "powerIndex": 47,
-      "matchesAnalyzed": 136
+      "matchesAnalyzed": 136,
+      "formWinRate": 0.1646,
+      "formDrawRate": 0.2843,
+      "formAvgGF": 1.5686,
+      "formAvgGA": 1.7278,
+      "formScore": -0.2728
     },
     "Saint Vincent and the Grenadines": {
       "elo": 1354,
       "attack": 1.2164196612764755,
       "defense": 1.5619753161422407,
       "powerIndex": 38,
-      "matchesAnalyzed": 173
+      "matchesAnalyzed": 173,
+      "formWinRate": 0.6052,
+      "formDrawRate": 0.0509,
+      "formAvgGF": 2.4118,
+      "formAvgGA": 1.4059,
+      "formScore": 0.2817
     },
     "Dominica": {
       "elo": 1198,
       "attack": 0.8042212226837113,
       "defense": 1.4716913053155174,
       "powerIndex": 27,
-      "matchesAnalyzed": 149
+      "matchesAnalyzed": 149,
+      "formWinRate": 0.0829,
+      "formDrawRate": 0.368,
+      "formAvgGF": 0.6765,
+      "formAvgGA": 1.6988,
+      "formScore": -0.3191
     },
     "Gabon": {
       "elo": 1553,
       "attack": 1.0189964561920364,
       "defense": 0.9233263661529222,
       "powerIndex": 54,
-      "matchesAnalyzed": 313
+      "matchesAnalyzed": 313,
+      "formWinRate": 0.1736,
+      "formDrawRate": 0.2377,
+      "formAvgGF": 1.6679,
+      "formAvgGA": 2.2073,
+      "formScore": -0.3201
     },
     "Suriname": {
       "elo": 1596,
       "attack": 1.2222453596467147,
       "defense": 0.8269115366423612,
       "powerIndex": 58,
-      "matchesAnalyzed": 189
+      "matchesAnalyzed": 189,
+      "formWinRate": 0.2178,
+      "formDrawRate": 0.3425,
+      "formAvgGF": 1.393,
+      "formAvgGA": 1.4197,
+      "formScore": -0.0849
     },
     "Guyana": {
       "elo": 1496,
       "attack": 1.3320927734627352,
       "defense": 1.2068599591032358,
       "powerIndex": 50,
-      "matchesAnalyzed": 184
+      "matchesAnalyzed": 184,
+      "formWinRate": 0.8467,
+      "formDrawRate": 0,
+      "formAvgGF": 2.5466,
+      "formAvgGA": 0.9759,
+      "formScore": 0.6934
     },
     "Guadeloupe": {
       "elo": 1537,
       "attack": 1.3119288211143179,
       "defense": 0.8551399269982347,
       "powerIndex": 54,
-      "matchesAnalyzed": 171
+      "matchesAnalyzed": 171,
+      "formWinRate": 0.4088,
+      "formDrawRate": 0.0599,
+      "formAvgGF": 1.5631,
+      "formAvgGA": 1.6034,
+      "formScore": -0.0986
     },
     "Bulgaria": {
       "elo": 1498,
       "attack": 0.7481923600844482,
       "defense": 1.2573613158172516,
       "powerIndex": 48,
-      "matchesAnalyzed": 343
+      "matchesAnalyzed": 343,
+      "formWinRate": 0.3471,
+      "formDrawRate": 0.1868,
+      "formAvgGF": 1.9103,
+      "formAvgGA": 1.9484,
+      "formScore": -0.0442
     },
     "Canada": {
       "elo": 1870,
       "attack": 1.3191033589702925,
       "defense": 0.657593113568911,
       "powerIndex": 78,
-      "matchesAnalyzed": 331
+      "matchesAnalyzed": 331,
+      "formWinRate": 0.3504,
+      "formDrawRate": 0.5897,
+      "formAvgGF": 1.1093,
+      "formAvgGA": 0.476,
+      "formScore": 0.5264
     },
     "Mauritania": {
       "elo": 1435,
       "attack": 0.5081087038060997,
       "defense": 0.9251301196826313,
       "powerIndex": 45,
-      "matchesAnalyzed": 200
+      "matchesAnalyzed": 200,
+      "formWinRate": 0.23,
+      "formDrawRate": 0.3524,
+      "formAvgGF": 0.6499,
+      "formAvgGA": 1.1202,
+      "formScore": -0.0466
     },
     "Burkina Faso": {
       "elo": 1664,
       "attack": 1.1534831813955462,
       "defense": 0.7238225027445281,
       "powerIndex": 63,
-      "matchesAnalyzed": 370
+      "matchesAnalyzed": 370,
+      "formWinRate": 0.4569,
+      "formDrawRate": 0.1588,
+      "formAvgGF": 1.6314,
+      "formAvgGA": 1.3615,
+      "formScore": 0.1361
     },
     "Georgia": {
       "elo": 1641,
       "attack": 0.9822337205165627,
       "defense": 1.0585910000311898,
       "powerIndex": 60,
-      "matchesAnalyzed": 306
+      "matchesAnalyzed": 306,
+      "formWinRate": 0.3726,
+      "formDrawRate": 0.2735,
+      "formAvgGF": 1.4387,
+      "formAvgGA": 1.4459,
+      "formScore": 0.128
     },
     "Lithuania": {
       "elo": 1315,
       "attack": 0.5243735641839029,
       "defense": 1.31368262961265,
       "powerIndex": 35,
-      "matchesAnalyzed": 344
+      "matchesAnalyzed": 344,
+      "formWinRate": 0.1349,
+      "formDrawRate": 0.3352,
+      "formAvgGF": 0.6977,
+      "formAvgGA": 1.7165,
+      "formScore": -0.2609
     },
     "Ghana": {
       "elo": 1654,
       "attack": 1.0866682520752873,
       "defense": 0.7263743645023706,
       "powerIndex": 62,
-      "matchesAnalyzed": 419
+      "matchesAnalyzed": 419,
+      "formWinRate": 0.1812,
+      "formDrawRate": 0.23,
+      "formAvgGF": 0.9004,
+      "formAvgGA": 1.6542,
+      "formScore": -0.3155
     },
     "Albania": {
       "elo": 1637,
       "attack": 0.7738062297543543,
       "defense": 0.771997933611638,
       "powerIndex": 60,
-      "matchesAnalyzed": 311
+      "matchesAnalyzed": 311,
+      "formWinRate": 0.3073,
+      "formDrawRate": 0,
+      "formAvgGF": 0.6334,
+      "formAvgGA": 1.0457,
+      "formScore": -0.3853
     },
     "Liechtenstein": {
       "elo": 964,
       "attack": 0.19630751058925708,
       "defense": 2.0874774800878817,
       "powerIndex": 16,
-      "matchesAnalyzed": 253
+      "matchesAnalyzed": 253,
+      "formWinRate": 0.1147,
+      "formDrawRate": 0,
+      "formAvgGF": 0.3201,
+      "formAvgGA": 2.8906,
+      "formScore": -0.7706
     },
     "Jordan": {
       "elo": 1772,
       "attack": 1.2057782854703902,
       "defense": 0.7307308784269574,
       "powerIndex": 70,
-      "matchesAnalyzed": 427
+      "matchesAnalyzed": 427,
+      "formWinRate": 0.3073,
+      "formDrawRate": 0.2496,
+      "formAvgGF": 1.4252,
+      "formAvgGA": 1.8945,
+      "formScore": -0.0358
     },
     "Tunisia": {
       "elo": 1757,
       "attack": 1.1007328731741033,
       "defense": 0.5120410845569335,
       "powerIndex": 70,
-      "matchesAnalyzed": 454
+      "matchesAnalyzed": 454,
+      "formWinRate": 0.2255,
+      "formDrawRate": 0.3586,
+      "formAvgGF": 0.8548,
+      "formAvgGA": 1.6307,
+      "formScore": -0.0471
     },
     "Namibia": {
       "elo": 1405,
       "attack": 0.6872843962766083,
       "defense": 0.8672420669003137,
       "powerIndex": 43,
-      "matchesAnalyzed": 278
+      "matchesAnalyzed": 278,
+      "formWinRate": 0.1137,
+      "formDrawRate": 0.2377,
+      "formAvgGF": 0.4482,
+      "formAvgGA": 1.6837,
+      "formScore": -0.4399
     },
     "China": {
       "elo": 1565,
       "attack": 1.0061550129007433,
       "defense": 0.9363013939593543,
       "powerIndex": 55,
-      "matchesAnalyzed": 443
+      "matchesAnalyzed": 443,
+      "formWinRate": 0.4625,
+      "formDrawRate": 0.1147,
+      "formAvgGF": 1.0645,
+      "formAvgGA": 1.17,
+      "formScore": 0.0855
     },
     "North Korea": {
       "elo": 1481,
       "attack": 0.9559605648468538,
       "defense": 1.1010203882474157,
       "powerIndex": 48,
-      "matchesAnalyzed": 275
+      "matchesAnalyzed": 275,
+      "formWinRate": 0,
+      "formDrawRate": 0.3504,
+      "formAvgGF": 0.9429,
+      "formAvgGA": 2.3102,
+      "formScore": -0.5094
     },
     "Japan": {
       "elo": 1985,
       "attack": 1.7765888643768575,
       "defense": 0.516622609654512,
       "powerIndex": 88,
-      "matchesAnalyzed": 523
+      "matchesAnalyzed": 523,
+      "formWinRate": 0.8188,
+      "formDrawRate": 0.1213,
+      "formAvgGF": 1.6686,
+      "formAvgGA": 0.4264,
+      "formScore": 0.8075
     },
     "Trinidad and Tobago": {
       "elo": 1535,
       "attack": 1.139947636614391,
       "defense": 1.1324675506135449,
       "powerIndex": 53,
-      "matchesAnalyzed": 460
+      "matchesAnalyzed": 460,
+      "formWinRate": 0.0599,
+      "formDrawRate": 0.4528,
+      "formAvgGF": 0.9804,
+      "formAvgGA": 2.5853,
+      "formScore": -0.2463
     },
     "DR Congo": {
       "elo": 1774,
       "attack": 0.9556606588410566,
       "defense": 0.5764009091972506,
       "powerIndex": 70,
-      "matchesAnalyzed": 341
+      "matchesAnalyzed": 341,
+      "formWinRate": 0.5558,
+      "formDrawRate": 0.3295,
+      "formAvgGF": 1.0285,
+      "formAvgGA": 0.2574,
+      "formScore": 0.5729
     },
     "Faroe Islands": {
       "elo": 1423,
       "attack": 0.5907792011518515,
       "defense": 1.2475766329528288,
       "powerIndex": 43,
-      "matchesAnalyzed": 259
+      "matchesAnalyzed": 259,
+      "formWinRate": 0.5954,
+      "formDrawRate": 0,
+      "formAvgGF": 1.2659,
+      "formAvgGA": 0.9411,
+      "formScore": 0.1908
     },
     "Réunion": {
       "elo": 1584,
       "attack": 1.177670267175479,
       "defense": 0.45608408146007423,
       "powerIndex": 58,
-      "matchesAnalyzed": 58
+      "matchesAnalyzed": 58,
+      "formWinRate": 0.3957,
+      "formDrawRate": 0.3471,
+      "formAvgGF": 1.2747,
+      "formAvgGA": 0.6917,
+      "formScore": 0.2773
     },
     "Congo": {
       "elo": 1319,
       "attack": 0.6776107853731029,
       "defense": 1.3268750203001034,
       "powerIndex": 36,
-      "matchesAnalyzed": 235
+      "matchesAnalyzed": 235,
+      "formWinRate": 0.0509,
+      "formDrawRate": 0.2178,
+      "formAvgGF": 0.6225,
+      "formAvgGA": 2.0195,
+      "formScore": -0.5933
     },
     "New Zealand": {
       "elo": 1731,
       "attack": 1.6418820586983904,
       "defense": 0.675336765243629,
       "powerIndex": 69,
-      "matchesAnalyzed": 234
+      "matchesAnalyzed": 234,
+      "formWinRate": 0.1349,
+      "formDrawRate": 0.0704,
+      "formAvgGF": 0.744,
+      "formAvgGA": 1.8731,
+      "formScore": -0.6315
     },
     "Ethiopia": {
       "elo": 1388,
       "attack": 0.7320661198288306,
       "defense": 1.017569918637919,
       "powerIndex": 41,
-      "matchesAnalyzed": 243
+      "matchesAnalyzed": 243,
+      "formWinRate": 0.4645,
+      "formDrawRate": 0,
+      "formAvgGF": 1.0974,
+      "formAvgGA": 1.4158,
+      "formScore": -0.0711
     },
     "Sudan": {
       "elo": 1462,
       "attack": 0.5529564027934746,
       "defense": 0.8980401737910604,
       "powerIndex": 46,
-      "matchesAnalyzed": 337
+      "matchesAnalyzed": 337,
+      "formWinRate": 0.1948,
+      "formDrawRate": 0.0704,
+      "formAvgGF": 0.539,
+      "formAvgGA": 1.8851,
+      "formScore": -0.5118
     },
     "Singapore": {
       "elo": 1337,
       "attack": 0.9349050024010048,
       "defense": 1.368051571667562,
       "powerIndex": 37,
-      "matchesAnalyzed": 380
+      "matchesAnalyzed": 380,
+      "formWinRate": 0.4853,
+      "formDrawRate": 0.1533,
+      "formAvgGF": 1.9608,
+      "formAvgGA": 1.3173,
+      "formScore": 0.1853
     },
     "Guinea": {
       "elo": 1547,
       "attack": 0.9064013336015355,
       "defense": 0.8221225420970512,
       "powerIndex": 54,
-      "matchesAnalyzed": 306
+      "matchesAnalyzed": 306,
+      "formWinRate": 0.2188,
+      "formDrawRate": 0.3924,
+      "formAvgGF": 1.0389,
+      "formAvgGA": 1.0095,
+      "formScore": -0.013
     },
     "Sierra Leone": {
       "elo": 1490,
       "attack": 0.7892501303859769,
       "defense": 0.9465877585158353,
       "powerIndex": 49,
-      "matchesAnalyzed": 193
+      "matchesAnalyzed": 193,
+      "formWinRate": 0.4791,
+      "formDrawRate": 0.2849,
+      "formAvgGF": 1.1162,
+      "formAvgGA": 0.7666,
+      "formScore": 0.357
     },
     "Niger": {
       "elo": 1516,
       "attack": 0.8193404031062892,
       "defense": 1.1342135648125151,
       "powerIndex": 51,
-      "matchesAnalyzed": 199
+      "matchesAnalyzed": 199,
+      "formWinRate": 0.1812,
+      "formDrawRate": 0.371,
+      "formAvgGF": 0.7229,
+      "formAvgGA": 1.1027,
+      "formScore": -0.1183
     },
     "Madagascar": {
       "elo": 1534,
       "attack": 0.9171953877954968,
       "defense": 1.007744949000137,
       "powerIndex": 52,
-      "matchesAnalyzed": 227
+      "matchesAnalyzed": 227,
+      "formWinRate": 0.4628,
+      "formDrawRate": 0.1588,
+      "formAvgGF": 1.7081,
+      "formAvgGA": 2.0015,
+      "formScore": 0.1479
     },
     "Chad": {
       "elo": 1213,
       "attack": 0.42567033935154547,
       "defense": 1.3783112032468245,
       "powerIndex": 27,
-      "matchesAnalyzed": 109
+      "matchesAnalyzed": 109,
+      "formWinRate": 0,
+      "formDrawRate": 0.3295,
+      "formAvgGF": 1.053,
+      "formAvgGA": 2.1087,
+      "formScore": -0.5387
     },
     "Benin": {
       "elo": 1554,
       "attack": 0.7699422159353909,
       "defense": 0.86182644366717,
       "powerIndex": 53,
-      "matchesAnalyzed": 241
+      "matchesAnalyzed": 241,
+      "formWinRate": 0.4198,
+      "formDrawRate": 0.1868,
+      "formAvgGF": 0.7213,
+      "formAvgGA": 1.277,
+      "formScore": 0.1011
     },
     "Comoros": {
       "elo": 1450,
       "attack": 0.7515525602631155,
       "defense": 1.000661816563352,
       "powerIndex": 46,
-      "matchesAnalyzed": 144
+      "matchesAnalyzed": 144,
+      "formWinRate": 0.0433,
+      "formDrawRate": 0.4593,
+      "formAvgGF": 0.5898,
+      "formAvgGA": 1.142,
+      "formScore": -0.2705
     },
     "Australia": {
       "elo": 1902,
       "attack": 1.4178743503494284,
       "defense": 0.5642876162887306,
       "powerIndex": 80,
-      "matchesAnalyzed": 382
+      "matchesAnalyzed": 382,
+      "formWinRate": 0.4037,
+      "formDrawRate": 0.1868,
+      "formAvgGF": 1.3024,
+      "formAvgGA": 1.0476,
+      "formScore": 0.0688
     },
     "Seychelles": {
       "elo": 1009,
       "attack": 0.29399065529448737,
       "defense": 2.5110171407742548,
       "powerIndex": 15,
-      "matchesAnalyzed": 153
+      "matchesAnalyzed": 153,
+      "formWinRate": 0,
+      "formDrawRate": 0,
+      "formAvgGF": 0.1303,
+      "formAvgGA": 5.4428,
+      "formScore": -1
     },
     "Portugal": {
       "elo": 1944,
       "attack": 1.694394740274752,
       "defense": 0.5971936397596356,
       "powerIndex": 84,
-      "matchesAnalyzed": 412
+      "matchesAnalyzed": 412,
+      "formWinRate": 0.6414,
+      "formDrawRate": 0.2611,
+      "formAvgGF": 2.4801,
+      "formAvgGA": 0.8685,
+      "formScore": 0.6484
     },
     "Malaysia": {
       "elo": 1528,
       "attack": 1.2597137109207595,
       "defense": 1.0178298462857802,
       "powerIndex": 53,
-      "matchesAnalyzed": 367
+      "matchesAnalyzed": 367,
+      "formWinRate": 0.8264,
+      "formDrawRate": 0.1031,
+      "formAvgGF": 2.1882,
+      "formAvgGA": 0.5274,
+      "formScore": 0.7972
     },
     "Yemen": {
       "elo": 1344,
       "attack": 0.8829218821375706,
       "defense": 1.176103177563164,
       "powerIndex": 38,
-      "matchesAnalyzed": 232
+      "matchesAnalyzed": 232,
+      "formWinRate": 0.5221,
+      "formDrawRate": 0.3671,
+      "formAvgGF": 3.6494,
+      "formAvgGA": 1.2068,
+      "formScore": 0.5582
     },
     "Pakistan": {
       "elo": 1141,
       "attack": 0.3745147729791739,
       "defense": 1.6614827277539226,
       "powerIndex": 21,
-      "matchesAnalyzed": 159
+      "matchesAnalyzed": 159,
+      "formWinRate": 0.3455,
+      "formDrawRate": 0.2122,
+      "formAvgGF": 0.9645,
+      "formAvgGA": 1.6483,
+      "formScore": -0.0119
     },
     "Hong Kong": {
       "elo": 1366,
       "attack": 0.943262487033632,
       "defense": 1.1029444694723565,
       "powerIndex": 40,
-      "matchesAnalyzed": 252
+      "matchesAnalyzed": 252,
+      "formWinRate": 0.427,
+      "formDrawRate": 0.3438,
+      "formAvgGF": 1.9652,
+      "formAvgGA": 1.0005,
+      "formScore": 0.3353
     },
     "Saudi Arabia": {
       "elo": 1698,
       "attack": 0.9954432149007295,
       "defense": 0.68963231678364,
       "powerIndex": 65,
-      "matchesAnalyzed": 576
+      "matchesAnalyzed": 576,
+      "formWinRate": 0.3804,
+      "formDrawRate": 0,
+      "formAvgGF": 1.3012,
+      "formAvgGA": 1.4943,
+      "formScore": -0.2392
     },
     "Bangladesh": {
       "elo": 1190,
       "attack": 0.5605845799658861,
       "defense": 1.3434222355367194,
       "powerIndex": 26,
-      "matchesAnalyzed": 230
+      "matchesAnalyzed": 230,
+      "formWinRate": 0.3726,
+      "formDrawRate": 0.3259,
+      "formAvgGF": 1.2457,
+      "formAvgGA": 1.4412,
+      "formScore": 0.2015
     },
     "Aruba": {
       "elo": 1253,
       "attack": 0.9826852367735284,
       "defense": 1.6418541500513877,
       "powerIndex": 31,
-      "matchesAnalyzed": 95
+      "matchesAnalyzed": 95,
+      "formWinRate": 0.4683,
+      "formDrawRate": 0.1679,
+      "formAvgGF": 1.7523,
+      "formAvgGA": 1.8526,
+      "formScore": 0.1717
     },
     "Croatia": {
       "elo": 1913,
       "attack": 1.3357602359555272,
       "defense": 0.6971098224284372,
       "powerIndex": 81,
-      "matchesAnalyzed": 378
+      "matchesAnalyzed": 378,
+      "formWinRate": 0.6464,
+      "formDrawRate": 0.0599,
+      "formAvgGF": 1.7371,
+      "formAvgGA": 1.3017,
+      "formScore": 0.3767
     },
     "Cyprus": {
       "elo": 1339,
       "attack": 0.6925616550374698,
       "defense": 1.4226154531802537,
       "powerIndex": 37,
-      "matchesAnalyzed": 311
+      "matchesAnalyzed": 311,
+      "formWinRate": 0.3922,
+      "formDrawRate": 0.2695,
+      "formAvgGF": 1.6354,
+      "formAvgGA": 1.3639,
+      "formScore": 0.1616
     },
     "Fiji": {
       "elo": 1410,
       "attack": 1.2704169885831156,
       "defense": 1.2836298762889196,
       "powerIndex": 44,
-      "matchesAnalyzed": 178
+      "matchesAnalyzed": 178,
+      "formWinRate": 0.0704,
+      "formDrawRate": 0.154,
+      "formAvgGF": 0.5521,
+      "formAvgGA": 2.9756,
+      "formScore": -0.6435
     },
     "Solomon Islands": {
       "elo": 1370,
       "attack": 1.34574090433169,
       "defense": 1.3834992048879686,
       "powerIndex": 41,
-      "matchesAnalyzed": 176
+      "matchesAnalyzed": 176,
+      "formWinRate": 0.1303,
+      "formDrawRate": 0,
+      "formAvgGF": 1.5925,
+      "formAvgGA": 3.5866,
+      "formScore": -0.7394
     },
     "New Caledonia": {
       "elo": 1593,
       "attack": 1.4725338090208324,
       "defense": 0.9612635595544049,
       "powerIndex": 58,
-      "matchesAnalyzed": 152
+      "matchesAnalyzed": 152,
+      "formWinRate": 0.5209,
+      "formDrawRate": 0.1574,
+      "formAvgGF": 1.7358,
+      "formAvgGA": 1.045,
+      "formScore": 0.2622
     },
     "Vanuatu": {
       "elo": 1440,
       "attack": 1.277224369588363,
       "defense": 1.5227627690447025,
       "powerIndex": 45,
-      "matchesAnalyzed": 151
+      "matchesAnalyzed": 151,
+      "formWinRate": 0.4797,
+      "formDrawRate": 0.2416,
+      "formAvgGF": 1.6651,
+      "formAvgGA": 1.769,
+      "formScore": 0.2976
     },
     "Papua New Guinea": {
       "elo": 1448,
       "attack": 1.1548900925774324,
       "defense": 1.2559069559959084,
       "powerIndex": 46,
-      "matchesAnalyzed": 103
+      "matchesAnalyzed": 103,
+      "formWinRate": 0.5492,
+      "formDrawRate": 0.3295,
+      "formAvgGF": 1.8182,
+      "formAvgGA": 1.2825,
+      "formScore": 0.5596
     },
     "Chile": {
       "elo": 1728,
       "attack": 0.7998091874088887,
       "defense": 0.9575941010081188,
       "powerIndex": 66,
-      "matchesAnalyzed": 423
+      "matchesAnalyzed": 423,
+      "formWinRate": 0.43,
+      "formDrawRate": 0.0704,
+      "formAvgGF": 1.4754,
+      "formAvgGA": 1.8007,
+      "formScore": -0.0414
     },
     "San Marino": {
       "elo": 893,
       "attack": 0.18657166160418,
       "defense": 2.7347408381873684,
       "powerIndex": 15,
-      "matchesAnalyzed": 224
+      "matchesAnalyzed": 224,
+      "formWinRate": 0,
+      "formDrawRate": 0.1588,
+      "formAvgGF": 0.4963,
+      "formAvgGA": 3.2377,
+      "formScore": -0.7777
     },
     "Guatemala": {
       "elo": 1635,
       "attack": 1.1952879262350966,
       "defense": 0.9014700504373149,
       "powerIndex": 61,
-      "matchesAnalyzed": 364
+      "matchesAnalyzed": 364,
+      "formWinRate": 0.1976,
+      "formDrawRate": 0.1303,
+      "formAvgGF": 0.9543,
+      "formAvgGA": 2.9736,
+      "formScore": -0.4224
     },
     "Central African Republic": {
       "elo": 1339,
       "attack": 0.7956685103575152,
       "defense": 1.3865375514816032,
       "powerIndex": 37,
-      "matchesAnalyzed": 104
+      "matchesAnalyzed": 104,
+      "formWinRate": 0.2416,
+      "formDrawRate": 0.2572,
+      "formAvgGF": 0.8887,
+      "formAvgGA": 2.0199,
+      "formScore": -0.1567
     },
     "Equatorial Guinea": {
       "elo": 1433,
       "attack": 0.7129088220849173,
       "defense": 0.8974316660748967,
       "powerIndex": 45,
-      "matchesAnalyzed": 160
+      "matchesAnalyzed": 160,
+      "formWinRate": 0.202,
+      "formDrawRate": 0.2572,
+      "formAvgGF": 0.7782,
+      "formAvgGA": 1.4545,
+      "formScore": -0.2359
     },
     "India": {
       "elo": 1249,
       "attack": 0.7465760662044574,
       "defense": 0.8936599283646695,
       "powerIndex": 32,
-      "matchesAnalyzed": 301
+      "matchesAnalyzed": 301,
+      "formWinRate": 0.0433,
+      "formDrawRate": 0.1338,
+      "formAvgGF": 0.4969,
+      "formAvgGA": 1.5717,
+      "formScore": -0.7262
     },
     "Paraguay": {
       "elo": 1897,
       "attack": 0.6898701922325692,
       "defense": 0.8551698338414542,
       "powerIndex": 77,
-      "matchesAnalyzed": 396
+      "matchesAnalyzed": 396,
+      "formWinRate": 0.4963,
+      "formDrawRate": 0.1213,
+      "formAvgGF": 1.5684,
+      "formAvgGA": 0.9771,
+      "formScore": 0.1624
     },
     "Nicaragua": {
       "elo": 1510,
       "attack": 1.0205007748863093,
       "defense": 1.0128067111238406,
       "powerIndex": 51,
-      "matchesAnalyzed": 177
+      "matchesAnalyzed": 177,
+      "formWinRate": 0.0975,
+      "formDrawRate": 0.2096,
+      "formAvgGF": 0.4637,
+      "formAvgGA": 2.2245,
+      "formScore": -0.5115
     },
     "El Salvador": {
       "elo": 1479,
       "attack": 0.7902849942712676,
       "defense": 0.898106755041192,
       "powerIndex": 48,
-      "matchesAnalyzed": 408
+      "matchesAnalyzed": 408,
+      "formWinRate": 0.1782,
+      "formDrawRate": 0.3015,
+      "formAvgGF": 0.4585,
+      "formAvgGA": 1.2442,
+      "formScore": -0.2215
     },
     "Haiti": {
       "elo": 1700,
       "attack": 1.5106211955613513,
       "defense": 0.897994951274318,
       "powerIndex": 66,
-      "matchesAnalyzed": 299
+      "matchesAnalyzed": 299,
+      "formWinRate": 0.399,
+      "formDrawRate": 0.2291,
+      "formAvgGF": 1.5669,
+      "formAvgGA": 0.9872,
+      "formScore": 0.1187
     },
     "Puerto Rico": {
       "elo": 1409,
       "attack": 1.4919742857416705,
       "defense": 0.9772270954620284,
       "powerIndex": 45,
-      "matchesAnalyzed": 122
+      "matchesAnalyzed": 122,
+      "formWinRate": 0.3912,
+      "formDrawRate": 0.1213,
+      "formAvgGF": 1.2245,
+      "formAvgGA": 1.8506,
+      "formScore": -0.0478
     },
     "Montserrat": {
       "elo": 1265,
       "attack": 0.8198473552070514,
       "defense": 1.4708843331658852,
       "powerIndex": 32,
-      "matchesAnalyzed": 66
+      "matchesAnalyzed": 66,
+      "formWinRate": 0.2416,
+      "formDrawRate": 0,
+      "formAvgGF": 0.5104,
+      "formAvgGA": 1.7282,
+      "formScore": -0.5167
     },
     "Dominican Republic": {
       "elo": 1489,
       "attack": 1.475654548881817,
       "defense": 0.93217497547288,
       "powerIndex": 51,
-      "matchesAnalyzed": 151
+      "matchesAnalyzed": 151,
+      "formWinRate": 0.0975,
+      "formDrawRate": 0.4683,
+      "formAvgGF": 1.1346,
+      "formAvgGA": 1.7015,
+      "formScore": -0.1494
     },
     "Panama": {
       "elo": 1807,
       "attack": 1.1321190587360441,
       "defense": 0.8879416406567111,
       "powerIndex": 72,
-      "matchesAnalyzed": 402
+      "matchesAnalyzed": 402,
+      "formWinRate": 0.3842,
+      "formDrawRate": 0.398,
+      "formAvgGF": 1.8646,
+      "formAvgGA": 1.8245,
+      "formScore": 0.3256
     },
     "Honduras": {
       "elo": 1674,
       "attack": 0.9102510268421542,
       "defense": 0.9217367643320672,
       "powerIndex": 62,
-      "matchesAnalyzed": 467
+      "matchesAnalyzed": 467,
+      "formWinRate": 0.1679,
+      "formDrawRate": 0.4797,
+      "formAvgGF": 0.7941,
+      "formAvgGA": 1.0146,
+      "formScore": 0.0075
     },
     "Anguilla": {
       "elo": 968,
       "attack": 0.3110074740248814,
       "defense": 2.5804815906464436,
       "powerIndex": 15,
-      "matchesAnalyzed": 90
+      "matchesAnalyzed": 90,
+      "formWinRate": 0.2735,
+      "formDrawRate": 0,
+      "formAvgGF": 0.8763,
+      "formAvgGA": 2.8754,
+      "formScore": -0.4531
     },
     "Peru": {
       "elo": 1702,
       "attack": 0.6427259000063317,
       "defense": 0.8759321336120662,
       "powerIndex": 63,
-      "matchesAnalyzed": 389
+      "matchesAnalyzed": 389,
+      "formWinRate": 0.1588,
+      "formDrawRate": 0.2611,
+      "formAvgGF": 1.025,
+      "formAvgGA": 1.8496,
+      "formScore": -0.317
     },
     "Ecuador": {
       "elo": 1988,
       "attack": 0.8463671838369218,
       "defense": 0.658029177243847,
       "powerIndex": 85,
-      "matchesAnalyzed": 409
+      "matchesAnalyzed": 409,
+      "formWinRate": 0.4939,
+      "formDrawRate": 0.5061,
+      "formAvgGF": 1.5037,
+      "formAvgGA": 0.5387,
+      "formScore": 0.6963
     },
     "Bolivia": {
       "elo": 1708,
       "attack": 0.6986036558071083,
       "defense": 1.4761702177679406,
       "powerIndex": 62,
-      "matchesAnalyzed": 355
+      "matchesAnalyzed": 355,
+      "formWinRate": 0.2929,
+      "formDrawRate": 0.0829,
+      "formAvgGF": 0.8989,
+      "formAvgGA": 1.8636,
+      "formScore": -0.2982
     },
     "Slovenia": {
       "elo": 1661,
       "attack": 0.8867347018298012,
       "defense": 0.7557346319089764,
       "powerIndex": 61,
-      "matchesAnalyzed": 317
+      "matchesAnalyzed": 317,
+      "formWinRate": 0.1349,
+      "formDrawRate": 0.4298,
+      "formAvgGF": 0.9344,
+      "formAvgGA": 1.4193,
+      "formScore": -0.1284
     },
     "Philippines": {
       "elo": 1370,
       "attack": 1.0378243820020892,
       "defense": 1.1232993849380064,
       "powerIndex": 41,
-      "matchesAnalyzed": 249
+      "matchesAnalyzed": 249,
+      "formWinRate": 0.7888,
+      "formDrawRate": 0.1408,
+      "formAvgGF": 2.9258,
+      "formAvgGA": 1.0287,
+      "formScore": 0.7747
     },
     "Brunei": {
       "elo": 1002,
       "attack": 0.5996385742045102,
       "defense": 2.1539903202984423,
       "powerIndex": 17,
-      "matchesAnalyzed": 103
+      "matchesAnalyzed": 103,
+      "formWinRate": 0.158,
+      "formDrawRate": 0.0599,
+      "formAvgGF": 0.3431,
+      "formAvgGA": 3.0773,
+      "formScore": -0.6003
     },
     "Shetland": {
       "elo": 1553,
       "attack": 1.6511193415002092,
       "defense": 1.0654979520636256,
       "powerIndex": 55,
-      "matchesAnalyzed": 32
+      "matchesAnalyzed": 32,
+      "formWinRate": 0.4142,
+      "formDrawRate": 0.1588,
+      "formAvgGF": 2.5616,
+      "formAvgGA": 1.6531,
+      "formScore": 0.0507
     },
     "Åland Islands": {
       "elo": 1486,
       "attack": 0.5451435698758365,
       "defense": 1.0478465391103187,
       "powerIndex": 48,
-      "matchesAnalyzed": 25
+      "matchesAnalyzed": 25,
+      "formWinRate": 0.2255,
+      "formDrawRate": 0.4104,
+      "formAvgGF": 0.8379,
+      "formAvgGA": 1.2898,
+      "formScore": 0.0255
     },
     "Isle of Wight": {
       "elo": 1653,
       "attack": 1.405429826624183,
       "defense": 0.25224329389504413,
       "powerIndex": 64,
-      "matchesAnalyzed": 21
+      "matchesAnalyzed": 21,
+      "formWinRate": 0.7812,
+      "formDrawRate": 0.0975,
+      "formAvgGF": 1.8877,
+      "formAvgGA": 0.7169,
+      "formScore": 0.6988
     },
     "Moldova": {
       "elo": 1266,
       "attack": 0.5444100006931225,
       "defense": 1.612494566305454,
       "powerIndex": 31,
-      "matchesAnalyzed": 297
+      "matchesAnalyzed": 297,
+      "formWinRate": 0,
+      "formDrawRate": 0.2696,
+      "formAvgGF": 1.0189,
+      "formAvgGA": 2.9459,
+      "formScore": -0.6225
     },
     "Venezuela": {
       "elo": 1737,
       "attack": 0.7718898157221094,
       "defense": 1.0890144999680567,
       "powerIndex": 66,
-      "matchesAnalyzed": 366
+      "matchesAnalyzed": 366,
+      "formWinRate": 0.2757,
+      "formDrawRate": 0.1588,
+      "formAvgGF": 1.1219,
+      "formAvgGA": 1.5248,
+      "formScore": -0.2264
     },
     "Guam": {
       "elo": 1031,
       "attack": 0.7296245893897384,
       "defense": 2.0837021686857735,
       "powerIndex": 18,
-      "matchesAnalyzed": 117
+      "matchesAnalyzed": 117,
+      "formWinRate": 0.2178,
+      "formDrawRate": 0.0599,
+      "formAvgGF": 1.5544,
+      "formAvgGA": 3.3416,
+      "formScore": -0.4806
     },
     "Tahiti": {
       "elo": 1505,
       "attack": 1.230132485969442,
       "defense": 1.0675069243687723,
       "powerIndex": 51,
-      "matchesAnalyzed": 144
+      "matchesAnalyzed": 144,
+      "formWinRate": 0.4853,
+      "formDrawRate": 0.0599,
+      "formAvgGF": 1.1655,
+      "formAvgGA": 1.5466,
+      "formScore": 0.0545
     },
     "Estonia": {
       "elo": 1361,
       "attack": 0.637447972905629,
       "defense": 1.4204842883292135,
       "powerIndex": 38,
-      "matchesAnalyzed": 429
+      "matchesAnalyzed": 429,
+      "formWinRate": 0.3015,
+      "formDrawRate": 0.2777,
+      "formAvgGF": 1.0313,
+      "formAvgGA": 1.6637,
+      "formScore": -0.0083
     },
     "Latvia": {
       "elo": 1326,
       "attack": 0.6272941085365269,
       "defense": 1.2189758142973508,
       "powerIndex": 36,
-      "matchesAnalyzed": 352
+      "matchesAnalyzed": 352,
+      "formWinRate": 0,
+      "formDrawRate": 0.53,
+      "formAvgGF": 0.6004,
+      "formAvgGA": 1.6157,
+      "formScore": -0.258
     },
     "Cape Verde": {
       "elo": 1653,
       "attack": 0.9315767084146311,
       "defense": 0.726833772160163,
       "powerIndex": 61,
-      "matchesAnalyzed": 200
+      "matchesAnalyzed": 200,
+      "formWinRate": 0.3233,
+      "formDrawRate": 0.3752,
+      "formAvgGF": 1.4665,
+      "formAvgGA": 1.4312,
+      "formScore": 0.1719
     },
     "Vietnam": {
       "elo": 1488,
       "attack": 1.138725437729973,
       "defense": 0.9144241001005536,
       "powerIndex": 50,
-      "matchesAnalyzed": 294
+      "matchesAnalyzed": 294,
+      "formWinRate": 0.9025,
+      "formDrawRate": 0,
+      "formAvgGF": 2.3233,
+      "formAvgGA": 0.789,
+      "formScore": 0.805
     },
     "Libya": {
       "elo": 1547,
       "attack": 0.7785614595613332,
       "defense": 0.7969678570817376,
       "powerIndex": 54,
-      "matchesAnalyzed": 247
+      "matchesAnalyzed": 247,
+      "formWinRate": 0.245,
+      "formDrawRate": 0.7041,
+      "formAvgGF": 1.0318,
+      "formAvgGA": 0.8181,
+      "formScore": 0.4758
     },
     "Myanmar": {
       "elo": 1194,
       "attack": 0.777699271332969,
       "defense": 1.9055272748364254,
       "powerIndex": 25,
-      "matchesAnalyzed": 257
+      "matchesAnalyzed": 257,
+      "formWinRate": 0.427,
+      "formDrawRate": 0.1656,
+      "formAvgGF": 1.864,
+      "formAvgGA": 2.1014,
+      "formScore": 0.0859
     },
     "Sri Lanka": {
       "elo": 1092,
       "attack": 0.5721723886586286,
       "defense": 1.36571435099318,
       "powerIndex": 20,
-      "matchesAnalyzed": 208
+      "matchesAnalyzed": 208,
+      "formWinRate": 0.3391,
+      "formDrawRate": 0.1147,
+      "formAvgGF": 0.8292,
+      "formAvgGA": 1.7519,
+      "formScore": -0.1611
     },
     "Nepal": {
       "elo": 1129,
       "attack": 0.49806377244025996,
       "defense": 1.4310874334178025,
       "powerIndex": 21,
-      "matchesAnalyzed": 212
+      "matchesAnalyzed": 212,
+      "formWinRate": 0.0942,
+      "formDrawRate": 0.3267,
+      "formAvgGF": 0.6525,
+      "formAvgGA": 1.2688,
+      "formScore": -0.3543
     },
     "Maldives": {
       "elo": 1047,
       "attack": 0.7294047134345218,
       "defense": 1.468481090641752,
       "powerIndex": 20,
-      "matchesAnalyzed": 219
+      "matchesAnalyzed": 219,
+      "formWinRate": 0.0704,
+      "formDrawRate": 0.0829,
+      "formAvgGF": 0.3883,
+      "formAvgGA": 1.9965,
+      "formScore": -0.7431
     },
     "Ukraine": {
       "elo": 1750,
       "attack": 1.066124348566671,
       "defense": 0.9170849045071617,
       "powerIndex": 68,
-      "matchesAnalyzed": 335
+      "matchesAnalyzed": 335,
+      "formWinRate": 0.5215,
+      "formDrawRate": 0.0509,
+      "formAvgGF": 1.4401,
+      "formAvgGA": 1.4366,
+      "formScore": 0.1143
     },
     "Cuba": {
       "elo": 1417,
       "attack": 0.8969511932377685,
       "defense": 1.2016443398092336,
       "powerIndex": 44,
-      "matchesAnalyzed": 276
+      "matchesAnalyzed": 276,
+      "formWinRate": 0.3005,
+      "formDrawRate": 0.3455,
+      "formAvgGF": 1.229,
+      "formAvgGA": 1.568,
+      "formScore": 0.0848
     },
     "Syria": {
       "elo": 1588,
       "attack": 1.0831535661246314,
       "defense": 0.881420027620046,
       "powerIndex": 57,
-      "matchesAnalyzed": 371
+      "matchesAnalyzed": 371,
+      "formWinRate": 0.3616,
+      "formDrawRate": 0.2929,
+      "formAvgGF": 1.4375,
+      "formAvgGA": 1.1579,
+      "formScore": 0.1332
     },
     "Kazakhstan": {
       "elo": 1486,
       "attack": 0.7366468256285643,
       "defense": 1.2715237854805679,
       "powerIndex": 48,
-      "matchesAnalyzed": 267
+      "matchesAnalyzed": 267,
+      "formWinRate": 0.3641,
+      "formDrawRate": 0.3671,
+      "formAvgGF": 1.0775,
+      "formAvgGA": 0.9352,
+      "formScore": 0.2423
     },
     "Turkmenistan": {
       "elo": 1391,
       "attack": 0.872694640178556,
       "defense": 1.2516768072078797,
       "powerIndex": 41,
-      "matchesAnalyzed": 174
+      "matchesAnalyzed": 174,
+      "formWinRate": 0.5577,
+      "formDrawRate": 0.0829,
+      "formAvgGF": 1.4874,
+      "formAvgGA": 1.3048,
+      "formScore": 0.2315
     },
     "Taiwan": {
       "elo": 1077,
       "attack": 0.7671852333450323,
       "defense": 1.8993358117168226,
       "powerIndex": 19,
-      "matchesAnalyzed": 150
+      "matchesAnalyzed": 150,
+      "formWinRate": 0.1108,
+      "formDrawRate": 0,
+      "formAvgGF": 1.075,
+      "formAvgGA": 3.3016,
+      "formScore": -0.7785
     },
     "Macau": {
       "elo": 919,
       "attack": 0.45523656333654966,
       "defense": 1.872041601332248,
       "powerIndex": 18,
-      "matchesAnalyzed": 121
+      "matchesAnalyzed": 121,
+      "formWinRate": 0,
+      "formDrawRate": 0.0704,
+      "formAvgGF": 0.3333,
+      "formAvgGA": 3.1472,
+      "formScore": -0.9014
     },
     "Tajikistan": {
       "elo": 1464,
       "attack": 1.0734554091624495,
       "defense": 0.8381350803426255,
       "powerIndex": 48,
-      "matchesAnalyzed": 198
+      "matchesAnalyzed": 198,
+      "formWinRate": 0.8426,
+      "formDrawRate": 0.0975,
+      "formAvgGF": 2.7452,
+      "formAvgGA": 0.8149,
+      "formScore": 0.8218
     },
     "Uzbekistan": {
       "elo": 1832,
       "attack": 1.1877662762440977,
       "defense": 0.5908801038195485,
       "powerIndex": 75,
-      "matchesAnalyzed": 354
+      "matchesAnalyzed": 354,
+      "formWinRate": 0.2793,
+      "formDrawRate": 0.3153,
+      "formAvgGF": 1.1582,
+      "formAvgGA": 1.1205,
+      "formScore": 0
     },
     "Burundi": {
       "elo": 1359,
       "attack": 0.8101528174735674,
       "defense": 1.0447051904494615,
       "powerIndex": 40,
-      "matchesAnalyzed": 194
+      "matchesAnalyzed": 194,
+      "formWinRate": 0.1303,
+      "formDrawRate": 0.0829,
+      "formAvgGF": 0.3698,
+      "formAvgGA": 1.8506,
+      "formScore": -0.6234
     },
     "Eritrea": {
       "elo": 1193,
       "attack": 0.4599787520495379,
       "defense": 1.4859549512919583,
       "powerIndex": 25,
-      "matchesAnalyzed": 69
+      "matchesAnalyzed": 69,
+      "formWinRate": 0,
+      "formDrawRate": 0,
+      "formAvgGF": 0.4387,
+      "formAvgGA": 2.2849,
+      "formScore": -1
     },
     "Slovakia": {
       "elo": 1677,
       "attack": 1.0171265399138523,
       "defense": 0.851603242097218,
       "powerIndex": 63,
-      "matchesAnalyzed": 353
+      "matchesAnalyzed": 353,
+      "formWinRate": 0.5412,
+      "formDrawRate": 0.1868,
+      "formAvgGF": 1.6662,
+      "formAvgGA": 1.6958,
+      "formScore": 0.3438
     },
     "South Africa": {
       "elo": 1646,
       "attack": 1.0113573100387863,
       "defense": 0.609566395477881,
       "powerIndex": 62,
-      "matchesAnalyzed": 454
+      "matchesAnalyzed": 454,
+      "formWinRate": 0.4237,
+      "formDrawRate": 0.2735,
+      "formAvgGF": 1.1847,
+      "formAvgGA": 0.9265,
+      "formScore": 0.2302
     },
     "Kyrgyzstan": {
       "elo": 1507,
       "attack": 1.0319229908658105,
       "defense": 1.1144491487704162,
       "powerIndex": 50,
-      "matchesAnalyzed": 184
+      "matchesAnalyzed": 184,
+      "formWinRate": 0.1261,
+      "formDrawRate": 0.399,
+      "formAvgGF": 1.0388,
+      "formAvgGA": 1.724,
+      "formScore": -0.1892
     },
     "Palestine": {
       "elo": 1599,
       "attack": 0.9555424481847492,
       "defense": 0.8616050590010883,
       "powerIndex": 57,
-      "matchesAnalyzed": 223
+      "matchesAnalyzed": 223,
+      "formWinRate": 0.1408,
+      "formDrawRate": 0.5702,
+      "formAvgGF": 0.6231,
+      "formAvgGA": 0.869,
+      "formScore": 0.0798
     },
     "Azerbaijan": {
       "elo": 1359,
       "attack": 0.6044074909469535,
       "defense": 1.3707240108339032,
       "powerIndex": 38,
-      "matchesAnalyzed": 308
+      "matchesAnalyzed": 308,
+      "formWinRate": 0.1349,
+      "formDrawRate": 0.2186,
+      "formAvgGF": 1.2691,
+      "formAvgGA": 1.9842,
+      "formScore": -0.424
     },
     "Armenia": {
       "elo": 1400,
       "attack": 0.7599572656863524,
       "defense": 1.5647937817678133,
       "powerIndex": 41,
-      "matchesAnalyzed": 270
+      "matchesAnalyzed": 270,
+      "formWinRate": 0.0704,
+      "formDrawRate": 0.2377,
+      "formAvgGF": 0.8097,
+      "formAvgGA": 2.7846,
+      "formScore": -0.5264
     },
     "Belarus": {
       "elo": 1537,
       "attack": 0.6896758616431132,
       "defense": 1.2450505469343243,
       "powerIndex": 51,
-      "matchesAnalyzed": 300
+      "matchesAnalyzed": 300,
+      "formWinRate": 0.4805,
+      "formDrawRate": 0.2122,
+      "formAvgGF": 1.5715,
+      "formAvgGA": 1.6762,
+      "formScore": 0.258
     },
     "Lebanon": {
       "elo": 1462,
       "attack": 0.8402166082125347,
       "defense": 0.8380894781297923,
       "powerIndex": 47,
-      "matchesAnalyzed": 300
+      "matchesAnalyzed": 300,
+      "formWinRate": 0.5025,
+      "formDrawRate": 0.2508,
+      "formAvgGF": 2.0254,
+      "formAvgGA": 0.5992,
+      "formScore": 0.3562
     },
     "Mongolia": {
       "elo": 1054,
       "attack": 0.6195156948568084,
       "defense": 1.619269056958619,
       "powerIndex": 19,
-      "matchesAnalyzed": 99
+      "matchesAnalyzed": 99,
+      "formWinRate": 0.1679,
+      "formDrawRate": 0,
+      "formAvgGF": 0.4187,
+      "formAvgGA": 2.61,
+      "formScore": -0.6641
     },
     "Laos": {
       "elo": 1017,
       "attack": 0.6669528335381071,
       "defense": 1.9480846905002211,
       "powerIndex": 18,
-      "matchesAnalyzed": 185
+      "matchesAnalyzed": 185,
+      "formWinRate": 0.1147,
+      "formDrawRate": 0.1108,
+      "formAvgGF": 0.8677,
+      "formAvgGA": 2.937,
+      "formScore": -0.6155
     },
     "Gibraltar": {
       "elo": 1108,
       "attack": 0.3758574249888811,
       "defense": 2.3686859928152906,
       "powerIndex": 17,
-      "matchesAnalyzed": 132
+      "matchesAnalyzed": 132,
+      "formWinRate": 0.4805,
+      "formDrawRate": 0,
+      "formAvgGF": 2.0626,
+      "formAvgGA": 1.8155,
+      "formScore": -0.0391
     },
     "North Macedonia": {
       "elo": 1591,
       "attack": 0.9608240993676157,
       "defense": 1.0263571475948614,
       "powerIndex": 56,
-      "matchesAnalyzed": 306
+      "matchesAnalyzed": 306,
+      "formWinRate": 0.0509,
+      "formDrawRate": 0.5069,
+      "formAvgGF": 0.4657,
+      "formAvgGA": 2.0453,
+      "formScore": -0.1886
     },
     "Tonga": {
       "elo": 1137,
       "attack": 0.9093698909791169,
       "defense": 2.3960905347731627,
       "powerIndex": 20,
-      "matchesAnalyzed": 61
+      "matchesAnalyzed": 61,
+      "formWinRate": 0.2563,
+      "formDrawRate": 0,
+      "formAvgGF": 1.4331,
+      "formAvgGA": 3.2253,
+      "formScore": -0.4875
     },
     "Czech Republic": {
       "elo": 1748,
       "attack": 1.2490291580584205,
       "defense": 0.8474111042103156,
       "powerIndex": 69,
-      "matchesAnalyzed": 360
+      "matchesAnalyzed": 360,
+      "formWinRate": 0.5692,
+      "formDrawRate": 0.3604,
+      "formAvgGF": 2.6263,
+      "formAvgGA": 1.0366,
+      "formScore": 0.6429
     },
     "Samoa": {
       "elo": 1271,
       "attack": 1.072331210039813,
       "defense": 2.100633381955207,
       "powerIndex": 31,
-      "matchesAnalyzed": 58
+      "matchesAnalyzed": 58,
+      "formWinRate": 0.3063,
+      "formDrawRate": 0,
+      "formAvgGF": 0.9366,
+      "formAvgGA": 3.5876,
+      "formScore": -0.3873
     },
     "American Samoa": {
       "elo": 1025,
       "attack": 0.46675515465995854,
       "defense": 3.9489549550875576,
       "powerIndex": 12,
-      "matchesAnalyzed": 48
+      "matchesAnalyzed": 48,
+      "formWinRate": 0,
+      "formDrawRate": 0.0433,
+      "formAvgGF": 0.65,
+      "formAvgGA": 6.0623,
+      "formScore": -0.9394
     },
     "Somalia": {
       "elo": 1112,
       "attack": 0.26798510493346295,
       "defense": 1.5019919716699317,
       "powerIndex": 19,
-      "matchesAnalyzed": 83
+      "matchesAnalyzed": 83,
+      "formWinRate": 0.1588,
+      "formDrawRate": 0.2466,
+      "formAvgGF": 0.4117,
+      "formAvgGA": 1.4615,
+      "formScore": -0.3372
     },
     "Djibouti": {
       "elo": 1088,
       "attack": 0.45104994529614756,
       "defense": 2.28862857608191,
       "powerIndex": 17,
-      "matchesAnalyzed": 95
+      "matchesAnalyzed": 95,
+      "formWinRate": 0,
+      "formDrawRate": 0.1031,
+      "formAvgGF": 0.4228,
+      "formAvgGA": 2.6641,
+      "formScore": -0.8556
     },
     "Serbia": {
       "elo": 1716,
       "attack": 1.0777703955099667,
       "defense": 0.8873406053410864,
       "powerIndex": 66,
-      "matchesAnalyzed": 347
+      "matchesAnalyzed": 347,
+      "formWinRate": 0.3461,
+      "formDrawRate": 0,
+      "formAvgGF": 0.9062,
+      "formAvgGA": 2.5372,
+      "formScore": -0.3077
     },
     "Cook Islands": {
       "elo": 1154,
       "attack": 0.49153409770284556,
       "defense": 2.023208243689136,
       "powerIndex": 21,
-      "matchesAnalyzed": 50
+      "matchesAnalyzed": 50,
+      "formWinRate": 0.2292,
+      "formDrawRate": 0,
+      "formAvgGF": 0.5373,
+      "formAvgGA": 2.7894,
+      "formScore": -0.5416
     },
     "Rwanda": {
       "elo": 1445,
       "attack": 0.6283025653110208,
       "defense": 0.7643996274814474,
       "powerIndex": 46,
-      "matchesAnalyzed": 258
+      "matchesAnalyzed": 258,
+      "formWinRate": 0.443,
+      "formDrawRate": 0.0509,
+      "formAvgGF": 1.1569,
+      "formAvgGA": 1.0004,
+      "formScore": -0.0427
     },
     "Belize": {
       "elo": 1293,
       "attack": 0.8341604639455986,
       "defense": 1.3622191766772775,
       "powerIndex": 34,
-      "matchesAnalyzed": 120
+      "matchesAnalyzed": 120,
+      "formWinRate": 0.2929,
+      "formDrawRate": 0.0509,
+      "formAvgGF": 1.6874,
+      "formAvgGA": 2.5711,
+      "formScore": -0.3429
     },
     "Bosnia and Herzegovina": {
       "elo": 1627,
       "attack": 1.0283816074876815,
       "defense": 1.0204772702073421,
       "powerIndex": 59,
-      "matchesAnalyzed": 283
+      "matchesAnalyzed": 283,
+      "formWinRate": 0.1966,
+      "formDrawRate": 0.7525,
+      "formAvgGF": 1.4945,
+      "formAvgGA": 0.9088,
+      "formScore": 0.4467
     },
     "Cambodia": {
       "elo": 1125,
       "attack": 0.7935232448424367,
       "defense": 1.753448214861305,
       "powerIndex": 21,
-      "matchesAnalyzed": 205
+      "matchesAnalyzed": 205,
+      "formWinRate": 0.2572,
+      "formDrawRate": 0.2096,
+      "formAvgGF": 1.7213,
+      "formAvgGA": 1.5234,
+      "formScore": -0.1921
     },
     "Andorra": {
       "elo": 1129,
       "attack": 0.2810583600074273,
       "defense": 1.4597658973961636,
       "powerIndex": 21,
-      "matchesAnalyzed": 229
+      "matchesAnalyzed": 229,
+      "formWinRate": 0.1588,
+      "formDrawRate": 0.2089,
+      "formAvgGF": 0.4792,
+      "formAvgGA": 1.5736,
+      "formScore": -0.3901
     },
     "Frøya": {
       "elo": 1298,
       "attack": 0.7990894086878305,
       "defense": 2.7665652224135378,
       "powerIndex": 30,
-      "matchesAnalyzed": 25
+      "matchesAnalyzed": 25,
+      "formWinRate": 0.1147,
+      "formDrawRate": 0,
+      "formAvgGF": 1.0203,
+      "formAvgGA": 4.1233,
+      "formScore": -0.7706
     },
     "Catalonia": {
       "elo": 1650,
       "attack": 1.357410787984292,
       "defense": 0.9198821210785407,
       "powerIndex": 62,
-      "matchesAnalyzed": 25
+      "matchesAnalyzed": 25,
+      "formWinRate": 0.4383,
+      "formDrawRate": 0.4268,
+      "formAvgGF": 1.9669,
+      "formAvgGA": 1.2381,
+      "formScore": 0.4741
     },
     "United States Virgin Islands": {
       "elo": 1060,
       "attack": 0.6776390472887345,
       "defense": 1.8464769121129396,
       "powerIndex": 19,
-      "matchesAnalyzed": 78
+      "matchesAnalyzed": 78,
+      "formWinRate": 0.2937,
+      "formDrawRate": 0.2687,
+      "formAvgGF": 1.7686,
+      "formAvgGA": 1.9468,
+      "formScore": -0.0364
     },
     "Northern Mariana Islands": {
       "elo": 1059,
       "attack": 0.8313641851930124,
       "defense": 2.912142871956128,
       "powerIndex": 16,
-      "matchesAnalyzed": 30
+      "matchesAnalyzed": 30,
+      "formWinRate": 0.3015,
+      "formDrawRate": 0.2292,
+      "formAvgGF": 1.3552,
+      "formAvgGA": 3.5192,
+      "formScore": -0.0762
     },
     "São Tomé and Príncipe": {
       "elo": 1191,
       "attack": 0.4501769969590075,
       "defense": 1.8867867107573801,
       "powerIndex": 24,
-      "matchesAnalyzed": 63
+      "matchesAnalyzed": 63,
+      "formWinRate": 0.1868,
+      "formDrawRate": 0.0942,
+      "formAvgGF": 0.6168,
+      "formAvgGA": 2.3555,
+      "formScore": -0.4946
     },
     "Bahamas": {
       "elo": 991,
       "attack": 0.634622969666343,
       "defense": 2.597887394131377,
       "powerIndex": 16,
-      "matchesAnalyzed": 66
+      "matchesAnalyzed": 66,
+      "formWinRate": 0.0599,
+      "formDrawRate": 0.0433,
+      "formAvgGF": 0.8255,
+      "formAvgGA": 3.7442,
+      "formScore": -0.8197
     },
     "Turks and Caicos Islands": {
       "elo": 1053,
       "attack": 0.7243219390765083,
       "defense": 2.3269911352145978,
       "powerIndex": 17,
-      "matchesAnalyzed": 52
+      "matchesAnalyzed": 52,
+      "formWinRate": 0.3015,
+      "formDrawRate": 0.3323,
+      "formAvgGF": 1.1054,
+      "formAvgGA": 1.8663,
+      "formScore": 0.0682
     },
     "Gotland": {
       "elo": 1548,
       "attack": 3.088509195756362,
       "defense": 0.9415904566093629,
       "powerIndex": 60,
-      "matchesAnalyzed": 16
+      "matchesAnalyzed": 16,
+      "formWinRate": 0.5858,
+      "formDrawRate": 0,
+      "formAvgGF": 4.085,
+      "formAvgGA": 1.2706,
+      "formScore": 0.1715
     },
     "Saare County": {
       "elo": 1408,
       "attack": 1.3029164602455003,
       "defense": 1.7972269239949035,
       "powerIndex": 42,
-      "matchesAnalyzed": 24
+      "matchesAnalyzed": 24,
+      "formWinRate": 0.3613,
+      "formDrawRate": 0.2096,
+      "formAvgGF": 2.0728,
+      "formAvgGA": 2.3001,
+      "formScore": 0.0162
     },
     "Bhutan": {
       "elo": 964,
       "attack": 0.3930935814348044,
       "defense": 2.407608848898009,
       "powerIndex": 16,
-      "matchesAnalyzed": 100
+      "matchesAnalyzed": 100,
+      "formWinRate": 0.0599,
+      "formDrawRate": 0.0704,
+      "formAvgGF": 0.3161,
+      "formAvgGA": 3.1257,
+      "formScore": -0.7816
     },
     "Falkland Islands": {
       "elo": 1375,
       "attack": 0.8210344099516761,
       "defense": 2.0000249180916856,
       "powerIndex": 38,
-      "matchesAnalyzed": 19
+      "matchesAnalyzed": 19,
+      "formWinRate": 0.1736,
+      "formDrawRate": 0.1868,
+      "formAvgGF": 1.1818,
+      "formAvgGA": 2.578,
+      "formScore": -0.3914
     },
     "Mayotte": {
       "elo": 1466,
       "attack": 0.8430289363231589,
       "defense": 0.6523867873506949,
       "powerIndex": 48,
-      "matchesAnalyzed": 38
+      "matchesAnalyzed": 38,
+      "formWinRate": 0.397,
+      "formDrawRate": 0.3455,
+      "formAvgGF": 1.0431,
+      "formAvgGA": 0.6605,
+      "formScore": 0.2778
     },
     "Afghanistan": {
       "elo": 1226,
       "attack": 0.5966549827570352,
       "defense": 1.211348241008783,
       "powerIndex": 29,
-      "matchesAnalyzed": 125
+      "matchesAnalyzed": 125,
+      "formWinRate": 0.1588,
+      "formDrawRate": 0.2496,
+      "formAvgGF": 0.4364,
+      "formAvgGA": 1.2373,
+      "formScore": -0.333
     },
     "Timor-Leste": {
       "elo": 960,
       "attack": 0.5033910444090889,
       "defense": 2.310647951918935,
       "powerIndex": 17,
-      "matchesAnalyzed": 86
+      "matchesAnalyzed": 86,
+      "formWinRate": 0.1147,
+      "formDrawRate": 0,
+      "formAvgGF": 0.5806,
+      "formAvgGA": 3.2846,
+      "formScore": -0.7706
     },
     "Tuvalu": {
       "elo": 1271,
       "attack": 0.9792393635854126,
       "defense": 3.502053804531858,
       "powerIndex": 26,
-      "matchesAnalyzed": 31
+      "matchesAnalyzed": 31,
+      "formWinRate": 0.3455,
+      "formDrawRate": 0.0704,
+      "formAvgGF": 1.6652,
+      "formAvgGA": 4.5659,
+      "formScore": -0.2103
     },
     "Western Isles": {
       "elo": 1522,
       "attack": 1.304545356138776,
       "defense": 1.2838580067887226,
       "powerIndex": 51,
-      "matchesAnalyzed": 20
+      "matchesAnalyzed": 20,
+      "formWinRate": 0.4943,
+      "formDrawRate": 0.2572,
+      "formAvgGF": 1.822,
+      "formAvgGA": 1.7376,
+      "formScore": 0.3487
     },
     "Montenegro": {
       "elo": 1443,
       "attack": 0.841977882368975,
       "defense": 1.122767791361288,
       "powerIndex": 45,
-      "matchesAnalyzed": 167
+      "matchesAnalyzed": 167,
+      "formWinRate": 0.4268,
+      "formDrawRate": 0.1868,
+      "formAvgGF": 1.5332,
+      "formAvgGA": 1.7538,
+      "formScore": 0.115
     },
     "Bonaire": {
       "elo": 1180,
       "attack": 0.9457729940249306,
       "defense": 1.5212138082404223,
       "powerIndex": 26,
-      "matchesAnalyzed": 44
+      "matchesAnalyzed": 44,
+      "formWinRate": 0.1858,
+      "formDrawRate": 0,
+      "formAvgGF": 0.8358,
+      "formAvgGA": 2.3183,
+      "formScore": -0.6283
     },
     "Raetia": {
       "elo": 1481,
       "attack": 2.350692537448375,
       "defense": 1.9122968940535408,
       "powerIndex": 50,
-      "matchesAnalyzed": 15
+      "matchesAnalyzed": 15,
+      "formWinRate": 0.4054,
+      "formDrawRate": 0.2178,
+      "formAvgGF": 3.2937,
+      "formAvgGA": 2.4403,
+      "formScore": 0.1157
     },
     "Tamil Eelam": {
       "elo": 1649,
       "attack": 2.4566098049762024,
       "defense": 0.6051595991379588,
       "powerIndex": 66,
-      "matchesAnalyzed": 15
+      "matchesAnalyzed": 15,
+      "formWinRate": 0.9296,
+      "formDrawRate": 0,
+      "formAvgGF": 3.6107,
+      "formAvgGA": 0.8241,
+      "formScore": 0.8591
     },
     "South Sudan": {
       "elo": 1289,
       "attack": 0.4175229359252704,
       "defense": 1.304257516797697,
       "powerIndex": 33,
-      "matchesAnalyzed": 77
+      "matchesAnalyzed": 77,
+      "formWinRate": 0.0509,
+      "formDrawRate": 0.3563,
+      "formAvgGF": 0.3763,
+      "formAvgGA": 1.9595,
+      "formScore": -0.3994
     },
     "Kosovo": {
       "elo": 1753,
       "attack": 0.9712735948952473,
       "defense": 0.9467956822929798,
       "powerIndex": 68,
-      "matchesAnalyzed": 103
+      "matchesAnalyzed": 103,
+      "formWinRate": 0.5057,
+      "formDrawRate": 0.1574,
+      "formAvgGF": 1.6133,
+      "formAvgGA": 1.0671,
+      "formScore": 0.2317
     }
   },
   "aiPowerRanking": [

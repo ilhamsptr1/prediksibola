@@ -244,6 +244,90 @@
   text-shadow: 0 0 12px rgba(0, 184, 255, 0.5);
 }
 
+/* ── Ensemble Breakdown ─────────────────────────────────────────── */
+.ensemble-breakdown {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  padding: 0.7rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.ensemble-title {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  color: rgba(255, 255, 255, 0.4);
+  margin-bottom: 0.1rem;
+}
+
+.ensemble-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 0.42rem;
+}
+
+.ensemble-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 80px;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ensemble-row-label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ensemble-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.ensemble-model-name {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ensemble-weight {
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.3);
+  font-weight: 700;
+  margin-left: auto;
+}
+
+.ensemble-mini-bar {
+  display: flex;
+  height: 6px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.emb-seg {
+  height: 100%;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ensemble-mini-vals {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.62rem;
+  font-weight: 700;
+  font-family: 'Outfit', monospace;
+}
+
 /* VS divider */
 .match-vs-wrapper {
   display: flex;
