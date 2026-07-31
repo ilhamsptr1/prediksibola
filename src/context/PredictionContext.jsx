@@ -38,7 +38,76 @@ const eloPoisson = (homeStats, awayStats, globalAvg) => {
   };
 };
 
-// ── Lazy-load ML module ─────────────────────────────────────────
+// ── Team Name Normalizer ──────────────────────────────────────────
+// API seperti football-data.org sering mengembalikan nama lengkap:
+// "Getafe CF", "Villarreal CF", "Real Racing Club de Santander"
+// Sedangkan dataset training memakai nama pendek: "Getafe", "Villarreal"
+const TEAM_ALIASES = {
+  // Suffix umum yang perlu dihapus
+  'CF': '', 'FC': '', 'SC': '', 'AC': '', 'AS': '', 'SS': '', 'SL': '',
+  'United': '', 'City': '', 'Town': '', 'Athletic': '',
+};
+
+// Manual overrides untuk kasus khusus
+const MANUAL_MAP = {
+  'Real Racing Club de Santander':     'Racing Santander',
+  'Deportivo Alavés':                  'Alavés',
+  'Athletic Club':                     'Athletic Bilbao',
+  'Wolverhampton Wanderers':           'Wolverhampton',
+  'West Ham United':                   'West Ham',
+  'Tottenham Hotspur':                 'Tottenham',
+  'Nottingham Forest':                 'Nottingham Forest',
+  'Newcastle United':                  'Newcastle',
+  'Leicester City':                    'Leicester',
+  'Brighton & Hove Albion':            'Brighton',
+  'Bayer 04 Leverkusen':               'Bayer Leverkusen',
+  'FC Bayern München':                 'Bayern Munich',
+  'Borussia Dortmund':                 'Dortmund',
+  'RB Leipzig':                        'Leipzig',
+  'Paris Saint-Germain FC':            'Paris Saint-Germain',
+  'Olympique de Marseille':            'Marseille',
+  'Olympique Lyonnais':                'Lyon',
+  'AS Monaco FC':                      'Monaco',
+  'Internazionale Milano':             'Inter Milan',
+  'AC Milan':                          'Milan',
+  'Juventus FC':                       'Juventus',
+  'SSC Napoli':                        'Napoli',
+  'AS Roma':                           'Roma',
+  'SS Lazio':                          'Lazio',
+  'ACF Fiorentina':                    'Fiorentina',
+  'Atlético de Madrid':                'Atletico Madrid',
+  'Rayo Vallecano de Madrid':          'Rayo Vallecano',
+  'Deportivo de La Coruña':            'Deportivo La Coruña',
+  'Real Betis Balompié':               'Real Betis',
+  'FC Barcelona':                      'Barcelona',
+  'Real Madrid CF':                    'Real Madrid',
+  'Club Atlético de Madrid':           'Atletico Madrid',
+};
+
+const resolveTeamName = (apiName, ratings) => {
+  if (!apiName) return null;
+  // 1. Direct match
+  if (ratings[apiName]) return apiName;
+  // 2. Manual map
+  if (MANUAL_MAP[apiName]) {
+    const mapped = MANUAL_MAP[apiName];
+    if (ratings[mapped]) return mapped;
+  }
+  // 3. Strip common suffixes ("Getafe CF" → "Getafe")
+  const stripped = apiName.replace(/\b(CF|FC|SC|AC|AS|SS|SL|SAD|CD|UD|RCD|SSD|ASD|RFC|AFC)\b/g, '').trim();
+  if (stripped !== apiName && ratings[stripped]) return stripped;
+  // 4. Fuzzy: find team where our name is contained in API name or vice versa
+  const apiLower = apiName.toLowerCase();
+  const allTeams = Object.keys(ratings);
+  // Try containment match (longer string contains shorter)
+  const fuzzy = allTeams.find(t => {
+    const tL = t.toLowerCase();
+    return apiLower.includes(tL) || tL.includes(apiLower.split(' ')[0]);
+  });
+  if (fuzzy) return fuzzy;
+  return null; // Not found
+};
+
 let _mlMod = null, _mlProm = null;
 const loadML = () => {
   if (_mlMod)  return Promise.resolve(_mlMod);
@@ -82,10 +151,18 @@ export const PredictionProvider = ({ children }) => {
   const generateAIPrediction = async (match) => {
     const ratings   = teamRatingsData.teamRatings;
     const globalAvg = teamRatingsData.globalAvgGoalsPerTeam ?? 1.3725;
-    const homeStats = ratings[match.homeTeam.name];
-    const awayStats = ratings[match.awayTeam.name];
-    const hElo      = homeStats?.elo ?? 1500;
-    const aElo      = awayStats?.elo ?? 1500;
+
+    // Resolve team names with fuzzy matching
+    const homeKey   = resolveTeamName(match.homeTeam.name, ratings);
+    const awayKey   = resolveTeamName(match.awayTeam.name, ratings);
+    const homeStats = homeKey ? ratings[homeKey] : null;
+    const awayStats = awayKey ? ratings[awayKey] : null;
+
+    if (!homeKey) console.warn('[PredictionContext] Team not found:', match.homeTeam.name);
+    if (!awayKey) console.warn('[PredictionContext] Team not found:', match.awayTeam.name);
+
+    const hElo = homeStats?.elo ?? 1500;
+    const aElo = awayStats?.elo ?? 1500;
 
     let result;
     try {
