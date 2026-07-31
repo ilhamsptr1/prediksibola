@@ -48,65 +48,111 @@ const TEAM_ALIASES = {
   'United': '', 'City': '', 'Town': '', 'Athletic': '',
 };
 
-// Manual overrides untuk kasus khusus
+// Manual overrides — API name → dataset name
 const MANUAL_MAP = {
-  'Real Racing Club de Santander':     'Racing Santander',
+  // La Liga
+  'Atlético de Madrid':                'Atletico Madrid',
+  'Club Atlético de Madrid':           'Atletico Madrid',
   'Deportivo Alavés':                  'Alavés',
+  'Real Betis Balompié':               'Real Betis',
+  'Rayo Vallecano de Madrid':          'Rayo Vallecano',
+  'Real Madrid CF':                    'Real Madrid',
+  'FC Barcelona':                      'Barcelona',
+  'Deportivo de La Coruña':            'Deportivo La Coruña',
+  'Real Racing Club de Santander':     'Racing Santander',
+  'RC Celta':                          'Celta Vigo',
+  'Celta de Vigo':                     'Celta Vigo',
+  'Real Mallorca':                     'Mallorca',
+  'UD Las Palmas':                     'Las Palmas',
   'Athletic Club':                     'Athletic Bilbao',
-  'Wolverhampton Wanderers':           'Wolverhampton',
-  'West Ham United':                   'West Ham',
-  'Tottenham Hotspur':                 'Tottenham',
+  'Getafe CF':                         'Getafe',
+  'Girona FC':                         'Girona',
+  'Valencia CF':                       'Valencia',
+  'Villarreal CF':                     'Villarreal',
+  'Osasuna':                           'Osasuna',
+  // Premier League
+  'Arsenal FC':                        'Arsenal',
+  'Liverpool FC':                      'Liverpool',
+  'Chelsea FC':                        'Chelsea',
+  'Everton FC':                        'Everton',
+  'Fulham FC':                         'Fulham',
+  'Brentford FC':                      'Brentford',
+  'Southampton FC':                    'Southampton',
+  'Brighton & Hove Albion FC':         'Brighton & Hove Albion',
+  'Brighton & Hove Albion':            'Brighton & Hove Albion',
+  'West Ham United FC':                'West Ham United',
+  'West Ham United':                   'West Ham United',
+  'Newcastle United FC':               'Newcastle United',
+  'Newcastle United':                  'Newcastle United',
+  'Wolverhampton Wanderers FC':        'Wolverhampton Wanderers',
+  'Tottenham Hotspur':                 'Tottenham Hotspur',
+  'AFC Bournemouth':                   'AFC Bournemouth',
+  'Leicester City':                    'Leicester City',
   'Nottingham Forest':                 'Nottingham Forest',
-  'Newcastle United':                  'Newcastle',
-  'Leicester City':                    'Leicester',
-  'Brighton & Hove Albion':            'Brighton',
-  'Bayer 04 Leverkusen':               'Bayer Leverkusen',
+  'Nottingham Forest FC':              'Nottingham Forest',
+  // Bundesliga
   'FC Bayern München':                 'Bayern Munich',
+  'Bayer 04 Leverkusen':               'Bayer Leverkusen',
   'Borussia Dortmund':                 'Dortmund',
   'RB Leipzig':                        'Leipzig',
-  'Paris Saint-Germain FC':            'Paris Saint-Germain',
-  'Olympique de Marseille':            'Marseille',
-  'Olympique Lyonnais':                'Lyon',
-  'AS Monaco FC':                      'Monaco',
+  'Borussia Mönchengladbach':          'Monchengladbach',
+  'VfL Wolfsburg':                     'Wolfsburg',
+  'Eintracht Frankfurt':               'Frankfurt',
+  'TSG Hoffenheim':                    'Hoffenheim',
+  'SC Freiburg':                       'Freiburg',
+  // Serie A
   'Internazionale Milano':             'Inter Milan',
+  'FC Internazionale Milano':          'Inter Milan',
   'AC Milan':                          'Milan',
   'Juventus FC':                       'Juventus',
   'SSC Napoli':                        'Napoli',
   'AS Roma':                           'Roma',
   'SS Lazio':                          'Lazio',
   'ACF Fiorentina':                    'Fiorentina',
-  'Atlético de Madrid':                'Atletico Madrid',
-  'Rayo Vallecano de Madrid':          'Rayo Vallecano',
-  'Deportivo de La Coruña':            'Deportivo La Coruña',
-  'Real Betis Balompié':               'Real Betis',
-  'FC Barcelona':                      'Barcelona',
-  'Real Madrid CF':                    'Real Madrid',
-  'Club Atlético de Madrid':           'Atletico Madrid',
+  'Atalanta BC':                       'Atalanta',
+  // Ligue 1
+  'Paris Saint-Germain FC':            'Paris Saint-Germain',
+  'Olympique de Marseille':            'Marseille',
+  'Olympique Lyonnais':                'Lyon',
+  'AS Monaco FC':                      'Monaco',
+  'AS Saint-Étienne':                  'Saint-Etienne',
+  'OGC Nice':                          'Nice',
+  'Stade Rennais FC':                  'Rennes',
+  // Portugal
+  'Sport Lisboa e Benfica':            'Benfica',
+  'FC Porto':                          'Porto',
+  'Sporting CP':                       'Sporting CP',
 };
 
 const resolveTeamName = (apiName, ratings) => {
   if (!apiName) return null;
+
   // 1. Direct match
   if (ratings[apiName]) return apiName;
-  // 2. Manual map
-  if (MANUAL_MAP[apiName]) {
-    const mapped = MANUAL_MAP[apiName];
-    if (ratings[mapped]) return mapped;
-  }
-  // 3. Strip common suffixes ("Getafe CF" → "Getafe")
-  const stripped = apiName.replace(/\b(CF|FC|SC|AC|AS|SS|SL|SAD|CD|UD|RCD|SSD|ASD|RFC|AFC)\b/g, '').trim();
+
+  // 2. Manual map (highest priority, always correct)
+  const mapped = MANUAL_MAP[apiName];
+  if (mapped && ratings[mapped]) return mapped;
+
+  // 3. Strip common legal suffixes: "Getafe CF" → "Getafe"
+  const stripped = apiName.replace(/\s*\b(CF|FC|SC|AC|AS|SS|SL|SAD|CD|UD|RCD|RFC|AFC|BC|FK|SK|BV|SV)\b\s*/g, ' ').trim();
   if (stripped !== apiName && ratings[stripped]) return stripped;
-  // 4. Fuzzy: find team where our name is contained in API name or vice versa
+
+  // 4. Safe fuzzy: our dataset name must be contained FULLY inside the API name
+  // (avoids "Real Madrid" matching "Real Betis" because "Real" alone would match)
   const apiLower = apiName.toLowerCase();
   const allTeams = Object.keys(ratings);
-  // Try containment match (longer string contains shorter)
-  const fuzzy = allTeams.find(t => {
+  const contained = allTeams.find(t => {
     const tL = t.toLowerCase();
-    return apiLower.includes(tL) || tL.includes(apiLower.split(' ')[0]);
+    // Only match if the full dataset team name appears in the API name
+    // AND the match is at least 6 chars long (avoids 'AC', 'AS', etc.)
+    return tL.length >= 6 && apiLower.includes(tL);
   });
-  if (fuzzy) return fuzzy;
-  return null; // Not found
+  if (contained) return contained;
+
+  return null; // Not found — use fallback default stats
 };
+
 
 let _mlMod = null, _mlProm = null;
 const loadML = () => {
