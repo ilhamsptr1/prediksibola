@@ -58,6 +58,9 @@ const MatchCard = ({ match }) => {
 
   return (
     <div className={cardClass}>
+      {/* Animated accent bar at top */}
+      <div className="card-accent-bar" />
+
       {/* Header */}
       <div className="match-header">
         <div className="header-left">
@@ -86,8 +89,10 @@ const MatchCard = ({ match }) => {
           )}
         </div>
 
-        <span className="match-vs">
-          {(isLive || isFinished) && match.score.home !== null ? '—' : 'VS'}
+        <span className="match-vs-wrapper">
+          <span className="match-vs">
+            {(isLive || isFinished) && match.score.home !== null ? '—' : 'VS'}
+          </span>
         </span>
 
         {/* Away */}
