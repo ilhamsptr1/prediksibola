@@ -58,14 +58,18 @@ const mapMatchData = (apiMatch) => {
   };
 };
 
-export const fetchGroupStageMatches = async () => {
+export const fetchGroupStageMatches = async (competitionCode = 'WC') => {
   if (!API_KEY) {
-    const fallback = MOCK_MATCHES.map(mapMatchData);
-    return { matches: fallback, isLive: false, error: 'No API Key provided' };
+    // For WC only we have local mock data; others return empty
+    if (competitionCode === 'WC') {
+      const fallback = MOCK_MATCHES.map(mapMatchData);
+      return { matches: fallback, isLive: false, error: 'No API Key provided' };
+    }
+    return { matches: [], isLive: false, error: 'No API Key provided' };
   }
 
   try {
-    const response = await fetch(`${BASE_URL}/competitions/WC/matches`, {
+    const response = await fetch(`${BASE_URL}/competitions/${competitionCode}/matches`, {
       headers: { 'X-Auth-Token': API_KEY }
     });
 
@@ -79,12 +83,33 @@ export const fetchGroupStageMatches = async () => {
     return { matches, isLive: true, error: null };
   } catch (error) {
     console.error("Fetch API error:", error);
-    const fallback = MOCK_MATCHES.map(mapMatchData);
-    return { matches: fallback, isLive: false, error: error.message };
+    if (competitionCode === 'WC') {
+      const fallback = MOCK_MATCHES.map(mapMatchData);
+      return { matches: fallback, isLive: false, error: error.message };
+    }
+    return { matches: [], isLive: false, error: error.message };
   }
 };
 
-export const fetchLiveMatches = async () => {
+export const fetchLeagueStandings = async (competitionCode = 'WC') => {
+  if (!API_KEY) return { standings: null, error: 'No API Key' };
+
+  try {
+    const response = await fetch(`${BASE_URL}/competitions/${competitionCode}/standings`, {
+      headers: { 'X-Auth-Token': API_KEY }
+    });
+
+    if (!response.ok) throw new Error(`API error: ${response.status}`);
+
+    const data = await response.json();
+    return { standings: data.standings, error: null };
+  } catch (error) {
+    console.error("Error fetching standings:", error);
+    return { standings: null, error: error.message };
+  }
+};
+
+export const fetchLiveMatches = async (competitionCode = null) => {
   if (!API_KEY) return { matches: [], error: 'No API Key' };
 
   try {
@@ -97,10 +122,11 @@ export const fetchLiveMatches = async () => {
     }
 
     const data = await response.json();
-    const liveMatches = data.matches.filter(m => 
-      ['IN_PLAY', 'PAUSED'].includes(m.status) && m.competition?.code === 'WC'
-    );
-    
+    const liveMatches = data.matches.filter(m => {
+      const isLive = ['IN_PLAY', 'PAUSED'].includes(m.status);
+      return competitionCode ? (isLive && m.competition?.code === competitionCode) : isLive;
+    });
+
     return { matches: liveMatches, error: null };
   } catch (error) {
     console.error("Error fetching live matches:", error);

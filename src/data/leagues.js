@@ -1,0 +1,68 @@
+export const LEAGUES = [
+  {
+    code: 'WC',
+    name: 'Piala Dunia',
+    shortName: 'World Cup',
+    flag: '🌍',
+    hasGroups: true,
+    color: '#FFD700',
+  },
+  {
+    code: 'PL',
+    name: 'Premier League',
+    shortName: 'Premier League',
+    flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+    hasGroups: false,
+    color: '#38003c',
+  },
+  {
+    code: 'PD',
+    name: 'La Liga',
+    shortName: 'La Liga',
+    flag: '🇪🇸',
+    hasGroups: false,
+    color: '#EE8707',
+  },
+  {
+    code: 'SA',
+    name: 'Serie A',
+    shortName: 'Serie A',
+    flag: '🇮🇹',
+    hasGroups: false,
+    color: '#008FD7',
+  },
+  {
+    code: 'BL1',
+    name: 'Bundesliga',
+    shortName: 'Bundesliga',
+    flag: '🇩🇪',
+    hasGroups: false,
+    color: '#D3010C',
+  },
+  {
+    code: 'FL1',
+    name: 'Ligue 1',
+    shortName: 'Ligue 1',
+    flag: '🇫🇷',
+    hasGroups: false,
+    color: '#091C3E',
+  },
+  {
+    code: 'PPL',
+    name: 'Liga Portugal',
+    shortName: 'Liga Portugal',
+    flag: '🇵🇹',
+    hasGroups: false,
+    color: '#009B3A',
+  },
+  {
+    code: 'EC',
+    name: 'UEFA Euro',
+    shortName: 'Euro',
+    flag: '🇪🇺',
+    hasGroups: true,
+    color: '#003399',
+  },
+];
+
+export const getLeague = (code) => LEAGUES.find(l => l.code === code) || LEAGUES[0];

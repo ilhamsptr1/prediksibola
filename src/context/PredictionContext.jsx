@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import teamRatingsData from '../data/teamRatings.json';
+import { getLeague } from '../data/leagues';
 
 const PredictionContext = createContext();
 export const usePredictions = () => useContext(PredictionContext);
@@ -44,6 +45,9 @@ const scoreMatrix = (xGHome, xGAway, maxGoals = 8) => {
 
 export const PredictionProvider = ({ children }) => {
   const [predictions, setPredictions] = useState({});
+  const [selectedLeagueCode, setSelectedLeagueCode] = useState('WC');
+
+  const selectedLeague = getLeague(selectedLeagueCode);
 
   const generateAIPrediction = async (match) => {
     const ratings = teamRatingsData.teamRatings;
@@ -105,7 +109,14 @@ export const PredictionProvider = ({ children }) => {
   const getPredictionForMatch = (matchId) => predictions[matchId] ?? null;
 
   return (
-    <PredictionContext.Provider value={{ predictions, generateAIPrediction, getPredictionForMatch }}>
+    <PredictionContext.Provider value={{
+      predictions,
+      generateAIPrediction,
+      getPredictionForMatch,
+      selectedLeague,
+      selectedLeagueCode,
+      setSelectedLeagueCode,
+    }}>
       {children}
     </PredictionContext.Provider>
   );

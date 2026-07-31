@@ -1,26 +1,37 @@
 import React, { useState } from 'react';
 import MatchCard from '../components/MatchCard';
+import LeagueSelector from '../components/LeagueSelector';
 import { usePredictions } from '../context/PredictionContext';
 import { useMatches } from '../hooks/useMatches';
-import { RefreshCw, Wifi, WifiOff, Zap } from 'lucide-react';
+import { getLeague } from '../data/leagues';
+import { RefreshCw, Wifi, WifiOff, Zap, CalendarOff } from 'lucide-react';
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const { predictions } = usePredictions();
-  const { matches, loading, isLive, lastUpdated, error, hasLiveNow, refresh } = useMatches();
-  const [selectedGroup, setSelectedGroup] = useState('Semua');
+  const { selectedLeagueCode, setSelectedLeagueCode } = usePredictions();
+  const selectedLeague = getLeague(selectedLeagueCode);
+
+  const { matches, loading, isLive, lastUpdated, error, hasLiveNow, refresh } = useMatches(selectedLeagueCode);
+
+  const [selectedGroup, setSelectedGroup]     = useState('Semua');
   const [selectedMatchday, setSelectedMatchday] = useState('Semua');
 
-  const predictedCount    = predictions.length;
-  const totalGroupMatches = matches.length;
+  // Reset filters when league changes
+  const handleLeagueSelect = (code) => {
+    setSelectedLeagueCode(code);
+    setSelectedGroup('Semua');
+    setSelectedMatchday('Semua');
+  };
 
   // Unique group codes sorted
-  const groups = ['Semua', ...new Set(matches.map(m => m.group))].sort((a, b) =>
+  const groups = ['Semua', ...new Set(matches.map(m => m.group).filter(Boolean))].sort((a, b) =>
     a === 'Semua' ? -1 : b === 'Semua' ? 1 : a.localeCompare(b)
   );
 
   // Matchdays
-  const matchdays = ['Semua', ...new Set(matches.map(m => m.matchday).filter(Boolean))].sort();
+  const matchdays = ['Semua', ...new Set(matches.map(m => m.matchday).filter(Boolean))].sort((a, b) =>
+    a === 'Semua' ? -1 : b === 'Semua' ? 1 : Number(a) - Number(b)
+  );
 
   // Filter
   const filteredMatches = matches.filter(m => {
@@ -37,21 +48,22 @@ const Dashboard = () => {
     ? lastUpdated.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
     : '—';
 
+  const isGroupCompetition = selectedLeague?.hasGroups;
+
   return (
     <div className="dashboard animate-fade-in">
 
       {/* ── Hero Header ── */}
       <header className="dashboard-header text-center">
         <h1 className="heading-lg">
-          Prediksi <span className="text-gradient">Piala Dunia 2026</span>
+          <span className="text-gradient">{selectedLeague?.name || 'Prediksi Bola'}</span>
         </h1>
         <p className="subtitle text-muted">
-          Jadwal resmi babak grup — 48 tim, 12 grup, 72 pertandingan.
+          Jadwal pertandingan dan prediksi AI — powered by football-data.org
         </p>
 
         {/* Stats pill */}
         <div className="stats-row">
-
           {hasLiveNow && (
             <div className="live-pill glass">
               <span className="live-dot" />
@@ -60,6 +72,9 @@ const Dashboard = () => {
           )}
         </div>
       </header>
+
+      {/* ── League Selector ── */}
+      <LeagueSelector selectedLeague={selectedLeagueCode} onSelect={handleLeagueSelect} />
 
       {/* ── Data Source Bar ── */}
       <div className="source-bar glass">
@@ -80,46 +95,67 @@ const Dashboard = () => {
       {/* ── Error banner ── */}
       {error && (
         <div className="error-banner">
-          ⚠️ API tidak tersedia — menampilkan jadwal lokal. ({error})
+          ⚠️ API tidak tersedia — {selectedLeagueCode === 'WC' ? 'menampilkan jadwal lokal.' : 'tidak ada data untuk liga ini.'} ({error})
         </div>
       )}
 
       {/* ── Filters ── */}
-      <section className="filters-section">
-        <div className="filter-group">
-          <span className="filter-label">Grup:</span>
-          <div className="filter-chips">
-            {groups.map(g => (
-              <button
-                key={g}
-                className={`filter-btn ${selectedGroup === g ? 'active' : ''}`}
-                onClick={() => setSelectedGroup(g)}
-              >
-                {g}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="filter-group">
-          <span className="filter-label">Matchday:</span>
-          <div className="filter-chips">
-            {matchdays.map(md => (
-              <button
-                key={md}
-                className={`filter-btn ${selectedMatchday === String(md) ? 'active' : ''}`}
-                onClick={() => setSelectedMatchday(String(md))}
-              >
-                {md === 'Semua' ? 'Semua' : `MD ${md}`}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
+      {matches.length > 0 && (
+        <section className="filters-section">
+          {isGroupCompetition && groups.length > 2 && (
+            <div className="filter-group">
+              <span className="filter-label">Grup:</span>
+              <div className="filter-chips">
+                {groups.map(g => (
+                  <button
+                    key={g}
+                    className={`filter-btn ${selectedGroup === g ? 'active' : ''}`}
+                    onClick={() => setSelectedGroup(g)}
+                  >
+                    {g}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          {matchdays.length > 2 && (
+            <div className="filter-group">
+              <span className="filter-label">Matchday:</span>
+              <div className="filter-chips">
+                {matchdays.map(md => (
+                  <button
+                    key={md}
+                    className={`filter-btn ${selectedMatchday === String(md) ? 'active' : ''}`}
+                    onClick={() => setSelectedMatchday(String(md))}
+                  >
+                    {md === 'Semua' ? 'Semua' : `MD ${md}`}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
+      )}
 
       {/* ── Loading skeleton ── */}
       {loading && matches.length === 0 && (
         <div className="skeleton-grid">
           {[...Array(6)].map((_, i) => <div key={i} className="skeleton-card" />)}
+        </div>
+      )}
+
+      {/* ── Empty state (no matches from API) ── */}
+      {!loading && matches.length === 0 && (
+        <div className="empty-state glass-card">
+          <CalendarOff size={48} className="text-muted" style={{ marginBottom: '1rem' }} />
+          <h3>Jadwal Tidak Tersedia</h3>
+          <p className="text-muted">
+            Data untuk <strong>{selectedLeague?.name}</strong> belum tersedia.<br />
+            Kemungkinan liga sedang dalam masa jeda antar musim, atau API Key belum terpasang.
+          </p>
+          <button className="btn-primary" style={{ marginTop: '1.5rem' }} onClick={() => handleLeagueSelect('WC')}>
+            Lihat Jadwal World Cup
+          </button>
         </div>
       )}
 
@@ -163,7 +199,7 @@ const Dashboard = () => {
         </section>
       )}
 
-      {!loading && filteredMatches.length === 0 && (
+      {!loading && filteredMatches.length === 0 && matches.length > 0 && (
         <div className="no-matches text-muted">Tidak ada pertandingan untuk filter ini.</div>
       )}
     </div>

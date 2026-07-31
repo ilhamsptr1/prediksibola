@@ -128,3 +128,39 @@
     padding: 8px;
   }
 }
+
+/* ── Single-column layout for league tables ── */
+.standings-grid.single-col {
+  grid-template-columns: 1fr;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* ── Zone: Relegation danger ── */
+.st-table tr.zone-danger td:first-child {
+  border-left: 3px solid #f87171;
+}
+
+/* ── No data ── */
+.no-data {
+  text-align: center;
+  padding: 3rem;
+  background: var(--bg-glass);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--border-glass);
+}
+
+/* ── Legend ── */
+.standings-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.zone-qualified-dot { color: var(--primary); }
+.zone-possible-dot  { color: #ffcc00; }
+.zone-danger-dot    { color: #f87171; }
