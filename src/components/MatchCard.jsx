@@ -182,6 +182,24 @@ const MatchCard = ({ match }) => {
                 {pred.modelBreakdown ? '🤖 Ensemble v2' : '📐 Elo+Poisson'}
               </span>
             </div>
+            {pred.hasLiveOdds && (
+              <div className="ai-meta-item live-odds-badge">
+                <span style={{
+                  fontSize: '0.58rem',
+                  background: 'linear-gradient(135deg, #00c853, #1de9b6)',
+                  color: '#000',
+                  padding: '2px 6px',
+                  borderRadius: '8px',
+                  fontWeight: 700,
+                  letterSpacing: '0.3px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '3px',
+                }}>
+                  🔴 Live Odds
+                </span>
+              </div>
+            )}
             <div className="ai-meta-item">
               <span className="ai-meta-label">Elo</span>
               <span className="ai-meta-value">{pred.powerInfo.homeElo} — {pred.powerInfo.awayElo}</span>

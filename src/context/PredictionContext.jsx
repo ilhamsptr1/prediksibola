@@ -118,7 +118,7 @@ export const PredictionProvider = ({ children }) => {
       probabilities:   result.probabilities,
       modelBreakdown:  result.modelBreakdown ?? null,
       ensembleWeights: result.ensembleWeights ?? null,
-      hasLiveOdds:     !!(result.bookmakerLayer),
+      hasLiveOdds:     !!(result.marketOddsUsed),
       powerInfo: {
         homeElo: hElo, awayElo: aElo,
         homePower: homeStats?.powerIndex ?? 50,
