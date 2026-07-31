@@ -148,6 +148,7 @@ const bookmakerCalibration = (pH, pD, pA, marketOdds = null) => {
  * @param {object} params.awayStats  - dari teamRatings.json
  * @param {boolean} params.isNeutral
  * @param {number}  params.globalAvg - global avg goals per team per match
+ * @param {boolean} params.isClub    - true untuk pertandingan liga klub
  * @param {object|null} params.marketOdds - opsional { home, draw, away } decimal odds
  *
  * @returns {object} prediksi lengkap
@@ -159,6 +160,7 @@ export const generateMLPrediction = async ({
   awayStats,
   isNeutral = false,
   globalAvg,
+  isClub = true,       // default true karena website ini fokus ke liga klub
   marketOdds = null,
 }) => {
   const model = await loadModel();
@@ -220,7 +222,7 @@ export const generateMLPrediction = async ({
   // ══════════════════════════════════════════════════════════════
   //  MODEL 4: XGBoost / Gradient Boosting
   // ══════════════════════════════════════════════════════════════
-  // Feature vector (16 dims) — sama persis dengan training
+  // Feature vector (17 dims) — sama persis dengan training
   const x = [
     hElo / 2500, aElo / 2500, eloDiff / 400,
     hAtk, hDef, aAtk, aDef,
@@ -228,6 +230,7 @@ export const generateMLPrediction = async ({
     hFS, aFS,
     hGF, aGF, hGA,
     isNeutral ? 1 : 0,
+    isClub    ? 1 : 0,   // domain flag
   ];
 
   const gbRawH = predictGB(model.models.homeWin, x, lr);

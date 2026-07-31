@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Raw datasets (besar, tidak perlu di-push ke GitHub)
+archive*/
+*.zip
+results.csv
+scripts/analyzeClubData.cjs

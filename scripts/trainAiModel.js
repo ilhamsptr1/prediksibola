@@ -1,17 +1,22 @@
 /**
  * ═══════════════════════════════════════════════════════════════
- *  ENSEMBLE FOOTBALL PREDICTOR — FULL PIPELINE TRAINER
+ *  ENSEMBLE FOOTBALL PREDICTOR — FULL PIPELINE TRAINER v3
  * ═══════════════════════════════════════════════════════════════
+ *  Data sources:
+ *  - results.csv       : International matches (timnas, 48k rows)
+ *  - archive (2)/matches.csv : Club matches (PL, La Liga, dll. 25k rows)
+ *
  *  Pipeline:
  *  1. Elo Rating (FIFA-style, time-decay, K-factor per tournament)
  *  2. Poisson xG (weighted attack/defense per team)
  *  3. Weighted Recent Form (exponential decay, last 10 matches)
- *  4. Gradient Boosting / XGBoost (14 features, 50 trees)
+ *  4. Gradient Boosting / XGBoost (16 features, 50 trees)
  *  5. Platt Scaling Calibration (per-model, computed on validation set)
+ *  6. Optimal ensemble weights via grid search log-loss
  *
  *  Outputs:
- *  - teamRatings.json  — Elo + Poisson + weighted form per team
- *  - mlModel.json      — GB trees + calibration params
+ *  - teamRatings.json  — Elo + Poisson + weighted form per team (club + intl)
+ *  - mlModel.json      — GB trees + calibration + ensemble weights
  * ═══════════════════════════════════════════════════════════════
  */
 
@@ -24,20 +29,22 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 
 const CSV_FILE       = path.join(__dirname, '../results.csv');
+const CLUB_CSV       = path.join(__dirname, '../archive (2)/matches.csv');
 const RATINGS_OUTPUT = path.join(__dirname, '../src/data/teamRatings.json');
 const ML_OUTPUT      = path.join(__dirname, '../src/data/mlModel.json');
 
 // ── Config ──────────────────────────────────────────────────────
 const MIN_YEAR         = 1990;
 const TRAIN_FROM       = 2000;
-const VAL_YEAR         = 2020;   // 2020+ used as validation for calibration
+const VAL_YEAR         = 2018;   // 2018+ used as validation for calibration
 const BASE_ELO         = 1500;
 const HOME_ADVANTAGE   = 50;
 const DECAY_RATE       = 0.99;
-const MIN_MATCHES      = 15;
+const MIN_MATCHES      = 10;     // Lebih rendah agar klub kecil tetap terdata
 const NOW_YEAR         = 2025;
 const FORM_WINDOW      = 10;
 const FORM_DECAY       = 0.85;   // Exponential decay weight for recent form
+const CLUB_ELO_BASE    = 1500;   // Elo awal khusus tim klub
 
 // GB config
 const GB_N_ESTIMATORS   = 50;
@@ -46,8 +53,9 @@ const GB_LEARNING_RATE  = 0.15;
 const GB_SUBSAMPLE      = 0.60;
 const GB_MAX_THRESHOLDS = 15;
 
-// K-factor per tournament
+// K-factor per tournament / liga
 const K_FACTORS = {
+  // International
   'FIFA World Cup': 60, 'UEFA Euro': 50, 'Copa América': 50,
   'Africa Cup of Nations': 45, 'AFC Asian Cup': 45,
   'CONCACAF Gold Cup': 40, 'FIFA Confederations Cup': 45,
@@ -56,6 +64,13 @@ const K_FACTORS = {
   'Africa Cup of Nations qualification': 35,
   'CONCACAF Gold Cup qualification': 30, 'UEFA Nations League': 35,
   'Friendly': 20,
+  // Club leagues
+  'Premier League': 45, 'Barclays Premier League': 45,
+  'La Liga': 45, 'Serie A': 45, 'Bundesliga': 45,
+  'Ligue 1': 40, 'Primeira Liga': 38,
+  'Championship': 30, 'Segunda': 28,
+  'Champions League': 55, 'Europa League': 48,
+  'FA Cup': 30, 'Copa del Rey': 30,
 };
 const getKFactor  = (t) => { for (const [k, v] of Object.entries(K_FACTORS)) if (t.includes(k)) return v; return 30; };
 const gdMult      = (gd) => gd <= 1 ? 1 : gd === 2 ? 1.5 : (11 + gd) / 8;
@@ -250,7 +265,85 @@ const findEnsembleWeights = (predsSets, labels) => {
       })
       .on('end', () => { rows.sort((a, b) => a.date.localeCompare(b.date)); resolve(rows); });
   });
-  console.log(`✔ Loaded ${allMatches.length} matches.\n`);
+  console.log(`✔ Loaded ${allMatches.length} international matches.`);
+
+  // ── 1b. Load Club Dataset (matches.csv) ──────────────────────
+  console.log('📂 Loading club matches dataset...');
+
+  const parseClubRow = (row) => {
+    // Custom CSV parser that handles quoted fields with commas
+    const result = [];
+    let cur = '', inQ = false;
+    for (const ch of row) {
+      if (ch === '"') inQ = !inQ;
+      else if (ch === ',' && !inQ) { result.push(cur.trim()); cur = ''; }
+      else cur += ch;
+    }
+    result.push(cur.trim());
+    return result;
+  };
+
+  const clubMatches = await new Promise((resolve) => {
+    const content = fs.readFileSync(CLUB_CSV, 'utf8');
+    const lines   = content.split('\n');
+    const rows    = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      if (!lines[i].trim()) continue;
+      const cols = parseClubRow(lines[i]);
+      const hs   = parseInt(cols[12]);
+      const as_  = parseInt(cols[13]);
+      if (isNaN(hs) || isNaN(as_)) continue;
+
+      const homeTeam = cols[1]?.trim();
+      const awayTeam = cols[2]?.trim();
+      if (!homeTeam || !awayTeam) continue;
+
+      const year     = parseInt(cols[4]) || 0;
+      if (year < 2000) continue;
+
+      const leagueRaw = (cols[8] || '').trim();
+      // Normalize league name → tournament key
+      let tournament = leagueRaw;
+      if (leagueRaw.includes('Premier League') || leagueRaw.includes('Barclays')) tournament = 'Premier League';
+      else if (leagueRaw.includes('La Liga') || leagueRaw.includes('Spanish'))    tournament = 'La Liga';
+      else if (leagueRaw.includes('Serie A') || leagueRaw.includes('Italian'))    tournament = 'Serie A';
+      else if (leagueRaw.includes('Bundesliga') || leagueRaw.includes('German'))  tournament = 'Bundesliga';
+      else if (leagueRaw.includes('Ligue 1') || leagueRaw.includes('French'))     tournament = 'Ligue 1';
+      else if (leagueRaw.includes('Primeira') || leagueRaw.includes('Portugal'))  tournament = 'Primeira Liga';
+      else if (leagueRaw.includes('Champions'))                                    tournament = 'Champions League';
+      else if (leagueRaw.includes('Europa'))                                       tournament = 'Europa League';
+
+      // Build a sortable date string (YYYY-MM-DD)
+      // col[3] = "Saturday, August 18" — not reliable, use year only + index for ordering
+      const dateStr = `${year}-01-01`;
+
+      rows.push({
+        date: dateStr,
+        year,
+        homeTeam,
+        awayTeam,
+        homeScore: hs,
+        awayScore: as_,
+        tournament,
+        neutral: false,
+        isClub: true,
+      });
+    }
+
+    // Sort by year (approximation)
+    rows.sort((a, b) => a.year - b.year);
+    resolve(rows);
+  });
+
+  console.log(`✔ Loaded ${clubMatches.length} club matches.\n`);
+
+  // ── Merge & sort all matches ──────────────────────────────────
+  const allData = [...allMatches, ...clubMatches].sort((a, b) => {
+    if (a.year !== b.year) return a.year - b.year;
+    return a.date.localeCompare(b.date);
+  });
+  console.log(`📊 Total combined dataset: ${allData.length} matches\n`);
 
   // ── 2. Elo + Poisson + Weighted Recent Form ───────────────────
   console.log('⚡ Running Elo + Weighted Form simulation...');
@@ -271,7 +364,7 @@ const findEnsembleWeights = (predsSets, labels) => {
     if (yrs > 0) elo[t] = getElo(t) + (BASE_ELO - getElo(t)) * (1 - Math.pow(DECAY_RATE, yrs));
   };
 
-  for (const m of allMatches) {
+  for (const m of allData) {
     if (m.year < MIN_YEAR) continue;
     const { homeTeam: ht, awayTeam: at, homeScore: hs, awayScore: as_, year, tournament, neutral } = m;
     applyDecay(ht, year); applyDecay(at, year);
@@ -390,8 +483,9 @@ const findEnsembleWeights = (predsSets, labels) => {
    * [13] awayFormAvgGF
    * [14] homeFormAvgGA
    * [15] isNeutral
+   * [16] isClub (0=international, 1=club league) — KEY untuk domain separation
    */
-  const buildFV = (ht, at, isNeutral, hE, aE) => {
+  const buildFV = (ht, at, isNeutral, hE, aE, isClub = false) => {
     const hS = teamStats[ht];
     const aS = teamStats[at];
     if (!hS || !aS) return null;
@@ -404,6 +498,7 @@ const findEnsembleWeights = (predsSets, labels) => {
       hF.formScore, aF.formScore,
       hF.avgGF, aF.avgGF, hF.avgGA,
       isNeutral ? 1 : 0,
+      isClub    ? 1 : 0,   // ← domain flag
     ];
   };
 
@@ -419,7 +514,7 @@ const findEnsembleWeights = (predsSets, labels) => {
     if (y > 0) elo2[t] = getE2(t) + (BASE_ELO - getE2(t)) * (1 - Math.pow(DECAY_RATE, y));
   };
 
-  for (const m of allMatches) {
+  for (const m of allData) {
     if (m.year < MIN_YEAR) continue;
     const { homeTeam: ht, awayTeam: at, homeScore: hs, awayScore: as_, year, tournament, neutral } = m;
     dec2(ht, year); dec2(at, year);
@@ -427,7 +522,7 @@ const findEnsembleWeights = (predsSets, labels) => {
 
     // Build feature vector at match time using CURRENT Elo + stored Poisson + rolling form
     if (m.year >= TRAIN_FROM) {
-      const fv = buildFV(ht, at, neutral, hE2, aE2);
+      const fv = buildFV(ht, at, neutral, hE2, aE2, m.isClub === true);
       if (fv) {
         const outcome = hs > as_ ? 0 : hs === as_ ? 1 : 2;
         if (m.year >= VAL_YEAR) {
@@ -448,7 +543,7 @@ const findEnsembleWeights = (predsSets, labels) => {
     ly2[ht] = year; ly2[at] = year;
   }
 
-  console.log(`✔ Feature matrix: ${X.length} train + ${valX.length} validation samples, 16 features.\n`);
+  console.log(`✔ Feature matrix: ${X.length} train + ${valX.length} validation samples, 17 features (incl. isClub domain flag).\n`);
 
   // ── 4. Train GB models ────────────────────────────────────────
   console.log('🤖 Training Gradient Boosting models...\n');
