@@ -292,14 +292,21 @@ export const generateMLPrediction = async ({
     gb:   { home: (gb_probs[0]   * 100).toFixed(1), draw: (gb_probs[1]   * 100).toFixed(1), away: (gb_probs[2]   * 100).toFixed(1) },
   };
 
+  // ── Predicted scoreline ────────────────────────────────────────
+  // Gunakan xG yang sudah di-blend (bukan modus Poisson yang selalu 1-1)
+  // Math.round(xG) memberikan skor yang lebih bervariasi dan informatif
+  // Contoh: xGH=2.1 → 2 gol, xGA=0.9 → 1 gol → "2 - 1"
+  const likelyHome = Math.round(predXGH);
+  const likelyAway = Math.round(predXGA);
+
   return {
     probabilities: {
       home: (finalH * 100).toFixed(1),
       draw: (finalD * 100).toFixed(1),
       away: (finalA * 100).toFixed(1),
     },
-    likelyHome: dc.likelyH,
-    likelyAway: dc.likelyA,
+    likelyHome,
+    likelyAway,
     xG: {
       home: predXGH.toFixed(2),
       away: predXGA.toFixed(2),
