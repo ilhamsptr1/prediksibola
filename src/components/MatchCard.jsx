@@ -138,13 +138,16 @@ const MatchCard = ({ match }) => {
             </div>
             <div className="ai-meta-item">
               <Cpu size={12} className="ai-icon-pulse" />
-              <span className="ai-meta-label">AI Score</span>
+              <span className="ai-meta-label" style={{ fontSize: '0.6rem', textAlign: 'center' }}>
+                {pred.method?.includes('gradient') ? '🤖 GB Model' : '📐 Elo+Poisson'}
+              </span>
             </div>
             <div className="ai-meta-item">
               <span className="ai-meta-label">Elo</span>
               <span className="ai-meta-value">{pred.powerInfo.homeElo} — {pred.powerInfo.awayElo}</span>
             </div>
           </div>
+
         </div>
       )}
 
