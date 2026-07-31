@@ -75,11 +75,11 @@ const mapMatchData = (apiMatch) => {
 };
 
 export const fetchGroupStageMatches = async (competitionCode = 'WC') => {
-  // 1. Check cache first
+  // 1. Check cache first (served as live since it was fetched from API)
   const cached = getCached(competitionCode);
   if (cached) {
     console.log(`[footballApi] Using cached data for ${competitionCode}`);
-    return { matches: cached, isLive: false, error: null, fromCache: true };
+    return { matches: cached, isLive: true, error: null, fromCache: true };
   }
 
   if (!API_KEY) {
@@ -95,12 +95,12 @@ export const fetchGroupStageMatches = async (competitionCode = 'WC') => {
       headers: { 'X-Auth-Token': API_KEY }
     });
 
-    // Handle rate limit — return cached or empty gracefully
+    // Handle rate limit — return stale cache (24h) or empty gracefully
     if (response.status === 429) {
-      console.warn(`[footballApi] Rate limited for ${competitionCode}. Waiting...`);
-      const stale = getCached(`stale_${competitionCode}`);
-      if (stale) return { matches: stale, isLive: false, error: 'API error: 429 (using cached)' };
-      return { matches: [], isLive: false, error: 'API error: 429 (rate limit, coba lagi dalam 1 menit)' };
+      console.warn(`[footballApi] Rate limited for ${competitionCode}. Trying stale cache...`);
+      const stale = getStaleCached(competitionCode);
+      if (stale) return { matches: stale, isLive: true, error: null, fromCache: true };
+      return { matches: [], isLive: false, error: 'Rate limit (429) — tunggu 1 menit lalu refresh' };
     }
 
     if (!response.ok) {
@@ -194,14 +194,15 @@ const TEAM_IDS = {
 };
 
 // ── Cache layer ──────────────────────────────────────────────────
-const CACHE_TTL_MS = 60 * 60 * 1000; // 1 jam
+const CACHE_TTL_MS     = 60 * 60 * 1000;      // 1 jam (cache utama)
+const STALE_CACHE_TTL  = 24 * 60 * 60 * 1000; // 24 jam (stale/fallback)
 
-const getCached = (key) => {
+const getCached = (key, ttl = CACHE_TTL_MS) => {
   try {
     const raw = localStorage.getItem(`fbd_cache_${key}`);
     if (!raw) return null;
     const { ts, data } = JSON.parse(raw);
-    if (Date.now() - ts < CACHE_TTL_MS) return data;
+    if (Date.now() - ts < ttl) return data;
     localStorage.removeItem(`fbd_cache_${key}`);
   } catch { /* ignore */ }
   return null;
@@ -212,6 +213,9 @@ const setCache = (key, data) => {
     localStorage.setItem(`fbd_cache_${key}`, JSON.stringify({ ts: Date.now(), data }));
   } catch { /* ignore */ }
 };
+
+// Stale cache: 24 jam TTL, used as last-resort on 429/network error
+const getStaleCached = (key) => getCached(`stale_${key}`, STALE_CACHE_TTL);
 
 // Cache duration: 24 hours (for team data)
 const CACHE_DURATION = 1000 * 60 * 60 * 24;
