@@ -59,8 +59,14 @@ const mapMatchData = (apiMatch) => {
 };
 
 export const fetchGroupStageMatches = async (competitionCode = 'WC') => {
+  // 1. Check cache first
+  const cached = getCached(competitionCode);
+  if (cached) {
+    console.log(`[footballApi] Using cached data for ${competitionCode}`);
+    return { matches: cached, isLive: false, error: null, fromCache: true };
+  }
+
   if (!API_KEY) {
-    // For WC only we have local mock data; others return empty
     if (competitionCode === 'WC') {
       const fallback = MOCK_MATCHES.map(mapMatchData);
       return { matches: fallback, isLive: false, error: 'No API Key provided' };
@@ -73,6 +79,14 @@ export const fetchGroupStageMatches = async (competitionCode = 'WC') => {
       headers: { 'X-Auth-Token': API_KEY }
     });
 
+    // Handle rate limit — return cached or empty gracefully
+    if (response.status === 429) {
+      console.warn(`[footballApi] Rate limited for ${competitionCode}. Waiting...`);
+      const stale = getCached(`stale_${competitionCode}`);
+      if (stale) return { matches: stale, isLive: false, error: 'API error: 429 (using cached)' };
+      return { matches: [], isLive: false, error: 'API error: 429 (rate limit, coba lagi dalam 1 menit)' };
+    }
+
     if (!response.ok) {
       throw new Error(`API error: ${response.status}`);
     }
@@ -80,9 +94,16 @@ export const fetchGroupStageMatches = async (competitionCode = 'WC') => {
     const data = await response.json();
     const matches = data.matches.map(mapMatchData);
 
+    // Save to cache + stale cache (stale survives TTL for 429 fallback)
+    setCache(competitionCode, matches);
+    setCache(`stale_${competitionCode}`, matches);
+
     return { matches, isLive: true, error: null };
   } catch (error) {
-    console.error("Fetch API error:", error);
+    console.error('Fetch API error:', error);
+    // Try stale cache as last resort
+    const stale = getCached(`stale_${competitionCode}`);
+    if (stale) return { matches: stale, isLive: false, error: error.message + ' (cached)' };
     if (competitionCode === 'WC') {
       const fallback = MOCK_MATCHES.map(mapMatchData);
       return { matches: fallback, isLive: false, error: error.message };
@@ -156,7 +177,27 @@ const TEAM_IDS = {
   "Switzerland": 788,
 };
 
-// Cache duration: 24 hours
+// ── Cache layer ──────────────────────────────────────────────────
+const CACHE_TTL_MS = 60 * 60 * 1000; // 1 jam
+
+const getCached = (key) => {
+  try {
+    const raw = localStorage.getItem(`fbd_cache_${key}`);
+    if (!raw) return null;
+    const { ts, data } = JSON.parse(raw);
+    if (Date.now() - ts < CACHE_TTL_MS) return data;
+    localStorage.removeItem(`fbd_cache_${key}`);
+  } catch { /* ignore */ }
+  return null;
+};
+
+const setCache = (key, data) => {
+  try {
+    localStorage.setItem(`fbd_cache_${key}`, JSON.stringify({ ts: Date.now(), data }));
+  } catch { /* ignore */ }
+};
+
+// Cache duration: 24 hours (for team data)
 const CACHE_DURATION = 1000 * 60 * 60 * 24;
 
 export const fetchTeamRecentForm = async (teamName) => {
