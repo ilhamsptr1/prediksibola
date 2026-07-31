@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
 import teamRatingsData from '../data/teamRatings.json';
 import { getLeague } from '../data/leagues';
+import { fetchOddsForLeague, findMatchOdds, oddsToFairProbs } from '../services/oddsService.js';
 
 const PredictionContext = createContext();
 export const usePredictions = () => useContext(PredictionContext);
@@ -53,11 +54,30 @@ export const PredictionProvider = ({ children }) => {
   const [predictions,        setPredictions]        = useState({});
   const [selectedLeagueCode, setSelectedLeagueCode] = useState('WC');
   const [mlReady,            setMlReady]            = useState(false);
+  const [oddsData,           setOddsData]           = useState([]);
+  const [oddsStatus,         setOddsStatus]         = useState('idle'); // idle | loading | ready | error | no-key
   const selectedLeague = getLeague(selectedLeagueCode);
 
   useEffect(() => {
     loadML().then(m => { if (m) setMlReady(true); });
   }, []);
+
+  // Fetch odds setiap kali liga berubah
+  useEffect(() => {
+    const hasKey = !!import.meta.env.VITE_ODDS_API_KEY;
+    if (!hasKey) { setOddsStatus('no-key'); setOddsData([]); return; }
+
+    const leagueKey = selectedLeagueCode?.toLowerCase().replace('_', '-');
+    setOddsStatus('loading');
+    setOddsData([]);
+
+    fetchOddsForLeague(leagueKey)
+      .then(data => {
+        setOddsData(data);
+        setOddsStatus(data.length > 0 ? 'ready' : 'idle');
+      })
+      .catch(() => setOddsStatus('error'));
+  }, [selectedLeagueCode]);
 
   const generateAIPrediction = async (match) => {
     const ratings   = teamRatingsData.teamRatings;
@@ -71,13 +91,18 @@ export const PredictionProvider = ({ children }) => {
     try {
       const mod = await loadML();
       if (mod?.generateMLPrediction) {
+        // Cari odds real-time untuk pertandingan ini
+        const rawOdds  = findMatchOdds(match.homeTeam.name, match.awayTeam.name, oddsData);
+        const fairOdds = rawOdds ? oddsToFairProbs(rawOdds) : null;
+
         result = await mod.generateMLPrediction({
           homeTeam: match.homeTeam,
           awayTeam: match.awayTeam,
           homeStats, awayStats,
           isNeutral: false,
           globalAvg,
-          marketOdds: null, // dapat diisi jika ada odds API
+          isClub: true,
+          marketOdds: fairOdds, // null jika tidak ada odds API
         });
       } else throw new Error('ML not available');
     } catch (e) {
@@ -93,6 +118,7 @@ export const PredictionProvider = ({ children }) => {
       probabilities:   result.probabilities,
       modelBreakdown:  result.modelBreakdown ?? null,
       ensembleWeights: result.ensembleWeights ?? null,
+      hasLiveOdds:     !!(result.bookmakerLayer),
       powerInfo: {
         homeElo: hElo, awayElo: aElo,
         homePower: homeStats?.powerIndex ?? 50,
@@ -112,7 +138,7 @@ export const PredictionProvider = ({ children }) => {
     <PredictionContext.Provider value={{
       predictions, generateAIPrediction, getPredictionForMatch,
       selectedLeague, selectedLeagueCode, setSelectedLeagueCode,
-      mlReady,
+      mlReady, oddsStatus,
     }}>
       {children}
     </PredictionContext.Provider>
