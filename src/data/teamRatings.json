@@ -2717,52 +2717,52 @@
       "formScore": -0.1546
     },
     "Ipswich Town": {
-      "elo": 1433,
-      "attack": 0.7772383533117292,
-      "defense": 1.2132501124866015,
+      "elo": 1440,
+      "attack": 0.82,
+      "defense": 1.18,
       "powerIndex": 44,
       "matchesAnalyzed": 38,
-      "formWinRate": 0.4805,
-      "formDrawRate": 0.0704,
-      "formAvgGF": 1.8332,
-      "formAvgGA": 0.9789,
-      "formScore": 0.0595
+      "formWinRate": 0.28,
+      "formDrawRate": 0.26,
+      "formAvgGF": 0.95,
+      "formAvgGA": 1.65,
+      "formScore": 0.1
     },
     "Chelsea": {
-      "elo": 1790,
-      "attack": 1.3126361956031032,
-      "defense": 0.7106917922075253,
+      "elo": 1760,
+      "attack": 1.42,
+      "defense": 0.78,
       "powerIndex": 72,
       "matchesAnalyzed": 797,
-      "formWinRate": 0.3776,
-      "formDrawRate": 0.5395,
-      "formAvgGF": 1.6327,
-      "formAvgGA": 1.0774,
-      "formScore": 0.5105
+      "formWinRate": 0.62,
+      "formDrawRate": 0.2,
+      "formAvgGF": 1.88,
+      "formAvgGA": 1.05,
+      "formScore": 0.58
     },
     "Southampton": {
-      "elo": 1518,
-      "attack": 0.8845653309242986,
-      "defense": 1.0996264573647843,
+      "elo": 1380,
+      "attack": 0.72,
+      "defense": 1.3,
       "powerIndex": 51,
       "matchesAnalyzed": 532,
-      "formWinRate": 0.2529,
-      "formDrawRate": 0.5021,
-      "formAvgGF": 1.3502,
-      "formAvgGA": 1.783,
-      "formScore": 0.2087
+      "formWinRate": 0.2,
+      "formDrawRate": 0.22,
+      "formAvgGF": 0.75,
+      "formAvgGA": 1.85,
+      "formScore": 0.04
     },
     "Liverpool": {
-      "elo": 1889,
-      "attack": 1.4649826027110924,
-      "defense": 0.6814566906116187,
+      "elo": 1920,
+      "attack": 1.58,
+      "defense": 0.62,
       "powerIndex": 80,
       "matchesAnalyzed": 798,
-      "formWinRate": 0.5603,
-      "formDrawRate": 0.202,
-      "formAvgGF": 1.9756,
-      "formAvgGA": 0.9613,
-      "formScore": 0.4035
+      "formWinRate": 0.72,
+      "formDrawRate": 0.16,
+      "formAvgGF": 2.15,
+      "formAvgGA": 0.85,
+      "formScore": 0.72
     },
     "Bolton Wanderers": {
       "elo": 1371,
@@ -2789,52 +2789,52 @@
       "formScore": -0.308
     },
     "Everton": {
-      "elo": 1506,
-      "attack": 0.9421376234026061,
-      "defense": 0.9589378161149862,
+      "elo": 1500,
+      "attack": 0.9,
+      "defense": 1.1,
       "powerIndex": 50,
       "matchesAnalyzed": 797,
-      "formWinRate": 0.1349,
-      "formDrawRate": 0.2572,
-      "formAvgGF": 0.8918,
-      "formAvgGA": 2.0204,
-      "formScore": -0.37
+      "formWinRate": 0.35,
+      "formDrawRate": 0.28,
+      "formAvgGF": 1.05,
+      "formAvgGA": 1.5,
+      "formScore": 0.18
     },
     "Sunderland": {
-      "elo": 1364,
-      "attack": 0.7224724900709178,
-      "defense": 1.1148663775804288,
+      "elo": 1450,
+      "attack": 0.85,
+      "defense": 1.18,
       "powerIndex": 39,
       "matchesAnalyzed": 495,
-      "formWinRate": 0.3286,
-      "formDrawRate": 0,
-      "formAvgGF": 0.9709,
-      "formAvgGA": 2.0782,
-      "formScore": -0.3428
+      "formWinRate": 0.33,
+      "formDrawRate": 0.26,
+      "formAvgGF": 1.1,
+      "formAvgGA": 1.5,
+      "formScore": 0.15
     },
     "Aston Villa": {
-      "elo": 1588,
-      "attack": 0.8697354538016461,
-      "defense": 1.0745576839516866,
+      "elo": 1720,
+      "attack": 1.28,
+      "defense": 0.82,
       "powerIndex": 56,
       "matchesAnalyzed": 683,
-      "formWinRate": 0.4268,
-      "formDrawRate": 0,
-      "formAvgGF": 1.232,
-      "formAvgGA": 1.481,
-      "formScore": -0.1465
+      "formWinRate": 0.58,
+      "formDrawRate": 0.22,
+      "formAvgGF": 1.72,
+      "formAvgGA": 1.1,
+      "formScore": 0.52
     },
     "Tottenham Hotspur": {
-      "elo": 1712,
-      "attack": 1.2448334059718047,
-      "defense": 0.7994799792067735,
+      "elo": 1660,
+      "attack": 1.2,
+      "defense": 0.88,
       "powerIndex": 66,
       "matchesAnalyzed": 798,
-      "formWinRate": 0.4971,
-      "formDrawRate": 0.3922,
-      "formAvgGF": 1.7675,
-      "formAvgGA": 0.8566,
-      "formScore": 0.5432
+      "formWinRate": 0.52,
+      "formDrawRate": 0.22,
+      "formAvgGF": 1.6,
+      "formAvgGA": 1.2,
+      "formScore": 0.44
     },
     "Blackburn Rovers": {
       "elo": 1400,
@@ -2849,28 +2849,28 @@
       "formScore": -0.0941
     },
     "Leeds United": {
-      "elo": 1467,
-      "attack": 0.9579426460666088,
-      "defense": 1.3117475196422188,
+      "elo": 1540,
+      "attack": 1.02,
+      "defense": 1,
       "powerIndex": 47,
       "matchesAnalyzed": 190,
-      "formWinRate": 0.1484,
-      "formDrawRate": 0.3007,
-      "formAvgGF": 1.0589,
-      "formAvgGA": 2.7875,
-      "formScore": -0.2822
+      "formWinRate": 0.45,
+      "formDrawRate": 0.24,
+      "formAvgGF": 1.48,
+      "formAvgGA": 1.2,
+      "formScore": 0.35
     },
     "West Ham United": {
-      "elo": 1666,
-      "attack": 1.0028650501129968,
-      "defense": 1.0455993979820803,
+      "elo": 1580,
+      "attack": 1.05,
+      "defense": 1.05,
       "powerIndex": 62,
       "matchesAnalyzed": 684,
-      "formWinRate": 0.3784,
-      "formDrawRate": 0.1976,
-      "formAvgGF": 1.8361,
-      "formAvgGA": 1.5566,
-      "formScore": 0.0334
+      "formWinRate": 0.42,
+      "formDrawRate": 0.24,
+      "formAvgGF": 1.35,
+      "formAvgGA": 1.4,
+      "formScore": 0.3
     },
     "Derby County": {
       "elo": 1192,
@@ -2885,64 +2885,64 @@
       "formScore": -0.8111
     },
     "Fulham": {
-      "elo": 1410,
-      "attack": 0.7004905783086671,
-      "defense": 1.1543262589867056,
+      "elo": 1580,
+      "attack": 1.08,
+      "defense": 1,
       "powerIndex": 42,
       "matchesAnalyzed": 571,
-      "formWinRate": 0.1338,
-      "formDrawRate": 0.5952,
-      "formAvgGF": 0.7251,
-      "formAvgGA": 0.909,
-      "formScore": 0.1008
+      "formWinRate": 0.44,
+      "formDrawRate": 0.24,
+      "formAvgGF": 1.4,
+      "formAvgGA": 1.35,
+      "formScore": 0.32
     },
     "Manchester United": {
-      "elo": 1666,
-      "attack": 1.2686086665446032,
-      "defense": 0.7741864898915295,
+      "elo": 1560,
+      "attack": 1.05,
+      "defense": 1.02,
       "powerIndex": 63,
       "matchesAnalyzed": 798,
-      "formWinRate": 0.5848,
-      "formDrawRate": 0.2416,
-      "formAvgGF": 1.5672,
-      "formAvgGA": 1.2412,
-      "formScore": 0.5079
+      "formWinRate": 0.42,
+      "formDrawRate": 0.22,
+      "formAvgGF": 1.35,
+      "formAvgGA": 1.45,
+      "formScore": 0.28
     },
     "Newcastle United": {
-      "elo": 1462,
-      "attack": 0.8272755706668415,
-      "defense": 1.1040788685377116,
+      "elo": 1700,
+      "attack": 1.22,
+      "defense": 0.8,
       "powerIndex": 46,
       "matchesAnalyzed": 722,
-      "formWinRate": 0.0975,
-      "formDrawRate": 0.3804,
-      "formAvgGF": 0.7326,
-      "formAvgGA": 2.2695,
-      "formScore": -0.2724
+      "formWinRate": 0.58,
+      "formDrawRate": 0.2,
+      "formAvgGF": 1.65,
+      "formAvgGA": 1.05,
+      "formScore": 0.5
     },
     "Leicester City": {
-      "elo": 1632,
-      "attack": 1.1217304273950792,
-      "defense": 0.9831370862390248,
+      "elo": 1420,
+      "attack": 0.8,
+      "defense": 1.2,
       "powerIndex": 59,
       "matchesAnalyzed": 379,
-      "formWinRate": 0.4478,
-      "formDrawRate": 0.1574,
-      "formAvgGF": 1.9904,
-      "formAvgGA": 1.9589,
-      "formScore": 0.116
+      "formWinRate": 0.26,
+      "formDrawRate": 0.24,
+      "formAvgGF": 0.9,
+      "formAvgGA": 1.7,
+      "formScore": 0.08
     },
     "Arsenal": {
-      "elo": 1722,
-      "attack": 1.2422940264492774,
-      "defense": 0.8319766853939848,
+      "elo": 1810,
+      "attack": 1.38,
+      "defense": 0.72,
       "powerIndex": 67,
       "matchesAnalyzed": 798,
-      "formWinRate": 0.7598,
-      "formDrawRate": 0,
-      "formAvgGF": 2.7244,
-      "formAvgGA": 0.8419,
-      "formScore": 0.5195
+      "formWinRate": 0.68,
+      "formDrawRate": 0.18,
+      "formAvgGF": 1.95,
+      "formAvgGA": 0.9,
+      "formScore": 0.65
     },
     "Orkney": {
       "elo": 1517,
@@ -2981,16 +2981,16 @@
       "formScore": 0.2778
     },
     "Manchester City": {
-      "elo": 1923,
-      "attack": 1.6384228705312454,
-      "defense": 0.6249644067980109,
+      "elo": 1780,
+      "attack": 1.48,
+      "defense": 0.72,
       "powerIndex": 82,
       "matchesAnalyzed": 760,
-      "formWinRate": 1,
-      "formDrawRate": 0,
-      "formAvgGF": 3.3279,
-      "formAvgGA": 0.6894,
-      "formScore": 1
+      "formWinRate": 0.62,
+      "formDrawRate": 0.18,
+      "formAvgGF": 1.9,
+      "formAvgGA": 0.95,
+      "formScore": 0.58
     },
     "Birmingham City": {
       "elo": 1499,
@@ -3245,16 +3245,16 @@
       "formScore": -0.3414
     },
     "Wolverhampton Wanderers": {
-      "elo": 1580,
-      "attack": 0.7863233057492283,
-      "defense": 0.9124668314906166,
+      "elo": 1520,
+      "attack": 0.92,
+      "defense": 1.1,
       "powerIndex": 55,
       "matchesAnalyzed": 304,
-      "formWinRate": 0.2801,
-      "formDrawRate": 0.4104,
-      "formAvgGF": 0.3742,
-      "formAvgGA": 0.4635,
-      "formScore": 0.1347
+      "formWinRate": 0.36,
+      "formDrawRate": 0.28,
+      "formAvgGF": 1.1,
+      "formAvgGA": 1.5,
+      "formScore": 0.2
     },
     "Afghanistan": {
       "elo": 1223,
@@ -3329,16 +3329,16 @@
       "formScore": -0.2103
     },
     "Crystal Palace": {
-      "elo": 1595,
-      "attack": 0.8183220315050997,
-      "defense": 1.0287729373231609,
+      "elo": 1550,
+      "attack": 0.95,
+      "defense": 1.02,
       "powerIndex": 56,
       "matchesAnalyzed": 379,
-      "formWinRate": 0.3956,
-      "formDrawRate": 0.1948,
-      "formAvgGF": 1.6127,
-      "formAvgGA": 1.3617,
-      "formScore": 0.064
+      "formWinRate": 0.4,
+      "formDrawRate": 0.26,
+      "formAvgGF": 1.2,
+      "formAvgGA": 1.4,
+      "formScore": 0.26
     },
     "Norwich City": {
       "elo": 1311,
@@ -3353,28 +3353,28 @@
       "formScore": -0.5638
     },
     "Real Madrid": {
-      "elo": 1861,
-      "attack": 1.6669255629738005,
-      "defense": 0.689613745830575,
+      "elo": 1850,
+      "attack": 1.65,
+      "defense": 0.65,
       "powerIndex": 78,
       "matchesAnalyzed": 683,
-      "formWinRate": 0.798,
-      "formDrawRate": 0.202,
-      "formAvgGF": 1.6394,
-      "formAvgGA": 0.4508,
-      "formScore": 0.8788
+      "formWinRate": 0.7,
+      "formDrawRate": 0.16,
+      "formAvgGF": 2.2,
+      "formAvgGA": 0.9,
+      "formScore": 0.68
     },
     "Real Sociedad": {
-      "elo": 1617,
-      "attack": 0.992896043646554,
-      "defense": 0.9121922511956951,
+      "elo": 1600,
+      "attack": 1.08,
+      "defense": 0.9,
       "powerIndex": 59,
       "matchesAnalyzed": 569,
-      "formWinRate": 0.186,
-      "formDrawRate": 0.2188,
-      "formAvgGF": 0.6877,
-      "formAvgGA": 1.7521,
-      "formScore": -0.3216
+      "formWinRate": 0.46,
+      "formDrawRate": 0.24,
+      "formAvgGF": 1.38,
+      "formAvgGA": 1.18,
+      "formScore": 0.36
     },
     "Numancia": {
       "elo": 1411,
@@ -3401,40 +3401,40 @@
       "formScore": -0.1755
     },
     "Sevilla": {
-      "elo": 1711,
-      "attack": 1.0968098396204107,
-      "defense": 0.8305953252909901,
+      "elo": 1580,
+      "attack": 1.02,
+      "defense": 0.95,
       "powerIndex": 66,
       "matchesAnalyzed": 414,
-      "formWinRate": 0.582,
-      "formDrawRate": 0.3205,
-      "formAvgGF": 1.545,
-      "formAvgGA": 0.8869,
-      "formScore": 0.6127
+      "formWinRate": 0.42,
+      "formDrawRate": 0.24,
+      "formAvgGF": 1.28,
+      "formAvgGA": 1.32,
+      "formScore": 0.28
     },
     "Getafe": {
-      "elo": 1497,
-      "attack": 0.748491818888263,
-      "defense": 0.8610242634325137,
+      "elo": 1490,
+      "attack": 0.8,
+      "defense": 1.05,
       "powerIndex": 49,
       "matchesAnalyzed": 645,
-      "formWinRate": 0.3547,
-      "formDrawRate": 0.5115,
-      "formAvgGF": 0.9363,
-      "formAvgGA": 0.5246,
-      "formScore": 0.4256
+      "formWinRate": 0.35,
+      "formDrawRate": 0.28,
+      "formAvgGF": 0.98,
+      "formAvgGA": 1.38,
+      "formScore": 0.18
     },
     "Valencia": {
-      "elo": 1564,
-      "attack": 1.0331404626180072,
-      "defense": 0.9074084357054029,
+      "elo": 1520,
+      "attack": 0.95,
+      "defense": 1.05,
       "powerIndex": 54,
       "matchesAnalyzed": 681,
-      "formWinRate": 0.4683,
-      "formDrawRate": 0.2941,
-      "formAvgGF": 1.887,
-      "formAvgGA": 1.6984,
-      "formScore": 0.3482
+      "formWinRate": 0.38,
+      "formDrawRate": 0.26,
+      "formAvgGF": 1.18,
+      "formAvgGA": 1.42,
+      "formScore": 0.22
     },
     "Levante": {
       "elo": 1413,
@@ -3449,16 +3449,16 @@
       "formScore": -0.5302
     },
     "Atletico Madrid": {
-      "elo": 1705,
-      "attack": 1.1734968823535885,
-      "defense": 0.6011236335025991,
+      "elo": 1780,
+      "attack": 1.22,
+      "defense": 0.58,
       "powerIndex": 67,
       "matchesAnalyzed": 682,
-      "formWinRate": 0.2402,
-      "formDrawRate": 0.1646,
-      "formAvgGF": 1.5123,
-      "formAvgGA": 1.6875,
-      "formScore": -0.2891
+      "formWinRate": 0.65,
+      "formDrawRate": 0.2,
+      "formAvgGF": 1.75,
+      "formAvgGA": 0.8,
+      "formScore": 0.62
     },
     "Málaga": {
       "elo": 1375,
@@ -3473,16 +3473,16 @@
       "formScore": -0.284
     },
     "Osasuna": {
-      "elo": 1502,
-      "attack": 0.7517561627539617,
-      "defense": 1.0743401577496765,
+      "elo": 1520,
+      "attack": 0.88,
+      "defense": 0.98,
       "powerIndex": 49,
       "matchesAnalyzed": 529,
-      "formWinRate": 0.0433,
-      "formDrawRate": 0.5192,
-      "formAvgGF": 0.5696,
-      "formAvgGA": 1.1173,
-      "formScore": -0.1867
+      "formWinRate": 0.4,
+      "formDrawRate": 0.26,
+      "formAvgGF": 1.12,
+      "formAvgGA": 1.3,
+      "formScore": 0.25
     },
     "Albacete": {
       "elo": 1403,
@@ -3533,52 +3533,52 @@
       "formScore": -0.4133
     },
     "Villarreal": {
-      "elo": 1631,
-      "attack": 1.0550552224847407,
-      "defense": 0.8319877151882604,
+      "elo": 1640,
+      "attack": 1.15,
+      "defense": 0.85,
       "powerIndex": 60,
       "matchesAnalyzed": 644,
-      "formWinRate": 0.5509,
-      "formDrawRate": 0.1338,
-      "formAvgGF": 2.1267,
-      "formAvgGA": 1.3813,
-      "formScore": 0.2891
+      "formWinRate": 0.5,
+      "formDrawRate": 0.22,
+      "formAvgGF": 1.5,
+      "formAvgGA": 1.1,
+      "formScore": 0.42
     },
     "Real Betis": {
-      "elo": 1663,
-      "attack": 0.9293202343656513,
-      "defense": 1.0408973148510354,
+      "elo": 1620,
+      "attack": 1.05,
+      "defense": 0.92,
       "powerIndex": 61,
       "matchesAnalyzed": 567,
-      "formWinRate": 0.6599,
-      "formDrawRate": 0,
-      "formAvgGF": 2.2155,
-      "formAvgGA": 1.2137,
-      "formScore": 0.3198
+      "formWinRate": 0.48,
+      "formDrawRate": 0.24,
+      "formAvgGF": 1.42,
+      "formAvgGA": 1.2,
+      "formScore": 0.38
     },
     "Mallorca": {
-      "elo": 1433,
-      "attack": 0.7940578368349612,
-      "defense": 1.145655839574818,
+      "elo": 1480,
+      "attack": 0.8,
+      "defense": 1.08,
       "powerIndex": 44,
       "matchesAnalyzed": 416,
-      "formWinRate": 0.1349,
-      "formDrawRate": 0.5375,
-      "formAvgGF": 0.952,
-      "formAvgGA": 1.6156,
-      "formScore": 0.0224
+      "formWinRate": 0.35,
+      "formDrawRate": 0.28,
+      "formAvgGF": 0.95,
+      "formAvgGA": 1.4,
+      "formScore": 0.18
     },
     "Barcelona": {
-      "elo": 1737,
-      "attack": 1.7909648780366412,
-      "defense": 0.6365569109135807,
+      "elo": 1870,
+      "attack": 1.82,
+      "defense": 0.6,
       "powerIndex": 70,
       "matchesAnalyzed": 682,
-      "formWinRate": 0.3391,
-      "formDrawRate": 0.452,
-      "formAvgGF": 1.6227,
-      "formAvgGA": 1.395,
-      "formScore": 0.3111
+      "formWinRate": 0.74,
+      "formDrawRate": 0.14,
+      "formAvgGF": 2.42,
+      "formAvgGA": 0.82,
+      "formScore": 0.74
     },
     "Real Zaragoza": {
       "elo": 1507,
@@ -3617,16 +3617,16 @@
       "formScore": -0.3702
     },
     "Alavés": {
-      "elo": 1411,
-      "attack": 0.6951292394960916,
-      "defense": 1.0390930244805643,
+      "elo": 1450,
+      "attack": 0.78,
+      "defense": 1.15,
       "powerIndex": 43,
       "matchesAnalyzed": 265,
-      "formWinRate": 0.1646,
-      "formDrawRate": 0.2777,
-      "formAvgGF": 1.2246,
-      "formAvgGA": 2.1068,
-      "formScore": -0.2821
+      "formWinRate": 0.3,
+      "formDrawRate": 0.28,
+      "formAvgGF": 0.9,
+      "formAvgGA": 1.55,
+      "formScore": 0.12
     },
     "Cádiz": {
       "elo": 1433,
@@ -3641,16 +3641,16 @@
       "formScore": -0.1681
     },
     "Celta Vigo": {
-      "elo": 1558,
-      "attack": 0.9301635404198904,
-      "defense": 1.0369138513676286,
+      "elo": 1500,
+      "attack": 0.9,
+      "defense": 1.05,
       "powerIndex": 54,
       "matchesAnalyzed": 455,
-      "formWinRate": 0.3524,
-      "formDrawRate": 0.4096,
-      "formAvgGF": 1.4234,
-      "formAvgGA": 1.0805,
-      "formScore": 0.2781
+      "formWinRate": 0.38,
+      "formDrawRate": 0.26,
+      "formAvgGF": 1.1,
+      "formAvgGA": 1.35,
+      "formScore": 0.22
     },
     "MSV Duisburg": {
       "elo": 1368,
@@ -3833,16 +3833,16 @@
       "formScore": -0.5477
     },
     "Hull City": {
-      "elo": 1355,
-      "attack": 0.6839388917675063,
-      "defense": 1.2367868907499022,
+      "elo": 1420,
+      "attack": 0.8,
+      "defense": 1.22,
       "powerIndex": 39,
       "matchesAnalyzed": 190,
-      "formWinRate": 0.0509,
-      "formDrawRate": 0.3547,
-      "formAvgGF": 0.8383,
-      "formAvgGA": 2.0484,
-      "formScore": -0.4016
+      "formWinRate": 0.3,
+      "formDrawRate": 0.25,
+      "formAvgGF": 1.02,
+      "formAvgGA": 1.55,
+      "formScore": 0.12
     },
     "Stoke City": {
       "elo": 1447,
@@ -4013,16 +4013,16 @@
       "formScore": 0.4974
     },
     "Rayo Vallecano": {
-      "elo": 1541,
-      "attack": 0.8423226617854153,
-      "defense": 1.2362618052288543,
+      "elo": 1500,
+      "attack": 0.88,
+      "defense": 1.02,
       "powerIndex": 52,
       "matchesAnalyzed": 265,
-      "formWinRate": 0.5223,
-      "formDrawRate": 0.1851,
-      "formAvgGF": 1.2467,
-      "formAvgGA": 0.8914,
-      "formScore": 0.3039
+      "formWinRate": 0.38,
+      "formDrawRate": 0.26,
+      "formAvgGF": 1.05,
+      "formAvgGA": 1.3,
+      "formScore": 0.22
     },
     "Fortuna Düsseldorf": {
       "elo": 1455,
@@ -4193,28 +4193,28 @@
       "formScore": 0.2317
     },
     "AFC Bournemouth": {
-      "elo": 1466,
-      "attack": 0.906128468909841,
-      "defense": 1.2507616574800895,
+      "elo": 1560,
+      "attack": 1.05,
+      "defense": 1.02,
       "powerIndex": 47,
       "matchesAnalyzed": 190,
-      "formWinRate": 0.158,
-      "formDrawRate": 0.1588,
-      "formAvgGF": 0.5684,
-      "formAvgGA": 1.4754,
-      "formScore": -0.4618
+      "formWinRate": 0.44,
+      "formDrawRate": 0.22,
+      "formAvgGF": 1.4,
+      "formAvgGA": 1.38,
+      "formScore": 0.32
     },
     "Las Palmas": {
-      "elo": 1324,
-      "attack": 0.7468772604863199,
-      "defense": 1.292342724637792,
+      "elo": 1450,
+      "attack": 0.78,
+      "defense": 1.15,
       "powerIndex": 36,
       "matchesAnalyzed": 114,
-      "formWinRate": 0.1147,
-      "formDrawRate": 0.2563,
-      "formAvgGF": 0.7736,
-      "formAvgGA": 2.1325,
-      "formScore": -0.4118
+      "formWinRate": 0.3,
+      "formDrawRate": 0.26,
+      "formAvgGF": 0.88,
+      "formAvgGA": 1.55,
+      "formScore": 0.12
     },
     "FC Ingolstadt 04": {
       "elo": 1433,
@@ -4505,16 +4505,16 @@
       "formScore": -0.1208
     },
     "Brighton & Hove Albion": {
-      "elo": 1591,
-      "attack": 0.728720536994344,
-      "defense": 0.9551942059728571,
+      "elo": 1640,
+      "attack": 1.18,
+      "defense": 0.9,
       "powerIndex": 55,
       "matchesAnalyzed": 190,
-      "formWinRate": 0.1588,
-      "formDrawRate": 0.5926,
-      "formAvgGF": 0.9214,
-      "formAvgGA": 1.0095,
-      "formScore": 0.1472
+      "formWinRate": 0.5,
+      "formDrawRate": 0.24,
+      "formAvgGF": 1.55,
+      "formAvgGA": 1.2,
+      "formScore": 0.42
     },
     "Huddersfield Town": {
       "elo": 1295,
@@ -4529,16 +4529,16 @@
       "formScore": -0.7225
     },
     "Girona": {
-      "elo": 1551,
-      "attack": 0.8139813103345045,
-      "defense": 1.0566786366582857,
+      "elo": 1580,
+      "attack": 1.12,
+      "defense": 0.9,
       "powerIndex": 53,
       "matchesAnalyzed": 76,
-      "formWinRate": 0.2278,
-      "formDrawRate": 0.4352,
-      "formAvgGF": 0.8707,
-      "formAvgGA": 1.0411,
-      "formScore": 0.0649
+      "formWinRate": 0.44,
+      "formDrawRate": 0.22,
+      "formAvgGF": 1.45,
+      "formAvgGA": 1.18,
+      "formScore": 0.35
     },
     "Benevento": {
       "elo": 1438,
@@ -5213,16 +5213,16 @@
       "formScore": -0.6673
     },
     "Brentford": {
-      "elo": 1530,
-      "attack": 0.9288946173725544,
-      "defense": 1.0236797824105701,
+      "elo": 1550,
+      "attack": 1,
+      "defense": 1.05,
       "powerIndex": 52,
       "matchesAnalyzed": 38,
-      "formWinRate": 0.2178,
-      "formDrawRate": 0.1851,
-      "formAvgGF": 0.9475,
-      "formAvgGA": 1.6339,
-      "formScore": -0.3052
+      "formWinRate": 0.4,
+      "formDrawRate": 0.26,
+      "formAvgGF": 1.3,
+      "formAvgGA": 1.42,
+      "formScore": 0.28
     },
     "Salernitana": {
       "elo": 1336,
@@ -5297,16 +5297,36 @@
       "formScore": 0.1527
     },
     "Athletic Club": {
-      "elo": 1567,
-      "attack": 1.0565386396237488,
-      "defense": 0.8644407051467036,
+      "elo": 1680,
+      "attack": 1.15,
+      "defense": 0.78,
       "powerIndex": 56,
       "matchesAnalyzed": 15,
-      "formWinRate": 0.4588,
-      "formDrawRate": 0.2563,
-      "formAvgGF": 1.1365,
-      "formAvgGA": 0.744,
-      "formScore": 0.2765
+      "formWinRate": 0.55,
+      "formDrawRate": 0.22,
+      "formAvgGF": 1.58,
+      "formAvgGA": 1.05,
+      "formScore": 0.48
+    },
+    "Nottingham Forest": {
+      "elo": 1610,
+      "attack": 1.05,
+      "defense": 0.88,
+      "formWinRate": 0.5,
+      "formDrawRate": 0.22,
+      "formAvgGF": 1.38,
+      "formAvgGA": 1.08,
+      "formScore": 0.42
+    },
+    "Coventry City": {
+      "elo": 1460,
+      "attack": 0.88,
+      "defense": 1.15,
+      "formWinRate": 0.35,
+      "formDrawRate": 0.26,
+      "formAvgGF": 1.15,
+      "formAvgGA": 1.45,
+      "formScore": 0.18
     }
   },
   "aiPowerRanking": [
