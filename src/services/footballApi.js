@@ -9,13 +9,29 @@ const mapMatchData = (apiMatch) => {
   const homeMeta = getTeamMeta(apiMatch.homeTeam?.name || 'TBD');
   const awayMeta = getTeamMeta(apiMatch.awayTeam?.name || 'TBD');
 
-  let groupName = 'Group Stage';
+  // Group label: group stage comps use "Group X", regular season uses "Matchday N"
+  let groupName = 'Regular Season';
   let groupCode = apiMatch.groupCode || null;
+
   if (apiMatch.group) {
-    groupCode = apiMatch.group.split('_')[1];
-  }
-  if (groupCode) {
+    // e.g. "GROUP_A" → "A"
+    groupCode = apiMatch.group.split('_').pop();
     groupName = `Group ${groupCode}`;
+  } else if (apiMatch.stage === 'GROUP_STAGE') {
+    groupName = 'Group Stage';
+  } else if (apiMatch.stage === 'REGULAR_SEASON') {
+    const md = apiMatch.matchday;
+    groupName = md ? `Matchday ${md}` : 'Regular Season';
+  } else if (apiMatch.stage) {
+    // Knockout stages: LAST_16, QUARTER_FINALS, etc.
+    const stageMap = {
+      'LAST_16':        'Babak 16 Besar',
+      'QUARTER_FINALS': 'Perempat Final',
+      'SEMI_FINALS':    'Semi Final',
+      'FINAL':          'Final',
+      'THIRD_PLACE':    'Perebutan 3rd',
+    };
+    groupName = stageMap[apiMatch.stage] || apiMatch.stage.replace(/_/g, ' ');
   }
 
   let mappedStatus = 'SCHEDULED';
