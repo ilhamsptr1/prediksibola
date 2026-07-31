@@ -3,95 +3,108 @@ import './LiveMatchBanner.css';
 
 const API_KEY  = import.meta.env.VITE_FOOTBALL_API_KEY || '4eda5db232484db3b743c1544bf90b86';
 const BASE_URL = '/api/football-data/v4';
-const COMPETITIONS = ['PL', 'PD', 'SA', 'BL1', 'FL1', 'PPL'];
+
+// Hanya 2 request global (bukan 12 per-liga) → tidak kena rate limit
+const BANNER_CACHE_KEY = 'banner_cache_v1';
+const BANNER_CACHE_TTL = 5 * 60 * 1000; // 5 menit
+
+const getBannerCache = () => {
+  try {
+    const raw = localStorage.getItem(BANNER_CACHE_KEY);
+    if (!raw) return null;
+    const { ts, data } = JSON.parse(raw);
+    if (Date.now() - ts < BANNER_CACHE_TTL) return data;
+  } catch (_) {}
+  return null;
+};
+
+const setBannerCache = (data) => {
+  try { localStorage.setItem(BANNER_CACHE_KEY, JSON.stringify({ ts: Date.now(), data })); } catch (_) {}
+};
+
+const mapMatch = (m, status) => ({
+  id:          m.id,
+  homeTeam:    m.homeTeam?.shortName || m.homeTeam?.name || '?',
+  awayTeam:    m.awayTeam?.shortName || m.awayTeam?.name || '?',
+  homeCrest:   m.homeTeam?.crest,
+  awayCrest:   m.awayTeam?.crest,
+  homeScore:   m.score?.fullTime?.home ?? m.score?.halfTime?.home ?? null,
+  awayScore:   m.score?.fullTime?.away ?? m.score?.halfTime?.away ?? null,
+  minute:      m.minute || null,
+  competition: m.competition?.name || '',
+  kickoff:     new Date(m.utcDate).toLocaleString('id-ID', {
+    weekday: 'short', day: 'numeric', month: 'short',
+    hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta',
+  }),
+  status,
+});
 
 const LiveMatchBanner = () => {
   const [items,     setItems]     = useState([]);
-  const [mode,      setMode]      = useState('loading'); // 'loading' | 'live' | 'upcoming'
+  const [mode,      setMode]      = useState('loading');
   const [lastFetch, setLastFetch] = useState(null);
 
   const fetchMatches = useCallback(async () => {
+    // 1. Coba dari cache dulu
+    const cached = getBannerCache();
+    if (cached) {
+      setItems(cached.items);
+      setMode(cached.mode);
+      setLastFetch(new Date(cached.ts));
+      return;
+    }
+
     try {
-      // Fetch semua liga sekaligus
-      const results = await Promise.allSettled(
-        COMPETITIONS.map(code =>
-          fetch(`${BASE_URL}/competitions/${code}/matches?status=LIVE`, {
-            headers: { 'X-Auth-Token': API_KEY },
-          }).then(r => r.ok ? r.json() : { matches: [] })
-        )
+      // 2. SATU request global untuk semua liga live sekaligus
+      const liveRes = await fetch(`${BASE_URL}/matches?status=LIVE`, {
+        headers: { 'X-Auth-Token': API_KEY },
+      });
+
+      if (liveRes.ok) {
+        const liveData = await liveRes.json();
+        const liveMatches = (liveData.matches || []).map(m => mapMatch(m, 'LIVE'));
+
+        if (liveMatches.length > 0) {
+          setItems(liveMatches);
+          setMode('live');
+          setBannerCache({ items: liveMatches, mode: 'live', ts: Date.now() });
+          setLastFetch(new Date());
+          return;
+        }
+      }
+
+      // 3. Tidak ada live → SATU request global upcoming 7 hari ke depan
+      const now     = new Date();
+      const in7days = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+      const dateFrom = now.toISOString().split('T')[0];
+      const dateTo   = in7days.toISOString().split('T')[0];
+
+      const upRes = await fetch(
+        `${BASE_URL}/matches?dateFrom=${dateFrom}&dateTo=${dateTo}&status=SCHEDULED`,
+        { headers: { 'X-Auth-Token': API_KEY } }
       );
 
-      const liveMatches = results
-        .filter(r => r.status === 'fulfilled')
-        .flatMap(r => r.value.matches || [])
-        .map(m => ({
-          id:          m.id,
-          homeTeam:    m.homeTeam?.shortName || m.homeTeam?.name || '?',
-          awayTeam:    m.awayTeam?.shortName || m.awayTeam?.name || '?',
-          homeCrest:   m.homeTeam?.crest,
-          awayCrest:   m.awayTeam?.crest,
-          homeScore:   m.score?.fullTime?.home ?? m.score?.halfTime?.home ?? null,
-          awayScore:   m.score?.fullTime?.away ?? m.score?.halfTime?.away ?? null,
-          minute:      m.minute || null,
-          competition: m.competition?.name || '',
-          status:      'LIVE',
-        }));
-
-      if (liveMatches.length > 0) {
-        setItems(liveMatches);
-        setMode('live');
-      } else {
-        // Tidak ada live → ambil jadwal upcoming (status=SCHEDULED) 7 hari ke depan
-        const upcomingResults = await Promise.allSettled(
-          COMPETITIONS.map(code =>
-            fetch(`${BASE_URL}/competitions/${code}/matches?status=SCHEDULED`, {
-              headers: { 'X-Auth-Token': API_KEY },
-            }).then(r => r.ok ? r.json() : { matches: [] })
-          )
-        );
-
-        const now = Date.now();
-        const in7days = now + 7 * 24 * 60 * 60 * 1000;
-        const upcoming = upcomingResults
-          .filter(r => r.status === 'fulfilled')
-          .flatMap(r => r.value.matches || [])
-          .filter(m => {
-            const t = new Date(m.utcDate).getTime();
-            return t >= now && t <= in7days;
-          })
+      if (upRes.ok) {
+        const upData = await upRes.json();
+        const upcoming = (upData.matches || [])
           .sort((a, b) => new Date(a.utcDate) - new Date(b.utcDate))
-          .slice(0, 20)
-          .map(m => ({
-            id:          m.id,
-            homeTeam:    m.homeTeam?.shortName || m.homeTeam?.name || '?',
-            awayTeam:    m.awayTeam?.shortName || m.awayTeam?.name || '?',
-            homeCrest:   m.homeTeam?.crest,
-            awayCrest:   m.awayTeam?.crest,
-            homeScore:   null,
-            awayScore:   null,
-            minute:      null,
-            competition: m.competition?.name || '',
-            kickoff:     new Date(m.utcDate).toLocaleString('id-ID', {
-              weekday: 'short', day: 'numeric', month: 'short',
-              hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta',
-            }),
-            status: 'UPCOMING',
-          }));
+          .slice(0, 24)
+          .map(m => mapMatch(m, 'UPCOMING'));
 
         setItems(upcoming);
-        setMode(upcoming.length > 0 ? 'upcoming' : 'live');
+        setMode(upcoming.length > 0 ? 'upcoming' : 'loading');
+        setBannerCache({ items: upcoming, mode: upcoming.length > 0 ? 'upcoming' : 'loading', ts: Date.now() });
       }
 
       setLastFetch(new Date());
     } catch (e) {
       console.warn('[LiveBanner] fetch error', e);
-      setMode('upcoming');
     }
   }, []);
 
   useEffect(() => {
     fetchMatches();
-    const timer = setInterval(fetchMatches, 60_000); // refresh 60s
+    const timer = setInterval(fetchMatches, 5 * 60 * 1000); // refresh setiap 5 menit
     return () => clearInterval(timer);
   }, [fetchMatches]);
 
