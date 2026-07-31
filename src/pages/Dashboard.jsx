@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MatchCard from '../components/MatchCard';
 import LeagueSelector from '../components/LeagueSelector';
 import { usePredictions } from '../context/PredictionContext';
@@ -6,6 +6,19 @@ import { useMatches } from '../hooks/useMatches';
 import { getLeague } from '../data/leagues';
 import { RefreshCw, Wifi, WifiOff, Zap, CalendarOff } from 'lucide-react';
 import './Dashboard.css';
+
+// Mapping liga → file background di /public/img/
+const LEAGUE_BG = {
+  WC:  '/img/bg_wc.jpg',
+  PL:  '/img/bg_pl.jpg',
+  PD:  '/img/bg_laliga.jpg',
+  SA:  '/img/bg_seriea.jpg',
+  BL1: '/img/bg_bundesliga.jpg',
+  FL1: '/img/bg_ligue1.jpg',
+  PPL: '/img/bg_ligapt.jpg',
+  CL:  '/img/bg_wc.jpg',     // fallback
+  EC:  '/img/bg_wc.jpg',     // fallback Euro
+};
 
 const Dashboard = () => {
   const { selectedLeagueCode, setSelectedLeagueCode } = usePredictions();
@@ -49,6 +62,17 @@ const Dashboard = () => {
     : '—';
 
   const isGroupCompetition = selectedLeague?.hasGroups;
+
+  // Ganti background body sesuai liga yang dipilih
+  useEffect(() => {
+    const bg = LEAGUE_BG[selectedLeagueCode] || LEAGUE_BG['WC'];
+    document.body.style.setProperty('--league-bg', `url('${bg}')`);
+    document.body.classList.add('has-league-bg');
+    return () => {
+      document.body.classList.remove('has-league-bg');
+      document.body.style.removeProperty('--league-bg');
+    };
+  }, [selectedLeagueCode]);
 
   return (
     <div className="dashboard animate-fade-in">

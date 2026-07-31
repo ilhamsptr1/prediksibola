@@ -57,7 +57,61 @@ body {
   position: relative;
 }
 
-/* ── Layer 1: Deep space base ───────────────────────────────────── */
+/* ── League Background Image Layer ─────────────────────────────── */
+/* Gambar stadion muncul di z-index -4 (paling bawah), fade in saat liga dipilih */
+body.has-league-bg::before {
+  /* Override layer 1 jadi transparent sedikit agar foto terlihat */
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(109, 40, 217, 0.20) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 90% 10%,  rgba(0, 212, 255, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 70% at 50% 90%,  rgba(0, 255, 136, 0.08) 0%, transparent 55%),
+    linear-gradient(135deg, rgba(3,5,15,0.82) 0%, rgba(8,13,31,0.78) 40%, rgba(6,9,18,0.82) 100%);
+  animation: auroraPulse 18s ease-in-out infinite alternate;
+}
+
+/* Layer foto stadion */
+body.has-league-bg {
+  --league-bg: none;
+}
+
+body.has-league-bg > * {
+  position: relative;
+}
+
+/* Pseudo element khusus untuk foto — dipasang via JS custom property */
+.league-bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -4;
+  background-image: var(--league-bg);
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+  animation: leagueBgZoom 30s ease-in-out infinite alternate;
+  transition: background-image 0.6s ease;
+  will-change: transform;
+}
+
+/* Dark overlay sopan agar teks tetap terbaca */
+.league-bg-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(3, 5, 15, 0.72) 0%,
+    rgba(3, 5, 15, 0.55) 40%,
+    rgba(3, 5, 15, 0.78) 80%,
+    rgba(3, 5, 15, 0.95) 100%
+  );
+}
+
+@keyframes leagueBgZoom {
+  0%   { transform: scale(1.00); }
+  100% { transform: scale(1.06); }
+}
+
+/* ── Layer 1: Deep space aurora (di atas foto) ──────────────────── */
 body::before {
   content: '';
   position: fixed;

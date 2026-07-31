@@ -13,6 +13,8 @@ function App() {
     <PredictionProvider>
       <Router>
         <div className="app-wrapper">
+          {/* Background layer — gambar stadion per liga */}
+          <div className="league-bg-layer" aria-hidden="true" />
           <Navbar />
           <LiveMatchBanner />
           <main className="container">
