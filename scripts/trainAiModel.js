@@ -38,13 +38,33 @@ const MIN_YEAR         = 1990;
 const TRAIN_FROM       = 2000;
 const VAL_YEAR         = 2018;   // 2018+ used as validation for calibration
 const BASE_ELO         = 1500;
-const HOME_ADVANTAGE   = 50;
+const HOME_ADVANTAGE   = 50;     // global default
 const DECAY_RATE       = 0.99;
-const MIN_MATCHES      = 10;     // Lebih rendah agar klub kecil tetap terdata
+const MIN_MATCHES      = 10;
 const NOW_YEAR         = 2025;
 const FORM_WINDOW      = 10;
-const FORM_DECAY       = 0.85;   // Exponential decay weight for recent form
-const CLUB_ELO_BASE    = 1500;   // Elo awal khusus tim klub
+const FORM_DECAY       = 0.85;
+const CLUB_ELO_BASE    = 1500;
+
+// Per-league home advantage Elo offset (research-based)
+// Higher = more home advantage in that league
+const LEAGUE_HOME_ADV = {
+  'Premier League':   42,  // low home adv (competitive)
+  'Bundesliga':       55,  // strong home crowds
+  'Serie A':          50,
+  'La Liga':          48,
+  'Ligue 1':          52,
+  'Primeira Liga':    56,
+  'Champions League': 35,  // mostly neutral-ish venues
+  'Europa League':    38,
+  'FIFA World Cup':   30,  // neutral
+  'UEFA Euro':        32,  // mostly neutral
+};
+const getHomeAdv = (tournament) => {
+  for (const [k, v] of Object.entries(LEAGUE_HOME_ADV))
+    if (tournament.includes(k)) return v;
+  return HOME_ADVANTAGE;
+};
 
 // GB config
 const GB_N_ESTIMATORS   = 50;
@@ -314,9 +334,31 @@ const findEnsembleWeights = (predsSets, labels) => {
       else if (leagueRaw.includes('Champions'))                                    tournament = 'Champions League';
       else if (leagueRaw.includes('Europa'))                                       tournament = 'Europa League';
 
-      // Build a sortable date string (YYYY-MM-DD)
-      // col[3] = "Saturday, August 18" — not reliable, use year only + index for ordering
-      const dateStr = `${year}-01-01`;
+      // Fix date parsing: col[3] = "Saturday, August 18" → YYYY-MM-DD
+      const MONTHS = { January:'01',February:'02',March:'03',April:'04',
+        May:'05',June:'06',July:'07',August:'08',September:'09',
+        October:'10',November:'11',December:'12' };
+      let dateStr = `${year}-07-01`; // default mid-year
+      const dateRaw = cols[3] || '';
+      for (const [mName, mNum] of Object.entries(MONTHS)) {
+        if (dateRaw.includes(mName)) {
+          const dayMatch = dateRaw.match(/(\d+)/);
+          const day = dayMatch ? String(dayMatch[1]).padStart(2, '0') : '15';
+          dateStr = `${year}-${mNum}-${day}`;
+          break;
+        }
+      }
+
+      // Extract shots on target as xG proxy
+      // col[16] = home_shotsSummary = "15 (5)" → total (on_target)
+      const parseShots = (s) => {
+        const m = (s || '').match(/(\d+)\s*\((\d+)\)/);
+        return m ? { total: parseInt(m[1]), onTarget: parseInt(m[2]) } : null;
+      };
+      const hShots = parseShots(cols[16]);
+      const aShots = parseShots(cols[17]);
+      const hPoss  = parseFloat((cols[14] || '0').replace('%','')) / 100 || 0.5;
+      const aPoss  = parseFloat((cols[15] || '0').replace('%','')) / 100 || 0.5;
 
       rows.push({
         date: dateStr,
@@ -328,6 +370,11 @@ const findEnsembleWeights = (predsSets, labels) => {
         tournament,
         neutral: false,
         isClub: true,
+        // Shots / xG proxy features
+        homeShotsOT:  hShots ? hShots.onTarget : null,
+        awayShotsOT:  aShots ? aShots.onTarget : null,
+        homePoss:     hPoss || null,
+        awayposs:     aPoss || null,
       });
     }
 
@@ -357,6 +404,11 @@ const findEnsembleWeights = (predsSets, labels) => {
   const formGF   = {};  // recent goals for
   const formGA   = {};  // recent goals against
 
+  // Rolling shots-on-target per team (xG proxy from club data)
+  const shotOT_for  = {};  // shots on target scored per team
+  const shotOT_ag   = {};  // shots on target conceded per team
+  const shotOT_cnt  = {};  // number of matches with shot data
+
   const getElo = (t) => elo[t] ?? BASE_ELO;
   const applyDecay = (t, yr) => {
     if (!(t in lastYear)) return;
@@ -370,7 +422,8 @@ const findEnsembleWeights = (predsSets, labels) => {
     applyDecay(ht, year); applyDecay(at, year);
 
     const hE = getElo(ht), aE = getElo(at);
-    const exp = neutral ? 1 / (1 + Math.pow(10, (aE - hE) / 400)) : 1 / (1 + Math.pow(10, (aE - hE - HOME_ADVANTAGE) / 400));
+    const homeAdv = getHomeAdv(tournament);
+    const exp = neutral ? 1 / (1 + Math.pow(10, (aE - hE) / 400)) : 1 / (1 + Math.pow(10, (aE - hE - homeAdv) / 400));
     const act = hs > as_ ? 1 : hs === as_ ? 0.5 : 0;
     const K   = getKFactor(tournament);
     const d   = K * gdMult(Math.abs(hs - as_)) * (act - exp);
@@ -391,6 +444,18 @@ const findEnsembleWeights = (predsSets, labels) => {
       formRes[t].push(res); formGF[t].push(t === ht ? hs : as_); formGA[t].push(t === ht ? as_ : hs);
       if (formRes[t].length > FORM_WINDOW) { formRes[t].shift(); formGF[t].shift(); formGA[t].shift(); }
       if (m.year >= NOW_YEAR - 2) { recentForm[t].push(res); if (recentForm[t].length > 5) recentForm[t].shift(); }
+    }
+
+    // Accumulate shots-on-target data if available
+    if (m.homeShotsOT != null && m.awayShotsOT != null) {
+      for (const [t, sFor, sAg] of [
+        [ht, m.homeShotsOT, m.awayShotsOT],
+        [at, m.awayShotsOT, m.homeShotsOT],
+      ]) {
+        shotOT_for[t] = ((shotOT_for[t] || 0) * 0.9) + sFor * 0.1;
+        shotOT_ag[t]  = ((shotOT_ag[t]  || 0) * 0.9) + sAg  * 0.1;
+        shotOT_cnt[t] = (shotOT_cnt[t] || 0) + 1;
+      }
     }
   }
 
@@ -466,7 +531,7 @@ const findEnsembleWeights = (predsSets, labels) => {
   console.log('🔧 Building feature matrix...');
 
   /**
-   * Feature vector (16 dimensions):
+   * Feature vector (20 dimensions):
    * [0]  homeElo_norm
    * [1]  awayElo_norm
    * [2]  eloDiff_norm
@@ -474,7 +539,7 @@ const findEnsembleWeights = (predsSets, labels) => {
    * [4]  homeDef
    * [5]  awayAtk
    * [6]  awayDef
-   * [7]  homeFormWinRate (exponentially weighted)
+   * [7]  homeFormWinRate
    * [8]  awayFormWinRate
    * [9]  homeFormDrawRate
    * [10] homeFormScore
@@ -483,14 +548,21 @@ const findEnsembleWeights = (predsSets, labels) => {
    * [13] awayFormAvgGF
    * [14] homeFormAvgGA
    * [15] isNeutral
-   * [16] isClub (0=international, 1=club league) — KEY untuk domain separation
+   * [16] isClub (domain flag)
+   * [17] homeShotOT_avg  (xG proxy — from club data, 0 if not available)
+   * [18] awayShotOT_avg
+   * [19] shotOT_diff     (home advantage in shot quality)
    */
+  const GLOBAL_SOT = 4.0;  // global avg shots-on-target per team per match
   const buildFV = (ht, at, isNeutral, hE, aE, isClub = false) => {
     const hS = teamStats[ht];
     const aS = teamStats[at];
     if (!hS || !aS) return null;
     const hF = hS.form;
     const aF = aS.form;
+    // xG proxy: shots on target (normalized)
+    const hSOT = (shotOT_for[ht] != null) ? shotOT_for[ht] / GLOBAL_SOT : hS.atk;
+    const aSOT = (shotOT_for[at] != null) ? shotOT_for[at] / GLOBAL_SOT : aS.atk;
     return [
       hE / 2500, aE / 2500, (hE - aE) / 400,
       hS.atk, hS.def, aS.atk, aS.def,
@@ -498,7 +570,9 @@ const findEnsembleWeights = (predsSets, labels) => {
       hF.formScore, aF.formScore,
       hF.avgGF, aF.avgGF, hF.avgGA,
       isNeutral ? 1 : 0,
-      isClub    ? 1 : 0,   // ← domain flag
+      isClub    ? 1 : 0,
+      hSOT, aSOT,
+      hSOT - aSOT,   // shot quality differential
     ];
   };
 
@@ -534,8 +608,11 @@ const findEnsembleWeights = (predsSets, labels) => {
       }
     }
 
-    // Update Elo
-    const exp2 = neutral ? 1/(1+Math.pow(10,(aE2-hE2)/400)) : 1/(1+Math.pow(10,(aE2-hE2-HOME_ADVANTAGE)/400));
+    // Update Elo with per-league home advantage
+    const homeAdv2 = getHomeAdv(tournament);
+    const exp2 = neutral
+      ? 1/(1+Math.pow(10,(aE2-hE2)/400))
+      : 1/(1+Math.pow(10,(aE2-hE2-homeAdv2)/400));
     const act2 = hs > as_ ? 1 : hs === as_ ? 0.5 : 0;
     const K2 = getKFactor(tournament);
     const d2 = K2 * gdMult(Math.abs(hs - as_)) * (act2 - exp2);
@@ -543,7 +620,7 @@ const findEnsembleWeights = (predsSets, labels) => {
     ly2[ht] = year; ly2[at] = year;
   }
 
-  console.log(`✔ Feature matrix: ${X.length} train + ${valX.length} validation samples, 17 features (incl. isClub domain flag).\n`);
+  console.log(`✔ Feature matrix: ${X.length} train + ${valX.length} validation samples, 20 features (Elo+Form+ShotsOT+Domain).\n`);
 
   // ── 4. Train GB models ────────────────────────────────────────
   console.log('🤖 Training Gradient Boosting models...\n');

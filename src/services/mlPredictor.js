@@ -222,7 +222,11 @@ export const generateMLPrediction = async ({
   // ══════════════════════════════════════════════════════════════
   //  MODEL 4: XGBoost / Gradient Boosting
   // ══════════════════════════════════════════════════════════════
-  // Feature vector (17 dims) — sama persis dengan training
+  // Feature vector (20 dims) — sama persis dengan training
+  const GLOBAL_SOT = 4.0;
+  // Use attack rating as shot-on-target proxy (fallback when no shot data)
+  const hSOT = hAtk;  // normalized attack = proxy for shot quality
+  const aSOT = aAtk;
   const x = [
     hElo / 2500, aElo / 2500, eloDiff / 400,
     hAtk, hDef, aAtk, aDef,
@@ -231,6 +235,8 @@ export const generateMLPrediction = async ({
     hGF, aGF, hGA,
     isNeutral ? 1 : 0,
     isClub    ? 1 : 0,   // domain flag
+    hSOT, aSOT,
+    hSOT - aSOT,         // shot quality differential
   ];
 
   const gbRawH = predictGB(model.models.homeWin, x, lr);
