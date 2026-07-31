@@ -194,28 +194,38 @@ const TEAM_IDS = {
 };
 
 // ── Cache layer ──────────────────────────────────────────────────
-const CACHE_TTL_MS     = 60 * 60 * 1000;      // 1 jam (cache utama)
-const STALE_CACHE_TTL  = 24 * 60 * 60 * 1000; // 24 jam (stale/fallback)
+const CACHE_VERSION   = 'v3';                  // ← bump ini setiap kali struktur data berubah
+const CACHE_TTL_MS    = 60 * 60 * 1000;       // 1 jam (cache utama)
+const STALE_CACHE_TTL = 24 * 60 * 60 * 1000;  // 24 jam (stale/fallback)
+
+// Auto-clear cache dari versi lama
+const CACHE_PREFIX = `fbd_${CACHE_VERSION}_`;
+try {
+  Object.keys(localStorage)
+    .filter(k => k.startsWith('fbd_') && !k.startsWith(CACHE_PREFIX))
+    .forEach(k => localStorage.removeItem(k));
+} catch { /* ignore */ }
 
 const getCached = (key, ttl = CACHE_TTL_MS) => {
   try {
-    const raw = localStorage.getItem(`fbd_cache_${key}`);
+    const raw = localStorage.getItem(`${CACHE_PREFIX}${key}`);
     if (!raw) return null;
     const { ts, data } = JSON.parse(raw);
     if (Date.now() - ts < ttl) return data;
-    localStorage.removeItem(`fbd_cache_${key}`);
+    localStorage.removeItem(`${CACHE_PREFIX}${key}`);
   } catch { /* ignore */ }
   return null;
 };
 
 const setCache = (key, data) => {
   try {
-    localStorage.setItem(`fbd_cache_${key}`, JSON.stringify({ ts: Date.now(), data }));
+    localStorage.setItem(`${CACHE_PREFIX}${key}`, JSON.stringify({ ts: Date.now(), data }));
   } catch { /* ignore */ }
 };
 
 // Stale cache: 24 jam TTL, used as last-resort on 429/network error
 const getStaleCached = (key) => getCached(`stale_${key}`, STALE_CACHE_TTL);
+
 
 // Cache duration: 24 hours (for team data)
 const CACHE_DURATION = 1000 * 60 * 60 * 24;
