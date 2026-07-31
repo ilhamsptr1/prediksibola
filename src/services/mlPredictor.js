@@ -293,9 +293,21 @@ export const generateMLPrediction = async ({
   let predXGH = clamp(predictGB(model.models.homeGoal, x, lr), 0.1, 5.0);
   let predXGA = clamp(predictGB(model.models.awayGoal, x, lr), 0.1, 4.5);
 
-  // Blend xG: 70% GB + 30% Poisson
-  predXGH = predXGH * 0.70 + xGH * 0.30;
-  predXGA = predXGA * 0.70 + xGA * 0.30;
+  // Blend xG: utamakan Poisson/Dixon-Coles xG (80%) karena sudah encode
+  // kekuatan serangan-pertahanan; GB hanya koreksi kecil (20%).
+  // Sebelumnya 70% GB terlalu dominan → regresi ke mean → semua 2-1 atau 1-1.
+  predXGH = xGH * 0.80 + predXGH * 0.20;
+  predXGA = xGA * 0.80 + predXGA * 0.20;
+
+  // Smart rounding: bukan sekadar Math.round
+  // Jika xG sangat dekat ke 0.5 ke atas, bulatkan ke atas (agar 2.5 → 3, bukan 2)
+  // Ini mencerminkan bahwa tim dengan xG 2.5 lebih sering cetak 3 daripada 2
+  const smartRound = (xg) => {
+    const base = Math.floor(xg);
+    const frac = xg - base;
+    // Threshold lebih rendah (0.45) → lebih agresif bulatkan ke atas
+    return frac >= 0.45 ? base + 1 : base;
+  };
 
   // Build label breakdown per model untuk ditampilkan di UI
   const modelBreakdown = {
@@ -305,12 +317,8 @@ export const generateMLPrediction = async ({
     gb:   { home: (gb_probs[0]   * 100).toFixed(1), draw: (gb_probs[1]   * 100).toFixed(1), away: (gb_probs[2]   * 100).toFixed(1) },
   };
 
-  // ── Predicted scoreline ────────────────────────────────────────
-  // Gunakan xG yang sudah di-blend (bukan modus Poisson yang selalu 1-1)
-  // Math.round(xG) memberikan skor yang lebih bervariasi dan informatif
-  // Contoh: xGH=2.1 → 2 gol, xGA=0.9 → 1 gol → "2 - 1"
-  const likelyHome = Math.round(predXGH);
-  const likelyAway = Math.round(predXGA);
+  const likelyHome = smartRound(predXGH);
+  const likelyAway = smartRound(predXGA);
 
   return {
     probabilities: {
