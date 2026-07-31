@@ -242,3 +242,56 @@
   flex-shrink: 0;
   z-index: 15;
 }
+
+/* ─── Upcoming mode overrides ────────────────────────────────────── */
+.live-banner--upcoming {
+  border-bottom-color: rgba(0, 212, 255, 0.25);
+  border-top-color:    rgba(0, 212, 255, 0.12);
+  box-shadow: 0 2px 20px rgba(0, 212, 255, 0.10);
+}
+
+.live-banner--upcoming .live-banner__label {
+  color: #00d4ff;
+  background: rgba(0, 212, 255, 0.06);
+  border-right-color: rgba(0, 212, 255, 0.3);
+}
+
+.live-banner__dot--upcoming {
+  background: #00d4ff !important;
+  box-shadow: 0 0 8px #00d4ff !important;
+}
+
+.live-banner__dot--loading {
+  background: rgba(255,255,255,0.3) !important;
+  box-shadow: none !important;
+  animation: none !important;
+}
+
+/* ─── Upcoming chip ──────────────────────────────────────────────── */
+.live-chip--upcoming .chip__score-block {
+  display: none;
+}
+
+.chip__kickoff {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
+  gap: 1px;
+}
+
+.chip__vs {
+  font-size: 0.60rem;
+  font-weight: 800;
+  font-family: 'Outfit', sans-serif;
+  color: rgba(0, 212, 255, 0.7);
+  letter-spacing: 0.08em;
+}
+
+.chip__time {
+  font-size: 0.60rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+}
