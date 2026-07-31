@@ -190,10 +190,23 @@ export const generateMLPrediction = async ({
   // ══════════════════════════════════════════════════════════════
   const eloDiff    = hElo - aElo;
   const homeAdj    = isNeutral ? 0 : 50;
-  const eloH_raw   = sigmoid((eloDiff + homeAdj) / 200);
-  const eloA_raw   = sigmoid((-eloDiff + homeAdj * 0.3) / 200);
-  const eloD_raw   = Math.max(0.05, 1 - eloH_raw - eloA_raw);
-  const eloS       = eloH_raw + eloD_raw + eloA_raw;
+  
+  // Menghitung ekspektasi menang menggunakan rumus Elo standar
+  const expectedWinH = 1 / (1 + Math.pow(10, -(eloDiff + homeAdj) / 400));
+  const expectedWinA = 1 / (1 + Math.pow(10, (eloDiff + homeAdj) / 400));
+  
+  // Menggunakan distribusi Gaussian untuk menghitung probabilitas seri berdasarkan selisih kekuatan
+  // Tim dengan kekuatan seimbang (eloDiff ~ 0) punya probabilitas seri terbesar (~27%)
+  const eloD_raw = 0.27 * Math.exp(-Math.pow(eloDiff + homeAdj, 2) / (2 * 150 * 150));
+  
+  // Sisa probabilitas dialokasikan ke Home dan Away sesuai rasio expected win
+  const remaining = Math.max(0, 1 - eloD_raw);
+  const hRatio = expectedWinH / (expectedWinH + expectedWinA);
+  
+  const eloH_raw = remaining * hRatio;
+  const eloA_raw = remaining * (1 - hRatio);
+  
+  const eloS = eloH_raw + eloD_raw + eloA_raw;
   const elo_probs  = [eloH_raw / eloS, eloD_raw / eloS, eloA_raw / eloS];
 
   // ══════════════════════════════════════════════════════════════
