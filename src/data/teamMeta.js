@@ -85,108 +85,189 @@ const WC_VENUES = [
 ];
 
 // ── Home Stadiums per Club ────────────────────────────────────────
+// Key = nama DASAR tim (tanpa FC/AFC/CF/etc), semua lookup dinormalisasi
 const HOME_STADIUMS = {
-  // Premier League
-  'Arsenal':                  'Emirates Stadium, London',
-  'Arsenal FC':               'Emirates Stadium, London',
-  'Aston Villa':              'Villa Park, Birmingham',
-  'AFC Bournemouth':          'Vitality Stadium, Bournemouth',
-  'Brentford':                'Gtech Community Stadium, London',
-  'Brentford FC':             'Gtech Community Stadium, London',
-  'Brighton & Hove Albion':   'Amex Stadium, Brighton',
-  'Brighton & Hove Albion FC':'Amex Stadium, Brighton',
-  'Chelsea':                  'Stamford Bridge, London',
-  'Chelsea FC':               'Stamford Bridge, London',
-  'Crystal Palace':           'Selhurst Park, London',
-  'Everton':                  'Goodison Park, Liverpool',
-  'Everton FC':               'Goodison Park, Liverpool',
-  'Fulham':                   'Craven Cottage, London',
-  'Fulham FC':                'Craven Cottage, London',
-  'Ipswich Town':             'Portman Road, Ipswich',
-  'Ipswich Town FC':          'Portman Road, Ipswich',
-  'Leeds United':             'Elland Road, Leeds',
-  'Leicester City':           'King Power Stadium, Leicester',
-  'Liverpool':                'Anfield, Liverpool',
-  'Liverpool FC':             'Anfield, Liverpool',
-  'Manchester City':          'Etihad Stadium, Manchester',
-  'Manchester United':        'Old Trafford, Manchester',
-  'Newcastle United':         "St. James' Park, Newcastle",
-  'Newcastle United FC':      "St. James' Park, Newcastle",
-  'Nottingham Forest':        'City Ground, Nottingham',
-  'Nottingham Forest FC':     'City Ground, Nottingham',
-  'Southampton':              "St. Mary's Stadium, Southampton",
-  'Southampton FC':           "St. Mary's Stadium, Southampton",
-  'Tottenham Hotspur':        'Tottenham Hotspur Stadium, London',
-  'West Ham United':          'London Stadium, London',
-  'West Ham United FC':       'London Stadium, London',
-  'Wolverhampton Wanderers':  'Molineux Stadium, Wolverhampton',
-  'Sunderland':               'Stadium of Light, Sunderland',
-  'Sunderland AFC':           'Stadium of Light, Sunderland',
-  'Coventry City':            'Coventry Building Society Arena',
-  'Coventry City FC':         'Coventry Building Society Arena',
-  'Hull City':                'MKM Stadium, Hull',
-  'Hull City AFC':            'MKM Stadium, Hull',
-  // La Liga
-  'Real Madrid':              'Santiago Bernabéu, Madrid',
-  'Real Madrid CF':           'Santiago Bernabéu, Madrid',
-  'Barcelona':                'Estadi Olímpic Lluís Companys',
-  'FC Barcelona':             'Estadi Olímpic Lluís Companys',
-  'Atletico Madrid':          'Civitas Metropolitano, Madrid',
-  'Atlético de Madrid':       'Civitas Metropolitano, Madrid',
-  'Sevilla FC':               'Ramón Sánchez-Pizjuán, Sevilla',
-  'Sevilla':                  'Ramón Sánchez-Pizjuán, Sevilla',
-  'Real Betis':               'Estadio Benito Villamarín, Sevilla',
-  'Real Betis Balompié':      'Estadio Benito Villamarín, Sevilla',
-  'Athletic Bilbao':          'San Mamés, Bilbao',
-  'Athletic Club':            'San Mamés, Bilbao',
-  'Real Sociedad':            'Reale Arena, San Sebastián',
-  'Valencia':                 'Mestalla, Valencia',
-  'Valencia CF':              'Mestalla, Valencia',
-  'Villarreal':               'Estadio de la Cerámica, Villarreal',
-  'Villarreal CF':            'Estadio de la Cerámica, Villarreal',
-  'Osasuna':                  'El Sadar, Pamplona',
-  'Rayo Vallecano':           'Estadio de Vallecas, Madrid',
-  'Getafe':                   'Coliseum Alfonso Pérez, Getafe',
-  'Getafe CF':                'Coliseum Alfonso Pérez, Getafe',
-  'Girona':                   'Estadio Montilivi, Girona',
-  'Girona FC':                'Estadio Montilivi, Girona',
-  'Alavés':                   'Mendizorrotza, Vitoria-Gasteiz',
-  'Celta Vigo':               'Abanca-Balaídos, Vigo',
-  'Mallorca':                 'Visit Mallorca Estadi, Palma',
-  'Las Palmas':               'Estadio Gran Canaria, Las Palmas',
-  'Racing Santander':         'El Sardinero, Santander',
-  // Serie A
-  'Juventus':                 'Juventus Stadium, Turin',
-  'Inter Milan':              'San Siro, Milan',
-  'Milan':                    'San Siro, Milan',
-  'Roma':                     'Stadio Olimpico, Rome',
-  'Lazio':                    'Stadio Olimpico, Rome',
-  'Napoli':                   'Stadio Diego Armando Maradona, Napoli',
-  'Fiorentina':               'Stadio Artemio Franchi, Florence',
-  'Atalanta':                 'Gewiss Stadium, Bergamo',
-  // Bundesliga
-  'Bayern Munich':            'Allianz Arena, Munich',
-  'Dortmund':                 'Signal Iduna Park, Dortmund',
-  'Bayer Leverkusen':         'BayArena, Leverkusen',
-  'Leipzig':                  'Red Bull Arena, Leipzig',
-  'Frankfurt':                'Deutsche Bank Park, Frankfurt',
-  // Ligue 1
-  'Paris Saint-Germain':      'Parc des Princes, Paris',
-  'Marseille':                'Stade Vélodrome, Marseille',
-  'Lyon':                     'Groupama Stadium, Lyon',
-  'Monaco':                   'Stade Louis II, Monaco',
-  // Liga Portugal
-  'Benfica':                  'Estádio da Luz, Lisbon',
-  'Porto':                    'Estádio do Dragão, Porto',
-  'Sporting CP':              'Estádio José Alvalade, Lisbon',
+  // ── Premier League ───────────────────────────────────────────────
+  'Arsenal':                   'Emirates Stadium, London',
+  'Aston Villa':               'Villa Park, Birmingham',
+  'AFC Bournemouth':           'Vitality Stadium, Bournemouth',
+  'Bournemouth':               'Vitality Stadium, Bournemouth',
+  'Brentford':                 'Gtech Community Stadium, London',
+  'Brighton & Hove Albion':    'Amex Stadium, Brighton',
+  'Brighton':                  'Amex Stadium, Brighton',
+  'Chelsea':                   'Stamford Bridge, London',
+  'Crystal Palace':            'Selhurst Park, London',
+  'Everton':                   'Goodison Park, Liverpool',
+  'Fulham':                    'Craven Cottage, London',
+  'Ipswich Town':              'Portman Road, Ipswich',
+  'Leeds United':              'Elland Road, Leeds',
+  'Leicester City':            'King Power Stadium, Leicester',
+  'Liverpool':                 'Anfield, Liverpool',
+  'Manchester City':           'Etihad Stadium, Manchester',
+  'Manchester United':         'Old Trafford, Manchester',
+  'Newcastle United':          "St. James' Park, Newcastle",
+  'Nottingham Forest':         'City Ground, Nottingham',
+  'Southampton':               "St. Mary's Stadium, Southampton",
+  'Tottenham Hotspur':         'Tottenham Hotspur Stadium, London',
+  'Tottenham':                 'Tottenham Hotspur Stadium, London',
+  'West Ham United':           'London Stadium, London',
+  'West Ham':                  'London Stadium, London',
+  'Wolverhampton Wanderers':   'Molineux Stadium, Wolverhampton',
+  'Wolverhampton':             'Molineux Stadium, Wolverhampton',
+  'Wolves':                    'Molineux Stadium, Wolverhampton',
+  // Promoted / relegated PL teams
+  'Sunderland':                'Stadium of Light, Sunderland',
+  'Coventry City':             'Coventry Building Society Arena',
+  'Coventry':                  'Coventry Building Society Arena',
+  'Hull City':                 'MKM Stadium, Hull',
+  'Hull':                      'MKM Stadium, Hull',
+  'Burnley':                   'Turf Moor, Burnley',
+  'Sheffield United':          'Bramall Lane, Sheffield',
+  'Sheffield Wednesday':       'Hillsborough, Sheffield',
+  'Norwich City':              'Carrow Road, Norwich',
+  'Watford':                   'Vicarage Road, Watford',
+  'Middlesbrough':             'Riverside Stadium, Middlesbrough',
+  'Millwall':                  'The Den, London',
+  'Blackburn Rovers':          'Ewood Park, Blackburn',
+  // ── La Liga ──────────────────────────────────────────────────────
+  'Real Madrid':               'Santiago Bernabéu, Madrid',
+  'Barcelona':                 'Estadi Olímpic Lluís Companys',
+  'FC Barcelona':              'Estadi Olímpic Lluís Companys',
+  'Atletico Madrid':           'Civitas Metropolitano, Madrid',
+  'Atlético de Madrid':        'Civitas Metropolitano, Madrid',
+  'Atlético Madrid':           'Civitas Metropolitano, Madrid',
+  'Athletic Club':             'San Mamés, Bilbao',
+  'Athletic Bilbao':           'San Mamés, Bilbao',
+  'Real Sociedad':             'Reale Arena, San Sebastián',
+  'Villarreal':                'Estadio de la Cerámica, Villarreal',
+  'Real Betis':                'Estadio Benito Villamarín, Sevilla',
+  'Real Betis Balompié':       'Estadio Benito Villamarín, Sevilla',
+  'Sevilla':                   'Ramón Sánchez-Pizjuán, Sevilla',
+  'Osasuna':                   'El Sadar, Pamplona',
+  'Rayo Vallecano':            'Estadio de Vallecas, Madrid',
+  'Getafe':                    'Coliseum Alfonso Pérez, Getafe',
+  'Girona':                    'Estadio Montilivi, Girona',
+  'Alavés':                    'Mendizorrotza, Vitoria-Gasteiz',
+  'Deportivo Alavés':          'Mendizorrotza, Vitoria-Gasteiz',
+  'Celta Vigo':                'Abanca-Balaídos, Vigo',
+  'RC Celta de Vigo':          'Abanca-Balaídos, Vigo',
+  'Valencia':                  'Mestalla, Valencia',
+  'Mallorca':                  'Visit Mallorca Estadi, Palma',
+  'RCD Mallorca':              'Visit Mallorca Estadi, Palma',
+  'Las Palmas':                'Estadio Gran Canaria, Las Palmas',
+  'UD Las Palmas':             'Estadio Gran Canaria, Las Palmas',
+  'Racing Santander':          'El Sardinero, Santander',
+  'Espanyol':                  'RCDE Stadium, Barcelona',
+  'RCD Espanyol':              'RCDE Stadium, Barcelona',
+  'Levante':                   'Estadio Ciutat de València',
+  // ── Serie A ──────────────────────────────────────────────────────
+  'Juventus':                  'Juventus Stadium, Turin',
+  'Inter Milan':               'San Siro, Milan',
+  'Internazionale':            'San Siro, Milan',
+  'Inter':                     'San Siro, Milan',
+  'Milan':                     'San Siro, Milan',
+  'AC Milan':                  'San Siro, Milan',
+  'Roma':                      'Stadio Olimpico, Rome',
+  'AS Roma':                   'Stadio Olimpico, Rome',
+  'Lazio':                     'Stadio Olimpico, Rome',
+  'SS Lazio':                  'Stadio Olimpico, Rome',
+  'Napoli':                    'Stadio Diego Armando Maradona, Napoli',
+  'SSC Napoli':                'Stadio Diego Armando Maradona, Napoli',
+  'Fiorentina':                'Stadio Artemio Franchi, Florence',
+  'Atalanta':                  'Gewiss Stadium, Bergamo',
+  'Torino':                    'Stadio Olimpico Grande Torino, Turin',
+  'Bologna':                   'Stadio Renato Dall\'Ara, Bologna',
+  'Udinese':                   'Stadio Friuli, Udine',
+  'Sampdoria':                 'Luigi Ferraris, Genoa',
+  'Genoa':                     'Luigi Ferraris, Genoa',
+  'Cagliari':                  'Unipol Domus, Cagliari',
+  'Verona':                    'Marcantonio Bentegodi, Verona',
+  'Hellas Verona':             'Marcantonio Bentegodi, Verona',
+  'Sassuolo':                  'MAPEI Stadium, Reggio Emilia',
+  'Empoli':                    'Stadio Carlo Castellani, Empoli',
+  'Monza':                     'U-Power Stadium, Monza',
+  // ── Bundesliga ───────────────────────────────────────────────────
+  'Bayern Munich':             'Allianz Arena, Munich',
+  'FC Bayern München':         'Allianz Arena, Munich',
+  'FC Bayern Munich':          'Allianz Arena, Munich',
+  'Borussia Dortmund':         'Signal Iduna Park, Dortmund',
+  'Dortmund':                  'Signal Iduna Park, Dortmund',
+  'Bayer Leverkusen':          'BayArena, Leverkusen',
+  'RB Leipzig':                'Red Bull Arena, Leipzig',
+  'Leipzig':                   'Red Bull Arena, Leipzig',
+  'Eintracht Frankfurt':       'Deutsche Bank Park, Frankfurt',
+  'Frankfurt':                 'Deutsche Bank Park, Frankfurt',
+  'VfB Stuttgart':             'MHPArena, Stuttgart',
+  'Stuttgart':                 'MHPArena, Stuttgart',
+  'Borussia Mönchengladbach':  'Borussia-Park, Mönchengladbach',
+  'Freiburg':                  'Europa-Park Stadion, Freiburg',
+  'SC Freiburg':               'Europa-Park Stadion, Freiburg',
+  'Union Berlin':              'Stadion An der Alten Försterei, Berlin',
+  '1. FC Union Berlin':        'Stadion An der Alten Försterei, Berlin',
+  'Hoffenheim':                'PreZero Arena, Sinsheim',
+  'Wolfsburg':                 'Volkswagen Arena, Wolfsburg',
+  // ── Ligue 1 ──────────────────────────────────────────────────────
+  'Paris Saint-Germain':       'Parc des Princes, Paris',
+  'PSG':                       'Parc des Princes, Paris',
+  'Olympique de Marseille':    'Stade Vélodrome, Marseille',
+  'Marseille':                 'Stade Vélodrome, Marseille',
+  'Olympique Lyonnais':        'Groupama Stadium, Lyon',
+  'Lyon':                      'Groupama Stadium, Lyon',
+  'AS Monaco':                 'Stade Louis II, Monaco',
+  'Monaco':                    'Stade Louis II, Monaco',
+  'Lille':                     'Stade Pierre-Mauroy, Lille',
+  'LOSC Lille':                'Stade Pierre-Mauroy, Lille',
+  'Nice':                      'Allianz Riviera, Nice',
+  'OGC Nice':                  'Allianz Riviera, Nice',
+  'Rennes':                    'Roazhon Park, Rennes',
+  'Stade Rennais':             'Roazhon Park, Rennes',
+  'Lens':                      'Stade Bollaert-Delelis, Lens',
+  'RC Lens':                   'Stade Bollaert-Delelis, Lens',
+  'Nantes':                    'Stade de la Beaujoire, Nantes',
+  'Strasbourg':                'Stade de la Meinau, Strasbourg',
+  'Montpellier':               'Stade de la Mosson, Montpellier',
+  'Toulouse':                  'Stadium de Toulouse, Toulouse',
+  // ── Liga Portugal ────────────────────────────────────────────────
+  'Benfica':                   'Estádio da Luz, Lisbon',
+  'SL Benfica':                'Estádio da Luz, Lisbon',
+  'Sport Lisboa e Benfica':    'Estádio da Luz, Lisbon',
+  'Porto':                     'Estádio do Dragão, Porto',
+  'FC Porto':                  'Estádio do Dragão, Porto',
+  'Sporting CP':               'Estádio José Alvalade, Lisbon',
+  'Sporting':                  'Estádio José Alvalade, Lisbon',
+  'Braga':                     'Estádio Municipal de Braga',
+  'SC Braga':                  'Estádio Municipal de Braga',
+  'Vitória SC':                'Estádio Dom Afonso Henriques, Guimarães',
+};
+
+// Normalisasi nama tim: hapus suffix FC, AFC, CF, SC, AS, RC, UD, SSC, RCD, SS, AC, GFC, 1.FC
+const normalizeTeamName = (name) => {
+  if (!name) return '';
+  return name
+    .replace(/\s+(F\.?C\.?|A\.?F\.?C\.?|C\.?F\.?|S\.?C\.?|A\.?S\.?|R\.?C\.?|U\.?D\.?|S\.?S\.?C?\.?|R\.?C\.?D\.?|S\.?S\.?|A\.?C\.?|G\.?F\.?C\.?|1\s*\.\s*F\.?C\.?)$/i, '')
+    .replace(/^(F\.?C\.?|A\.?F\.?C\.?|C\.?F\.?|A\.?S\.?|R\.?C\.?|S\.?S\.?C?\.?)\s+/i, '')
+    .trim();
 };
 
 export const getVenueForMatch = (matchId, homeTeamName = null) => {
-  // 1. Kalau ada nama tim home, cari stadionnya
-  if (homeTeamName && HOME_STADIUMS[homeTeamName]) {
-    return HOME_STADIUMS[homeTeamName];
+  if (homeTeamName) {
+    // 1. Exact match
+    if (HOME_STADIUMS[homeTeamName]) return HOME_STADIUMS[homeTeamName];
+
+    // 2. Normalized match (strip FC, AFC, CF, dll.)
+    const normalized = normalizeTeamName(homeTeamName);
+    if (normalized && HOME_STADIUMS[normalized]) return HOME_STADIUMS[normalized];
+
+    // 3. Partial/contains match (untuk nama panjang seperti "Real Betis Balompié")
+    const lowerName = homeTeamName.toLowerCase();
+    for (const [key, venue] of Object.entries(HOME_STADIUMS)) {
+      if (lowerName.includes(key.toLowerCase()) || key.toLowerCase().includes(lowerName)) {
+        if (key.length > 5) return venue; // avoid very short false positives
+      }
+    }
   }
-  // 2. Fallback: WC venue (hanya untuk pertandingan WC)
+
+  // 4. Fallback: WC 2026 venue (hanya untuk pertandingan World Cup)
   let hash = 0;
   const str = String(matchId);
   for (let i = 0; i < str.length; i++) {
@@ -195,6 +276,9 @@ export const getVenueForMatch = (matchId, homeTeamName = null) => {
   }
   return WC_VENUES[Math.abs(hash) % WC_VENUES.length];
 };
+
+
+
 
 
 

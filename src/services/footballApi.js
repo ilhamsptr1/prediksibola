@@ -194,7 +194,7 @@ const TEAM_IDS = {
 };
 
 // ── Cache layer ──────────────────────────────────────────────────
-const CACHE_VERSION   = 'v3';                  // ← bump ini setiap kali struktur data berubah
+const CACHE_VERSION   = 'v4';                  // ← bump ini setiap kali struktur data berubah
 const CACHE_TTL_MS    = 60 * 60 * 1000;       // 1 jam (cache utama)
 const STALE_CACHE_TTL = 24 * 60 * 60 * 1000;  // 24 jam (stale/fallback)
 
