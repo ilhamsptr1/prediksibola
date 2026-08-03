@@ -10,7 +10,7 @@ import './Dashboard.css';
 // Mapping liga → file background di /public/img/
 const LEAGUE_BG = {
   WC:  '/img/bg_wc.jpg',
-  PL:  '/img/bg_pl.jpg',
+  PL:  '/img/bg_pl.png',
   PD:  '/img/bg_laliga.jpg',
   SA:  '/img/bg_seriea.jpg',
   BL1: '/img/bg_bundesliga.jpg',
