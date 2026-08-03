@@ -237,10 +237,10 @@ const MatchCard = ({ match }) => {
           <button className="btn btn-secondary btn-stats" onClick={toggleStats}>
             <BarChart2 size={16} /> <span>{showStats ? 'Tutup' : 'Statistik'}</span>
           </button>
-          <button className="btn btn-h2h" onClick={(e) => { e.stopPropagation(); setShowLineup(true); }}>
+          <button className="btn btn-h2h" onClick={() => setShowLineup(true)}>
             <Users size={16} /> <span>Skuad</span>
           </button>
-          <button className="btn btn-h2h" onClick={(e) => { e.stopPropagation(); setShowH2H(true); }}>
+          <button className="btn btn-h2h" onClick={() => setShowH2H(true)}>
             <Users size={16} /> <span>H2H</span>
           </button>
         </div>
