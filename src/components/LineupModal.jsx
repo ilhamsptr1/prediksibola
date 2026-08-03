@@ -111,7 +111,7 @@ const LineupModal = ({ match, onClose }) => {
     if (!player) return null;
     const isGK = player.position?.includes('oalkeeper');
     const jerseyClass = isGK ? 'jersey-gk' : teamType === 'HOME' ? 'jersey-home' : 'jersey-away';
-    const num = player.id ? (player.id % 99) + 1 : '?';
+    const num = player.shirtNumber ?? '?';
     return (
       <div key={player.id} className="pitch-player">
         <div className={`player-jersey ${jerseyClass}`}>{num}</div>
@@ -197,7 +197,7 @@ const LineupModal = ({ match, onClose }) => {
                       {players.map(p => (
                         <div className="squad-item" key={p.id}>
                           <div className="squad-item__info">
-                            <span className="squad-item__number">{(p.id % 99) + 1}</span>
+                            <span className="squad-item__number">{p.shirtNumber ?? '—'}</span>
                             <div>
                               <div className="squad-item__name">{p.name}</div>
                               <div className="squad-item__meta">
