@@ -9,8 +9,8 @@ export const LEAGUES = [
   },
   {
     code: 'PL',
-    name: 'Premier League',
-    shortName: 'Premier League',
+    name: 'Premiere League',
+    shortName: 'Premiere League',
     flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
     hasGroups: false,
     color: '#38003c',
