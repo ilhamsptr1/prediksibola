@@ -139,11 +139,11 @@ const LineupModal = ({ match, onClose }) => {
         <div className="lineup-tabs">
           <button className={`lineup-tab ${activeTab === 'HOME' ? 'active' : ''}`} onClick={() => handleTabSwitch('HOME')}>
             {match.homeTeam.crest && <img src={match.homeTeam.crest} className="lineup-tab__crest" alt="" />}
-            {match.homeTeam.shortName || match.homeTeam.name}
+            <span>{match.homeTeam.shortName || match.homeTeam.name}</span>
           </button>
           <button className={`lineup-tab ${activeTab === 'AWAY' ? 'active' : ''}`} onClick={() => handleTabSwitch('AWAY')}>
             {match.awayTeam.crest && <img src={match.awayTeam.crest} className="lineup-tab__crest" alt="" />}
-            {match.awayTeam.shortName || match.awayTeam.name}
+            <span>{match.awayTeam.shortName || match.awayTeam.name}</span>
           </button>
         </div>
 
@@ -152,22 +152,22 @@ const LineupModal = ({ match, onClose }) => {
           {isLoading ? (
             <div className="lineup-loading">
               <div className="lineup-spinner"></div>
-              Mengambil data skuad...
+              <span>Mengambil data skuad...</span>
             </div>
           ) : currentSquad.length === 0 ? (
             <div className="lineup-error">
               <span style={{ fontSize: '2.5rem' }}>⚽</span>
               <span style={{ fontWeight: 700, marginTop: '0.5rem' }}>Data skuad tidak tersedia</span>
               <span style={{ fontSize: '0.75rem', opacity: 0.5, textAlign: 'center', lineHeight: 1.5 }}>
-                Tim ini tidak memiliki data skuad di database.<br />
-                Coba lihat tim dari liga-liga Eropa (PL, La Liga, Serie A, dll).
+                <span>Tim ini tidak memiliki data skuad di database.</span><br />
+                <span>Coba lihat tim dari liga-liga Eropa (PL, La Liga, Serie A, dll).</span>
               </span>
             </div>
           ) : (
             <>
               {/* Formasi label */}
               <div style={{ textAlign: 'center', fontSize: '0.7rem', color: 'rgba(255,255,255,0.35)', padding: '0.4rem 0 0', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                Prediksi Formasi 4-3-3
+                <span>Prediksi Formasi 4-3-3</span>
               </div>
 
               {/* Pitch */}
@@ -199,9 +199,9 @@ const LineupModal = ({ match, onClose }) => {
                           <div className="squad-item__info">
                             <span className="squad-item__number">{p.shirtNumber ?? '—'}</span>
                             <div>
-                              <div className="squad-item__name">{p.name}</div>
+                              <div className="squad-item__name"><span>{p.name}</span></div>
                               <div className="squad-item__meta">
-                                {p.nationality} {p.dateOfBirth ? `• Lhr: ${p.dateOfBirth.substring(0, 4)}` : ''}
+                                <span>{p.nationality}{p.dateOfBirth ? ` • Lhr: ${p.dateOfBirth.substring(0, 4)}` : ''}</span>
                               </div>
                             </div>
                           </div>
