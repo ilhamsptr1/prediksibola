@@ -16,7 +16,13 @@ const LeagueSelector = ({ selectedLeague, onSelect }) => {
               title={league.name}
               style={isActive ? { '--league-color': league.color } : {}}
             >
-              <span className="league-flag">{league.flag}</span>
+              <div className="league-icon-container">
+                {league.logo ? (
+                  <img src={league.logo} alt={league.name} className="league-logo" />
+                ) : (
+                  <span className="league-flag">{league.flag}</span>
+                )}
+              </div>
               <span className="league-name">{league.shortName}</span>
               {isActive && <span className="league-active-bar" style={{ background: league.color }} />}
             </button>
