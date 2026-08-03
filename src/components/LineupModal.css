@@ -376,3 +376,28 @@
 @keyframes lineupSpin {
   to { transform: rotate(360deg); }
 }
+
+/* ── Mobile UI Optimizations ─────────────────────────────────────── */
+@media (max-width: 480px) {
+  .lineup-modal {
+    height: 100vh;
+    max-height: none;
+    border-radius: 0;
+  }
+  .pitch-container {
+    width: calc(100% - 1rem);
+    margin: 0.5rem auto;
+  }
+  .player-jersey {
+    width: 22px;
+    height: 22px;
+    font-size: 0.6rem;
+  }
+  .player-name {
+    font-size: 0.55rem;
+    max-width: 50px;
+  }
+  .lineup-tabs {
+    margin: 0.5rem 0.5rem 0;
+  }
+}

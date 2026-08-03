@@ -749,4 +749,13 @@
   .match-header,
   .match-teams,
   .match-footer { padding-left: 0.85rem; padding-right: 0.85rem; }
+  
+  .match-footer__row {
+    flex-wrap: wrap;
+  }
+  .btn-stats, .btn-h2h {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.6rem;
+    flex: 1 1 calc(50% - 0.4rem);
+  }
 }
