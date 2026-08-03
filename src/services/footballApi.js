@@ -50,16 +50,18 @@ const mapMatchData = (apiMatch) => {
     matchday: apiMatch.matchday || 1,
     venue: apiMatch.venue || getVenueForMatch(apiMatch.id, apiMatch.homeTeam?.name),
     homeTeam: {
+      id:   apiMatch.homeTeam?.id   || null,
       name: apiMatch.homeTeam?.name || 'TBD',
-      code: apiMatch.homeTeam?.tla || homeMeta.code,
+      code: apiMatch.homeTeam?.tla  || homeMeta.code,
       flag: apiMatch.homeTeam?.crest || homeMeta.flag,
       crest: apiMatch.homeTeam?.crest || homeMeta.crest,
       att: homeMeta.att,
       def: homeMeta.def
     },
     awayTeam: {
+      id:   apiMatch.awayTeam?.id   || null,
       name: apiMatch.awayTeam?.name || 'TBD',
-      code: apiMatch.awayTeam?.tla || awayMeta.code,
+      code: apiMatch.awayTeam?.tla  || awayMeta.code,
       flag: apiMatch.awayTeam?.crest || awayMeta.flag,
       crest: apiMatch.awayTeam?.crest || awayMeta.crest,
       att: awayMeta.att,

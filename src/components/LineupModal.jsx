@@ -37,14 +37,32 @@ const LineupModal = ({ match, onClose }) => {
         const homeId = match.homeTeam.id;
         const awayId = match.awayTeam.id;
 
-        const [resHome, resAway] = await Promise.all([
-          fetch(`/api/football-data/v4/teams/${homeId}`, { headers: { 'X-Auth-Token': API_KEY } }),
-          fetch(`/api/football-data/v4/teams/${awayId}`, { headers: { 'X-Auth-Token': API_KEY } })
-        ]);
+        // Jika ID tidak ada, coba cari lewat nama tim
+        const fetchTeamSquad = async (id, name) => {
+          if (id) {
+            const res = await fetch(`/api/football-data/v4/teams/${id}`, { headers: { 'X-Auth-Token': API_KEY } });
+            if (res.ok) {
+              const data = await res.json();
+              if (data.squad && data.squad.length > 0) return data;
+            }
+          }
+          // Fallback: cari via nama tim
+          const searchRes = await fetch(`/api/football-data/v4/teams?name=${encodeURIComponent(name)}&limit=1`, { headers: { 'X-Auth-Token': API_KEY } });
+          if (searchRes.ok) {
+            const searchData = await searchRes.json();
+            const found = searchData.teams?.[0];
+            if (found?.id) {
+              const teamRes = await fetch(`/api/football-data/v4/teams/${found.id}`, { headers: { 'X-Auth-Token': API_KEY } });
+              if (teamRes.ok) return await teamRes.json();
+            }
+          }
+          return { squad: [] };
+        };
 
-        let homeData = { squad: [] }, awayData = { squad: [] };
-        if (resHome.ok) homeData = await resHome.json();
-        if (resAway.ok) awayData = await resAway.json();
+        const [homeData, awayData] = await Promise.all([
+          fetchTeamSquad(homeId, match.homeTeam.name),
+          fetchTeamSquad(awayId, match.awayTeam.name)
+        ]);
 
         setHomeSquad(homeData.squad || []);
         setAwaySquad(awayData.squad || []);
@@ -151,7 +169,21 @@ const LineupModal = ({ match, onClose }) => {
               </div>
 
               {/* Pitch */}
-              {activeTab === 'HOME' && homeLineup && (
+              {activeTab === 'HOME' && homeLineup && homeSquad.length === 0 && (
+                <div className="lineup-error">
+                  <span style={{fontSize:'2rem'}}>⚽</span>
+                  <span>Data skuad tidak tersedia untuk tim ini</span>
+                  <span style={{fontSize:'0.75rem', opacity:0.5, marginTop:'0.3rem'}}>API hanya mendukung liga-liga top Eropa</span>
+                </div>
+              )}
+              {activeTab === 'AWAY' && awayLineup && awaySquad.length === 0 && (
+                <div className="lineup-error">
+                  <span style={{fontSize:'2rem'}}>⚽</span>
+                  <span>Data skuad tidak tersedia untuk tim ini</span>
+                  <span style={{fontSize:'0.75rem', opacity:0.5, marginTop:'0.3rem'}}>API hanya mendukung liga-liga top Eropa</span>
+                </div>
+              )}
+              {activeTab === 'HOME' && homeLineup && homeSquad.length > 0 && (
                 <div className="pitch-container">
                   <div className="pitch-line pitch-halfway" />
                   <div className="pitch-line pitch-circle" />
@@ -170,7 +202,7 @@ const LineupModal = ({ match, onClose }) => {
                 </div>
               )}
 
-              {activeTab === 'AWAY' && awayLineup && (
+              {activeTab === 'AWAY' && awayLineup && awaySquad.length > 0 && (
                 <div className="pitch-container">
                   <div className="pitch-line pitch-halfway" />
                   <div className="pitch-line pitch-circle" />
