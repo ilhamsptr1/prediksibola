@@ -167,11 +167,19 @@ const loadML = () => {
 // ── Provider ────────────────────────────────────────────────────
 export const PredictionProvider = ({ children }) => {
   const [predictions,        setPredictions]        = useState({});
-  const [selectedLeagueCode, setSelectedLeagueCode] = useState('WC');
+  const [selectedLeagueCode, setSelectedLeagueCode] = useState(
+    () => localStorage.getItem('selectedLeagueCode') || 'WC'
+  );
   const [mlReady,            setMlReady]            = useState(false);
   const [oddsData,           setOddsData]           = useState([]);
   const [oddsStatus,         setOddsStatus]         = useState('idle'); // idle | loading | ready | error | no-key
   const selectedLeague = getLeague(selectedLeagueCode);
+
+  // Simpan pilihan liga ke localStorage agar tidak reset saat refresh
+  useEffect(() => {
+    localStorage.setItem('selectedLeagueCode', selectedLeagueCode);
+  }, [selectedLeagueCode]);
+
 
   useEffect(() => {
     loadML().then(m => { if (m) setMlReady(true); });
