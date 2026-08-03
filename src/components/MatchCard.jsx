@@ -148,7 +148,7 @@ const MatchCard = ({ match }) => {
                   { key: 'form', label: 'Weighted Form',   color: '#34d399', w: pred.ensembleWeights?.form },
                   { key: 'gb',   label: 'XGBoost',         color: '#fb923c', w: pred.ensembleWeights?.gb   },
                 ].map(({ key, label, color, w }) => {
-                  const b = pred.modelBreakdown[key];
+                  const b = pred.modelBreakdown?.[key];
                   if (!b) return null;
                   return (
                     <div className="ensemble-row" key={key}>
