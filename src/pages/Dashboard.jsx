@@ -4,7 +4,7 @@ import LeagueSelector from '../components/LeagueSelector';
 import { usePredictions } from '../context/PredictionContext';
 import { useMatches } from '../hooks/useMatches';
 import { getLeague } from '../data/leagues';
-import { RefreshCw, Wifi, WifiOff, Zap, CalendarOff } from 'lucide-react';
+import { RefreshCw, Wifi, WifiOff, Zap, CalendarOff, Search, X } from 'lucide-react';
 import './Dashboard.css';
 
 // Mapping liga → file background di /public/img/
@@ -28,12 +28,14 @@ const Dashboard = () => {
 
   const [selectedGroup, setSelectedGroup]     = useState('Semua');
   const [selectedMatchday, setSelectedMatchday] = useState('Semua');
+  const [searchQuery, setSearchQuery]           = useState('');
 
   // Reset filters when league changes
   const handleLeagueSelect = (code) => {
     setSelectedLeagueCode(code);
     setSelectedGroup('Semua');
     setSelectedMatchday('Semua');
+    setSearchQuery('');
   };
 
   // Unique group codes sorted
@@ -50,7 +52,10 @@ const Dashboard = () => {
   const filteredMatches = matches.filter(m => {
     const groupOk    = selectedGroup    === 'Semua' || m.group    === selectedGroup;
     const matchdayOk = selectedMatchday === 'Semua' || String(m.matchday) === String(selectedMatchday);
-    return groupOk && matchdayOk;
+    const searchOk   = !searchQuery.trim() ||
+      m.homeTeam.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      m.awayTeam.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return groupOk && matchdayOk && searchOk;
   });
 
   const liveMatches     = filteredMatches.filter(m => m.status === 'LIVE');
@@ -115,6 +120,27 @@ const Dashboard = () => {
           </button>
         </div>
       </div>
+
+      {/* ── Search Bar ── */}
+      {matches.length > 0 && (
+        <div className="search-bar-wrapper">
+          <div className="search-bar glass">
+            <Search size={16} className="search-icon" />
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Cari tim... (misal: Arsenal, Real Madrid)"
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+            />
+            {searchQuery && (
+              <button className="search-clear" onClick={() => setSearchQuery('')}>
+                <X size={14} />
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* ── Error banner ── */}
       {error && (

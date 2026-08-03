@@ -1,23 +1,26 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Wifi, List, Trophy, TrendingUp } from 'lucide-react';
+import { Home, List, Trophy, TrendingUp, History } from 'lucide-react';
+import NotificationBell from './NotificationBell';
+import { usePredictions } from '../context/PredictionContext';
 import './Navbar.css';
 
 const Navbar = () => {
   const location = useLocation();
+  const { allMatches } = usePredictions();
 
   const navItems = [
-    { path: '/', label: 'Jadwal', icon: <Home size={18} /> },
-    { path: '/standings', label: 'Klasemen', icon: <List size={18} /> },
-    { path: '/bracket', label: 'Bagan', icon: <Trophy size={18} /> },
-    { path: '/leaderboard', label: 'AI Ranking', icon: <TrendingUp size={18} /> },
+    { path: '/',           label: 'Jadwal',   icon: <Home size={18} /> },
+    { path: '/standings',  label: 'Klasemen', icon: <List size={18} /> },
+    { path: '/bracket',    label: 'Bagan',    icon: <Trophy size={18} /> },
+    { path: '/leaderboard',label: 'AI Rank',  icon: <TrendingUp size={18} /> },
+    { path: '/history',    label: 'Riwayat',  icon: <History size={18} /> },
   ];
 
   return (
     <nav className="navbar glass">
       <div className="container navbar-content">
         <Link to="/" className="navbar-brand">
-          {/* Official WC Emblem from football-data.org CDN */}
           <img
             src="https://crests.football-data.org/wm26.png"
             alt="FIFA World Cup 2026"
@@ -30,13 +33,6 @@ const Navbar = () => {
           </div>
         </Link>
 
-        <div className="nav-center">
-          <div className="live-indicator">
-            <Wifi size={14} />
-            <span>Live Data</span>
-          </div>
-        </div>
-
         <div className="nav-links">
           {navItems.map((item) => (
             <Link
@@ -48,6 +44,7 @@ const Navbar = () => {
               <span>{item.label}</span>
             </Link>
           ))}
+          <NotificationBell matches={allMatches || []} />
         </div>
       </div>
     </nav>

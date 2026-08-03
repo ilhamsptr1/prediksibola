@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePredictions } from '../context/PredictionContext';
 import { Calendar, MapPin, CheckCircle, Clock, BarChart2, Cpu, Users } from 'lucide-react';
 import { generateMatchStats } from '../services/footballApi';
@@ -26,8 +26,15 @@ const StatusBadge = ({ status, minute }) => {
 };
 
 const MatchCard = ({ match }) => {
-  const { generateAIPrediction, getPredictionForMatch } = usePredictions();
+  const { generateAIPrediction, getPredictionForMatch, savePredictionResult } = usePredictions();
   const pred = getPredictionForMatch(match.id);
+
+  // Auto-save ke riwayat jika match sudah selesai dan ada prediksi
+  useEffect(() => {
+    if (match.status === 'FINISHED' && pred) {
+      savePredictionResult(match, pred);
+    }
+  }, [match.status, pred]);
 
   const [isPredicting, setIsPredicting] = useState(false);
   const [showStats,    setShowStats]    = useState(false);

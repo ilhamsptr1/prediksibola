@@ -265,11 +265,68 @@ export const PredictionProvider = ({ children }) => {
 
   const getPredictionForMatch = (matchId) => predictions[matchId] ?? null;
 
+  // ── Riwayat Prediksi (disimpan di localStorage) ───────────────────
+  const [predictionHistory, setPredictionHistory] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('predictionHistory') || '[]'); }
+    catch { return []; }
+  });
+
+  useEffect(() => {
+    localStorage.setItem('predictionHistory', JSON.stringify(predictionHistory));
+  }, [predictionHistory]);
+
+  /**
+   * Simpan hasil prediksi setelah match selesai.
+   * dipanggil dari MatchCard saat status === FINISHED dan ada pred.
+   */
+  const savePredictionResult = (match, pred) => {
+    if (!pred || match.status !== 'FINISHED') return;
+    // Cegah duplikat
+    if (predictionHistory.find(h => h.matchId === match.id)) return;
+
+    const actualHome = match.score?.home ?? null;
+    const actualAway = match.score?.away ?? null;
+    if (actualHome === null || actualAway === null) return;
+
+    // Cek apakah prediksi pemenang benar
+    const predictedResult = pred.homeScore > pred.awayScore ? 'H'
+      : pred.homeScore < pred.awayScore ? 'A' : 'D';
+    const actualResult = actualHome > actualAway ? 'H'
+      : actualHome < actualAway ? 'A' : 'D';
+    const isCorrect = predictedResult === actualResult;
+    // Cek skor persis
+    const isExact = pred.homeScore === actualHome && pred.awayScore === actualAway;
+
+    const entry = {
+      matchId:     match.id,
+      homeTeam:    match.homeTeam.name,
+      awayTeam:    match.awayTeam.name,
+      homeCrest:   match.homeTeam.crest || '',
+      awayCrest:   match.awayTeam.crest || '',
+      date:        match.date,
+      league:      match.group || '',
+      predictedHome: pred.homeScore,
+      predictedAway: pred.awayScore,
+      actualHome,
+      actualAway,
+      isCorrect,
+      isExact,
+      probabilities: pred.probabilities,
+      savedAt: new Date().toISOString(),
+    };
+
+    setPredictionHistory(prev => [entry, ...prev.slice(0, 99)]); // max 100
+  };
+
+  const clearHistory = () => setPredictionHistory([]);
+
   return (
     <PredictionContext.Provider value={{
       predictions, generateAIPrediction, getPredictionForMatch,
       selectedLeague, selectedLeagueCode, setSelectedLeagueCode,
       mlReady, oddsStatus,
+      predictionHistory, savePredictionResult, clearHistory,
+      allMatches: [], // populated by Dashboard via setAllMatches
     }}>
       {children}
     </PredictionContext.Provider>
