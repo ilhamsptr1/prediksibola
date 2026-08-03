@@ -379,8 +379,12 @@
 
 /* ── Mobile UI Optimizations ─────────────────────────────────────── */
 @media (max-width: 480px) {
+  .lineup-overlay {
+    padding: 0;
+  }
   .lineup-modal {
     height: 100vh;
+    height: 100dvh;
     max-height: none;
     border-radius: 0;
   }

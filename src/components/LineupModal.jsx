@@ -74,10 +74,8 @@ const LineupModal = ({ match, onClose }) => {
   const [squads, setSquads]     = useState({ home: null, away: null }); // null = belum load, [] = kosong
   const [loading, setLoading]   = useState(false);
 
-  useEffect(() => {
-    document.body.style.overflow = 'hidden';
-    return () => { document.body.style.overflow = ''; };
-  }, []);
+  // Tidak mengunci scroll background agar user masih bisa scroll halaman
+  // saat modal skuad sedang terbuka.
 
   const loadSquad = useCallback(async (tab) => {
     const isHome = tab === 'HOME';
