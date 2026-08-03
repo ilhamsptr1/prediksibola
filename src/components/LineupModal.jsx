@@ -122,8 +122,8 @@ const LineupModal = ({ match, onClose }) => {
   };
 
   return createPortal(
-    <div className="lineup-overlay" onClick={onClose}>
-      <div className="lineup-modal" onClick={e => e.stopPropagation()}>
+    <div className="lineup-overlay" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <div className="lineup-modal">
 
         {/* Header */}
         <div className="lineup-modal__header">
