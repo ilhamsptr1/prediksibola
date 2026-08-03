@@ -1,0 +1,378 @@
+/* ─── Lineup Modal Overlay ────────────────────────────────────────── */
+.lineup-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  z-index: 1050;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: lineupFadeIn 0.3s ease;
+}
+
+@keyframes lineupFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── Modal Box ──────────────────────────────────────────────────── */
+.lineup-modal {
+  width: 100%;
+  max-width: 500px; /* Lebar menyerupai HP/Fotmob */
+  height: 90vh;
+  max-height: 850px;
+  background: linear-gradient(180deg, #121c2d 0%, #0b111e 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+  animation: lineupSlideUp 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@keyframes lineupSlideUp {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ─── Header ─────────────────────────────────────────────────────── */
+.lineup-modal__header {
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lineup-modal__title {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.lineup-modal__subtitle {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.lineup-modal__close {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.lineup-modal__close:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* ─── Body (Scrollable) ──────────────────────────────────────────── */
+.lineup-modal__body {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.1) transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Team Tabs (Home/Away toggle) ───────────────────────────────── */
+.lineup-tabs {
+  display: flex;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem;
+  margin: 1rem 1rem 0;
+  border-radius: 12px;
+  gap: 0.2rem;
+}
+
+.lineup-tab {
+  flex: 1;
+  padding: 0.6rem;
+  text-align: center;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.lineup-tab.active {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.lineup-tab__crest {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+}
+
+/* ─── Pitch UI (Lapangan) ────────────────────────────────────────── */
+.pitch-container {
+  position: relative;
+  width: calc(100% - 2rem);
+  margin: 1rem auto;
+  aspect-ratio: 2 / 3; /* Proporsi lapangan sepak bola vertikal */
+  background: #2a5934; /* Warna dasar rumput */
+  background-image: 
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,0.03) 0,
+      rgba(255,255,255,0.03) 10%,
+      transparent 10%,
+      transparent 20%
+    );
+  border: 2px solid rgba(255,255,255,0.4);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Garis lapangan (Pitch Lines) */
+.pitch-line {
+  position: absolute;
+  border: 2px solid rgba(255,255,255,0.4);
+}
+
+/* Garis tengah */
+.pitch-halfway {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: rgba(255,255,255,0.4);
+  border: none;
+  transform: translateY(-50%);
+}
+
+/* Lingkaran tengah */
+.pitch-circle {
+  top: 50%;
+  left: 50%;
+  width: 25%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Area penalti atas (Away) */
+.pitch-penalty-top {
+  top: 0;
+  left: 20%;
+  width: 60%;
+  height: 15%;
+  border-top: none;
+}
+
+/* Area gawang atas */
+.pitch-goal-top {
+  top: 0;
+  left: 35%;
+  width: 30%;
+  height: 5%;
+  border-top: none;
+}
+
+/* Area penalti bawah (Home) */
+.pitch-penalty-bottom {
+  bottom: 0;
+  left: 20%;
+  width: 60%;
+  height: 15%;
+  border-bottom: none;
+}
+
+/* Area gawang bawah */
+.pitch-goal-bottom {
+  bottom: 0;
+  left: 35%;
+  width: 30%;
+  height: 5%;
+  border-bottom: none;
+}
+
+/* ─── Pemain di Lapangan ─────────────────────────────────────────── */
+.pitch-players {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 1rem 0;
+}
+
+.pitch-row {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+.pitch-player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 60px;
+}
+
+/* Jersey (titik warna) */
+.player-jersey {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+/* Kustomisasi warna jersey */
+.jersey-home {
+  background: #4ade80;
+  border-color: #166534;
+  color: #166534;
+}
+
+.jersey-away {
+  background: #f87171;
+  border-color: #991b1b;
+  color: #991b1b;
+}
+
+.jersey-gk {
+  background: #fbbf24;
+  border-color: #b45309;
+  color: #b45309;
+}
+
+/* Nama Pemain di Lapangan */
+.player-name {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.6rem;
+  color: #fff;
+  text-align: center;
+  white-space: nowrap;
+  max-width: 60px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  backdrop-filter: blur(4px);
+}
+
+/* ─── Daftar Skuad Lengkap ───────────────────────────────────────── */
+.squad-list-container {
+  padding: 0 1rem 2rem;
+}
+
+.squad-section {
+  margin-top: 1.5rem;
+}
+
+.squad-section__title {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  padding-bottom: 0.3rem;
+}
+
+.squad-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.5rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.squad-item:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.squad-item__info {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.squad-item__number {
+  color: rgba(255,255,255,0.3);
+  font-weight: 700;
+  font-size: 0.85rem;
+  width: 20px;
+  text-align: center;
+}
+
+.squad-item__name {
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.squad-item__meta {
+  color: rgba(255,255,255,0.4);
+  font-size: 0.75rem;
+}
+
+/* ─── State Load & Error ─────────────────────────────────────────── */
+.lineup-loading, .lineup-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.9rem;
+}
+
+.lineup-spinner {
+  width: 30px;
+  height: 30px;
+  border: 3px solid rgba(255,255,255,0.1);
+  border-top-color: #4ade80;
+  border-radius: 50%;
+  animation: lineupSpin 0.8s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes lineupSpin {
+  to { transform: rotate(360deg); }
+}

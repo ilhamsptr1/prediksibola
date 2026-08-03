@@ -4,6 +4,7 @@ import { Calendar, MapPin, CheckCircle, Clock, BarChart2, Cpu, Users } from 'luc
 import { generateMatchStats } from '../services/footballApi';
 import teamRatingsData from '../data/teamRatings.json';
 import H2HModal from './H2HModal';
+import LineupModal from './LineupModal';
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip
 } from 'recharts';
@@ -32,6 +33,7 @@ const MatchCard = ({ match }) => {
   const [showStats,    setShowStats]    = useState(false);
   const [matchStats,   setMatchStats]   = useState(null);
   const [showH2H,      setShowH2H]      = useState(false);
+  const [showLineup,   setShowLineup]   = useState(false);
 
   const isFinished = match.status === 'FINISHED';
   const isLive     = match.status === 'LIVE';
@@ -233,7 +235,10 @@ const MatchCard = ({ match }) => {
         )}
         <div className="match-footer__row">
           <button className="btn btn-secondary btn-stats" onClick={toggleStats}>
-            <BarChart2 size={16} /> {showStats ? 'Tutup Statistik' : 'Statistik & Odds'}
+            <BarChart2 size={16} /> {showStats ? 'Tutup' : 'Statistik'}
+          </button>
+          <button className="btn btn-h2h" onClick={() => setShowLineup(true)}>
+            <Users size={16} /> Skuad
           </button>
           <button className="btn btn-h2h" onClick={() => setShowH2H(true)}>
             <Users size={16} /> H2H
@@ -301,6 +306,11 @@ const MatchCard = ({ match }) => {
       {/* H2H Modal */}
       {showH2H && (
         <H2HModal match={match} onClose={() => setShowH2H(false)} />
+      )}
+
+      {/* Lineup Modal */}
+      {showLineup && (
+        <LineupModal match={match} onClose={() => setShowLineup(false)} />
       )}
     </div>
   );
