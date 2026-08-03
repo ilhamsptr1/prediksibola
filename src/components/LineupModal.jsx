@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import './LineupModal.css';
 
 const API_KEY = import.meta.env.VITE_FOOTBALL_API_KEY || '4eda5db232484db3b743c1544bf90b86';
@@ -120,7 +121,7 @@ const LineupModal = ({ match, onClose }) => {
     );
   };
 
-  return (
+  return createPortal(
     <div className="lineup-overlay" onClick={onClose}>
       <div className="lineup-modal" onClick={e => e.stopPropagation()}>
 
@@ -215,7 +216,8 @@ const LineupModal = ({ match, onClose }) => {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
