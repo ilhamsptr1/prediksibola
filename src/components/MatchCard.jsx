@@ -221,27 +221,27 @@ const MatchCard = ({ match }) => {
             disabled={isPredicting}
           >
             {isPredicting
-              ? <><span className="spinner" /> Menghitung probabilitas...</>
+              ? <><span className="spinner" /> <span>Menghitung probabilitas...</span></>
               : pred
-              ? <><CheckCircle size={16} /> AI Prediksi Selesai — Prediksi Ulang</>
-              : <><Cpu size={16} /> Generate AI Prediction</>}
+              ? <><CheckCircle size={16} /> <span>AI Prediksi Selesai — Prediksi Ulang</span></>
+              : <><Cpu size={16} /> <span>Generate AI Prediction</span></>}
           </button>
         ) : isLive ? (
-          <div className="info-text live-info"><span className="live-dot" /> Pertandingan berlangsung</div>
+          <div className="info-text live-info"><span className="live-dot" /> <span>Pertandingan berlangsung</span></div>
         ) : isFinished ? (
-          <div className="info-text finished-info"><CheckCircle size={14} /> Pertandingan selesai</div>
+          <div className="info-text finished-info"><CheckCircle size={14} /> <span>Pertandingan selesai</span></div>
         ) : (
-          <div className="info-text"><Clock size={14} /> Prediksi ditutup</div>
+          <div className="info-text"><Clock size={14} /> <span>Prediksi ditutup</span></div>
         )}
         <div className="match-footer__row">
           <button className="btn btn-secondary btn-stats" onClick={toggleStats}>
-            <BarChart2 size={16} /> {showStats ? 'Tutup' : 'Statistik'}
+            <BarChart2 size={16} /> <span>{showStats ? 'Tutup' : 'Statistik'}</span>
           </button>
           <button className="btn btn-h2h" onClick={() => setShowLineup(true)}>
-            <Users size={16} /> Skuad
+            <Users size={16} /> <span>Skuad</span>
           </button>
           <button className="btn btn-h2h" onClick={() => setShowH2H(true)}>
-            <Users size={16} /> H2H
+            <Users size={16} /> <span>H2H</span>
           </button>
         </div>
       </div>
