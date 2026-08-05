@@ -77,51 +77,38 @@ const MatchCard = ({ match }) => {
       {/* Header */}
       <div className="match-header">
         <div className="header-left">
-          <span className="match-group">{match.group}</span>
-          {match.matchday && <span className="match-day">MD {match.matchday}</span>}
+          <span className="match-group">
+            {match.group ? match.group : (match.matchday ? `MD ${match.matchday}` : 'Match')}
+          </span>
         </div>
         <div className="header-right">
           <StatusBadge status={match.status} minute={match.minute} />
-          <span className="match-date"><Calendar size={13} /> {matchDate} WIB</span>
-          <span className="match-venue"><MapPin size={13} /> {match.venue}</span>
+          <span className="match-date">{matchDate}</span>
         </div>
       </div>
 
-      {/* Teams & Scores */}
-      <div className="match-teams">
-        {/* Home */}
-        <div className="team home-team">
+      {/* Teams & Scores (Vertical Layout) */}
+      <div className="match-teams-vert">
+        {/* Home Row */}
+        <div className="team-row">
           <TeamBadge team={match.homeTeam} />
           <span className="team-name" title={match.homeTeam.name}>
             {match.homeTeam.shortName || match.homeTeam.name}
           </span>
+          <span className={`team-score${isLive ? ' live-score' : ''}`}>
+            {match.score.home !== null ? match.score.home : (pred ? pred.homeScore : '-')}
+          </span>
         </div>
 
-        {/* Center Score / VS */}
-        <div className="match-center-score">
-          {(isLive || isFinished) && match.score.home !== null ? (
-            <div className="center-scores">
-              <span className={`real-score${isLive ? ' live-score' : ''}`}>{match.score.home}</span>
-              <span className="score-sep">:</span>
-              <span className={`real-score${isLive ? ' live-score' : ''}`}>{match.score.away}</span>
-            </div>
-          ) : pred ? (
-            <div className="center-scores predicted">
-              <span className="real-score predicted-score">{pred.homeScore}</span>
-              <span className="score-sep">:</span>
-              <span className="real-score predicted-score">{pred.awayScore}</span>
-            </div>
-          ) : (
-            <span className="match-vs">VS</span>
-          )}
-        </div>
-
-        {/* Away */}
-        <div className="team away-team">
+        {/* Away Row */}
+        <div className="team-row">
+          <TeamBadge team={match.awayTeam} />
           <span className="team-name" title={match.awayTeam.name}>
             {match.awayTeam.shortName || match.awayTeam.name}
           </span>
-          <TeamBadge team={match.awayTeam} />
+          <span className={`team-score${isLive ? ' live-score' : ''}`}>
+            {match.score.away !== null ? match.score.away : (pred ? pred.awayScore : '-')}
+          </span>
         </div>
       </div>
 
