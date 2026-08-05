@@ -67,9 +67,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 12px;
+  padding: 10px 14px;
   border-bottom: 1px solid var(--border-subtle);
-  gap: 8px;
   background: rgba(255,255,255,0.015);
 }
 
@@ -88,15 +87,11 @@
 }
 
 .match-group {
-  background: var(--primary-dim);
-  color: var(--primary);
-  padding: 3px 10px;
-  border-radius: var(--radius-pill);
-  font-size: var(--text-tiny);  /* 12px */
-  font-weight: 800;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.07em;
-  border: 1px solid var(--border-primary);
+  letter-spacing: 0.05em;
 }
 
 .match-day {
@@ -111,9 +106,10 @@
   display: flex;
   align-items: center;
   gap: 5px;
-  font-size: var(--text-tiny);  /* 12px */
+  font-size: 11px;
+  font-weight: 600;
   color: var(--text-muted);
-  line-height: 1.4;
+  letter-spacing: 0.01em;
 }
 
 /* ── Status Badges ───────────────────────────────────────────── */
@@ -196,13 +192,14 @@
 .team-name {
   flex: 1;
   font-family: var(--font-heading);
-  font-size: 15px;  /* Slightly larger since we have more space now */
+  font-size: 14px;  /* 14px is safer for long names */
   font-weight: 700;
   color: var(--text-main);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 /* Score */
@@ -358,7 +355,8 @@
 }
 
 .match-footer__row {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 6px;
 }
 
@@ -400,19 +398,18 @@
 
 /* Secondary action buttons */
 .btn-stats {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 8px;
-  font-size: var(--text-tiny);
+  padding: 6px;
+  font-size: 11px;
   font-weight: 600;
   font-family: var(--font-heading);
-  background: rgba(255,255,255,0.04);
+  background: rgba(255,255,255,0.03);
   color: var(--text-muted);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-btn);    /* 12px */
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s var(--ease-out);
   white-space: nowrap;
@@ -421,58 +418,51 @@
   background: rgba(255,255,255,0.08);
   color: var(--text-main);
   border-color: var(--border-glass);
-  transform: translateY(-1px);
 }
 
 .btn-h2h {
-  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 8px;
-  font-size: var(--text-tiny);
+  padding: 6px;
+  font-size: 11px;
   font-weight: 700;
   font-family: var(--font-heading);
-  background: linear-gradient(135deg, rgba(109,40,217,0.14), rgba(0,212,255,0.09));
+  background: linear-gradient(135deg, rgba(109,40,217,0.1), rgba(0,212,255,0.05));
   color: #a78bfa;
-  border: 1px solid rgba(109,40,217,0.28);
-  border-radius: var(--radius-btn);    /* 12px */
+  border: 1px solid rgba(109,40,217,0.2);
+  border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s var(--ease-out);
   white-space: nowrap;
 }
 .btn-h2h:hover {
-  background: linear-gradient(135deg, rgba(109,40,217,0.26), rgba(0,212,255,0.18));
+  background: linear-gradient(135deg, rgba(109,40,217,0.2), rgba(0,212,255,0.15));
   color: #c4b5fd;
-  border-color: rgba(109,40,217,0.50);
-  box-shadow: 0 0 16px rgba(109,40,217,0.20);
-  transform: translateY(-1px);
+  border-color: rgba(109,40,217,0.4);
 }
 
 .btn-detail {
-  flex: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 5px;
-  padding: 8px;
-  border-radius: var(--radius-btn);    /* 12px */
-  border: 1px solid var(--border-primary);
-  background: var(--primary-dim);
+  padding: 6px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 245, 184, 0.2);
+  background: rgba(0, 245, 184, 0.05);
   color: var(--primary);
-  font-size: var(--text-tiny);
+  font-size: 11px;
   font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s var(--ease-out);
+  text-decoration: none;
   font-family: var(--font-heading);
+  transition: all 0.2s var(--ease-out);
   white-space: nowrap;
 }
 .btn-detail:hover {
-  background: rgba(0,245,184,0.18);
-  border-color: rgba(0,245,184,0.45);
-  box-shadow: 0 0 12px var(--primary-glow);
-  transform: translateY(-1px);
+  background: rgba(0, 245, 184, 0.1);
+  border-color: rgba(0, 245, 184, 0.4);
 }
 
 /* Info text (Live/Finished states) */

@@ -63,9 +63,9 @@ const MatchCard = ({ match }) => {
   };
 
   const matchDate = new Date(match.date).toLocaleDateString('id-ID', {
-    weekday: 'short', day: 'numeric', month: 'short',
+    day: 'numeric', month: 'short',
     hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta',
-  });
+  }).replace(/\./g, ':');
 
   const cardClass = `match-card glass-card animate-fade-in${isLive ? ' card-live' : ''}${isFinished ? ' card-finished' : ''} tilt-wrapper`;
 
