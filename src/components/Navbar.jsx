@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, List, Trophy, TrendingUp, History } from 'lucide-react';
+import { Home, List, Trophy, TrendingUp, History, User } from 'lucide-react';
 import NotificationBell from './NotificationBell';
 import { usePredictions } from '../context/PredictionContext';
 import './Navbar.css';
@@ -14,6 +14,7 @@ const Navbar = () => {
     { path: '/standings',  label: 'Klasemen', icon: <List size={18} /> },
     { path: '/bracket',    label: 'Bagan',    icon: <Trophy size={18} /> },
     { path: '/leaderboard',label: 'AI Rank',  icon: <TrendingUp size={18} /> },
+    { path: '/stats',      label: 'Statistik',icon: <User size={18} /> },
     { path: '/history',    label: 'Riwayat',  icon: <History size={18} /> },
   ];
 

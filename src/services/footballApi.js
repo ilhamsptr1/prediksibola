@@ -148,6 +148,24 @@ export const fetchLeagueStandings = async (competitionCode = 'WC') => {
   }
 };
 
+export const fetchTopScorers = async (competitionCode = 'WC') => {
+  if (!API_KEY) return { scorers: [], error: 'No API Key' };
+
+  try {
+    const response = await fetch(`${BASE_URL}/competitions/${competitionCode}/scorers`, {
+      headers: { 'X-Auth-Token': API_KEY }
+    });
+
+    if (!response.ok) throw new Error(`API error: ${response.status}`);
+
+    const data = await response.json();
+    return { scorers: data.scorers || [], error: null };
+  } catch (error) {
+    console.error("Error fetching top scorers:", error);
+    return { scorers: [], error: error.message };
+  }
+};
+
 export const fetchLiveMatches = async (competitionCode = null) => {
   if (!API_KEY) return { matches: [], error: 'No API Key' };
 
