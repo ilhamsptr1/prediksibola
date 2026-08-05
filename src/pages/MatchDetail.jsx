@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { usePredictions } from "../context/PredictionContext";
 import { useMatches } from "../hooks/useMatches";
@@ -6,11 +6,11 @@ import { generateMatchStats } from "../services/footballApi";
 import teamRatingsData from "../data/teamRatings.json";
 import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, ResponsiveContainer,
-  Cell, PieChart, Pie, Tooltip
+  Cell, PieChart, Pie, Tooltip, BarChart, Bar, XAxis, YAxis, ReferenceLine
 } from "recharts";
 import {
   ArrowLeft, Cpu, Users, BarChart2, Calendar,
-  MapPin, Clock, CheckCircle, Zap, Shield, Swords, Star
+  MapPin, Clock, CheckCircle, Zap, Shield, Swords, Star, Activity
 } from "lucide-react";
 import "./MatchDetail.css";
 
@@ -133,6 +133,95 @@ const LineupField = ({ squad, teamName, crest, side }) => {
             ))}
           </div>
         ))}
+      </div>
+    </div>
+  );
+};
+
+/* ─── Live Attack Momentum Component ─── */
+const LiveAttackMomentum = ({ match, homeRating, awayRating }) => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const strengthDiff = (homeRating - awayRating) / 100;
+    let currentMinute = 90;
+    if (match.status === 'LIVE') {
+      currentMinute = match.minute || Math.floor(Math.random() * 80) + 10;
+    } else if (match.status === 'SCHEDULED' || match.status === 'TIMED') {
+      currentMinute = 0;
+    }
+
+    const arr = [];
+    let prevVal = 0;
+    for (let i = 1; i <= currentMinute; i++) {
+      const drift = strengthDiff * 10;
+      let change = (Math.random() - 0.5) * 60 + drift;
+      let newVal = prevVal * 0.3 + change;
+      
+      if (Math.random() > 0.85) {
+        newVal += (Math.random() > 0.5 ? 40 : -40);
+      }
+      
+      newVal = Math.max(-100, Math.min(100, newVal));
+      
+      arr.push({
+        minute: i,
+        value: Math.round(newVal)
+      });
+      prevVal = newVal;
+    }
+    setData(arr);
+  }, [match, homeRating, awayRating]);
+
+  if (data.length === 0) {
+    return (
+      <div className="momentum-empty" style={{ padding:"2rem", textAlign:"center" }}>
+        <Activity size={24} style={{ color:"rgba(255,255,255,0.2)", marginBottom:"10px" }} />
+        <p style={{ color:"var(--text-muted)", fontSize:"12px" }}>Grafik momentum belum tersedia untuk pertandingan ini.</p>
+      </div>
+    );
+  }
+
+  const CustomTooltip = ({ active, payload }) => {
+    if (active && payload && payload.length) {
+      const val = payload[0].value;
+      const team = val > 0 ? match.homeTeam.shortName || match.homeTeam.name : match.awayTeam.shortName || match.awayTeam.name;
+      const intensity = Math.abs(val);
+      let label = "Tekanan Ringan";
+      if (intensity > 70) label = "Serangan Berbahaya";
+      else if (intensity > 40) label = "Tekanan Kuat";
+      
+      return (
+        <div style={{ background: "#0f1117", border: "1px solid rgba(255,255,255,0.1)", padding: "8px 12px", borderRadius: "8px", fontSize: "12px", color: "#fff", boxShadow: "0 4px 12px rgba(0,0,0,0.5)" }}>
+          <div style={{ fontWeight: 700, color: val > 0 ? "#22c55e" : "#ef4444", marginBottom: "4px", display: "flex", alignItems: "center", gap: "6px" }}>
+            <Activity size={12} /> {team} ({label})
+          </div>
+          <div style={{ color: "rgba(255,255,255,0.6)" }}>Menit ke-{payload[0].payload.minute}</div>
+        </div>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div className="momentum-chart-wrapper" style={{ marginTop: "1rem" }}>
+      <ResponsiveContainer width="100%" height={140}>
+        <BarChart data={data} margin={{ top: 5, right: 5, bottom: 0, left: 5 }} barCategoryGap="5%">
+          <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)" strokeWidth={1} />
+          <XAxis dataKey="minute" tick={{ fill: "rgba(255,255,255,0.3)", fontSize: 10 }} axisLine={false} tickLine={false} tickCount={10} minTickGap={20} />
+          <YAxis domain={[-100, 100]} hide={true} />
+          <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.05)' }} />
+          <Bar dataKey="value" radius={[2, 2, 2, 2]}>
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.value > 0 ? "#22c55e" : "#ef4444"} fillOpacity={Math.abs(entry.value)/100 * 0.6 + 0.4} />
+            ))}
+          </Bar>
+        </BarChart>
+      </ResponsiveContainer>
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: "10px", color: "rgba(255,255,255,0.4)", padding: "4px 10px 0" }}>
+        <span>0'</span>
+        <span>HT</span>
+        <span>90'</span>
       </div>
     </div>
   );
@@ -365,6 +454,21 @@ const MatchDetail = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* Live Attack Momentum */}
+            {(isLive || isFinished) && (
+              <div className="overview-card glass-card">
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.5rem" }}>
+                  <h3 className="overview-title" style={{ marginBottom: 0 }}><Activity size={16} /> Live Attack Momentum</h3>
+                  {isLive && <span style={{ display:"inline-flex", alignItems:"center", gap:"4px", fontSize:"10px", color:"#FF6B6B", fontWeight:700, padding:"2px 8px", background:"rgba(255,60,60,0.1)", borderRadius:"4px" }}><span className="live-dot" style={{width:"6px",height:"6px",background:"#FF6B6B",borderRadius:"50%",display:"inline-block"}}/> LIVE</span>}
+                </div>
+                <LiveAttackMomentum 
+                  match={match} 
+                  homeRating={teamRatingsData[match.homeTeam.name]?.attack || 70} 
+                  awayRating={teamRatingsData[match.awayTeam.name]?.attack || 70} 
+                />
               </div>
             )}
 
