@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { usePredictions } from '../context/PredictionContext';
-import { Calendar, MapPin, CheckCircle, Clock, BarChart2, Cpu, Users } from 'lucide-react';
+import { Calendar, MapPin, CheckCircle, Clock, BarChart2, Cpu, Users, ExternalLink } from 'lucide-react';
 import { generateMatchStats } from '../services/footballApi';
 import teamRatingsData from '../data/teamRatings.json';
 import H2HModal from './H2HModal';
@@ -26,6 +27,7 @@ const StatusBadge = ({ status, minute }) => {
 };
 
 const MatchCard = ({ match }) => {
+  const navigate = useNavigate();
   const { generateAIPrediction, getPredictionForMatch, savePredictionResult } = usePredictions();
   const pred = getPredictionForMatch(match.id);
 
@@ -249,6 +251,9 @@ const MatchCard = ({ match }) => {
           </button>
           <button className="btn btn-h2h" onClick={() => setShowH2H(true)}>
             <Users size={16} /> <span>H2H</span>
+          </button>
+          <button className="btn btn-detail" onClick={() => navigate(`/match/${match.id}`)}>
+            <ExternalLink size={15} /> <span>Detail</span>
           </button>
         </div>
       </div>

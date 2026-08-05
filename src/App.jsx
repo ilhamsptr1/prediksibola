@@ -9,6 +9,7 @@ import Leaderboard from './pages/Leaderboard';
 import KnockoutBracket from './pages/KnockoutBracket';
 import PredictionHistory from './pages/PredictionHistory';
 import Stats from './pages/Stats';
+import MatchDetail from './pages/MatchDetail';
 
 // Error Boundary — mencegah blank screen saat ada komponen crash
 class ErrorBoundary extends React.Component {
@@ -70,6 +71,7 @@ function App() {
                 <Route path="/leaderboard" element={<Leaderboard />} />
                 <Route path="/bracket" element={<KnockoutBracket />} />
                 <Route path="/stats" element={<Stats />} />
+                <Route path="/match/:matchId" element={<MatchDetail />} />
                 <Route path="/history" element={<PredictionHistory />} />
               </Routes>
             </main>
