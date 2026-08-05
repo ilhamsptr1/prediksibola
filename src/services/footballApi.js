@@ -131,6 +131,10 @@ export const fetchGroupStageMatches = async (competitionCode = 'WC') => {
 };
 
 export const fetchLeagueStandings = async (competitionCode = 'WC') => {
+  const cacheKey = `standings_${competitionCode}`;
+  const cached = getCached(cacheKey);
+  if (cached) return { standings: cached, error: null, fromCache: true };
+
   if (!API_KEY) return { standings: null, error: 'No API Key' };
 
   try {
@@ -138,17 +142,31 @@ export const fetchLeagueStandings = async (competitionCode = 'WC') => {
       headers: { 'X-Auth-Token': API_KEY }
     });
 
+    if (response.status === 429) {
+      const stale = getStaleCached(cacheKey);
+      if (stale) return { standings: stale, error: null, fromCache: true };
+      throw new Error('Rate limit (429) — tunggu 1 menit lalu refresh');
+    }
     if (!response.ok) throw new Error(`API error: ${response.status}`);
 
     const data = await response.json();
+    setCache(cacheKey, data.standings);
+    setCache(`stale_${cacheKey}`, data.standings);
+
     return { standings: data.standings, error: null };
   } catch (error) {
     console.error("Error fetching standings:", error);
+    const stale = getCached(`stale_${cacheKey}`);
+    if (stale) return { standings: stale, error: error.message + ' (cached)' };
     return { standings: null, error: error.message };
   }
 };
 
 export const fetchTopScorers = async (competitionCode = 'WC') => {
+  const cacheKey = `scorers_${competitionCode}`;
+  const cached = getCached(cacheKey);
+  if (cached) return { scorers: cached, error: null, fromCache: true };
+
   if (!API_KEY) return { scorers: [], error: 'No API Key' };
 
   try {
@@ -156,12 +174,23 @@ export const fetchTopScorers = async (competitionCode = 'WC') => {
       headers: { 'X-Auth-Token': API_KEY }
     });
 
+    if (response.status === 429) {
+      const stale = getStaleCached(cacheKey);
+      if (stale) return { scorers: stale, error: null, fromCache: true };
+      throw new Error('Rate limit (429) — tunggu 1 menit lalu refresh');
+    }
     if (!response.ok) throw new Error(`API error: ${response.status}`);
 
     const data = await response.json();
-    return { scorers: data.scorers || [], error: null };
+    const scorers = data.scorers || [];
+    setCache(cacheKey, scorers);
+    setCache(`stale_${cacheKey}`, scorers);
+
+    return { scorers, error: null };
   } catch (error) {
     console.error("Error fetching top scorers:", error);
+    const stale = getCached(`stale_${cacheKey}`);
+    if (stale) return { scorers: stale, error: error.message + ' (cached)' };
     return { scorers: [], error: error.message };
   }
 };
