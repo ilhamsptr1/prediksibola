@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import MatchCard from '../components/MatchCard';
 import LeagueSelector from '../components/LeagueSelector';
 import { usePredictions } from '../context/PredictionContext';
@@ -83,15 +84,18 @@ const Dashboard = () => {
     <div className="dashboard animate-fade-in">
 
       {/* ── Hero Header ── */}
-      <header className="dashboard-header text-center">
+      <motion.header
+        className="dashboard-header text-center"
+        initial={{ opacity: 0, y: -16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
         <h1 className="heading-lg">
           <span className="text-gradient">{selectedLeague?.name || 'Prediksi Bola'}</span>
         </h1>
-        <p className="subtitle text-muted">
+        <p className="subtitle">
           Jadwal pertandingan dan prediksi AI — powered by football-data.org
         </p>
-
-        {/* Stats pill */}
         <div className="stats-row">
           {hasLiveNow && (
             <div className="live-pill glass">
@@ -100,26 +104,38 @@ const Dashboard = () => {
             </div>
           )}
         </div>
-      </header>
+      </motion.header>
 
       {/* ── League Selector ── */}
-      <LeagueSelector selectedLeague={selectedLeagueCode} onSelect={handleLeagueSelect} />
+      <motion.div
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+      >
+        <LeagueSelector selectedLeague={selectedLeagueCode} onSelect={handleLeagueSelect} />
+      </motion.div>
 
       {/* ── Data Source Bar ── */}
-      <div className="source-bar glass">
-        <div className="source-left">
-          {isLive
-            ? <><Wifi size={16} className="icon-live" /> Data Live (football-data.org)</>
-            : <><WifiOff size={16} className="icon-offline" /> Data Lokal (aktifkan API key untuk live)</>
-          }
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.15 }}
+      >
+        <div className="source-bar glass">
+          <div className="source-left">
+            {isLive
+              ? <><Wifi size={14} className="icon-live" /> Data Live (football-data.org)</>
+              : <><WifiOff size={14} className="icon-offline" /> Data Lokal (aktifkan API key untuk live)</>
+            }
+          </div>
+          <div className="source-right">
+            <span className="last-updated">Diperbarui: {lastUpdatedStr}</span>
+            <button className={`refresh-btn ${loading ? 'spinning' : ''}`} onClick={refresh} disabled={loading} title="Refresh">
+              <RefreshCw size={14} />
+            </button>
+          </div>
         </div>
-        <div className="source-right">
-          <span className="last-updated">Diperbarui: {lastUpdatedStr}</span>
-          <button className={`refresh-btn ${loading ? 'spinning' : ''}`} onClick={refresh} disabled={loading} title="Refresh">
-            <RefreshCw size={16} />
-          </button>
-        </div>
-      </div>
+      </motion.div>
 
       {/* ── Search Bar ── */}
       {matches.length > 0 && (
@@ -211,42 +227,78 @@ const Dashboard = () => {
 
       {/* ── LIVE Matches ── */}
       {liveMatches.length > 0 && (
-        <section className="matches-section">
+        <motion.section
+          className="matches-section"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.2 }}
+        >
           <div className="section-title live-title">
-            <Zap size={20} className="icon-live" />
+            <Zap size={18} className="icon-live" />
             <h2>Sedang Berlangsung</h2>
-            <div className="title-underline red" />
           </div>
           <div className="grid-auto">
-            {liveMatches.map(m => <MatchCard key={m.id} match={m} />)}
+            {liveMatches.map((m, i) => (
+              <motion.div key={m.id}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: i * 0.06 }}
+              >
+                <MatchCard match={m} />
+              </motion.div>
+            ))}
           </div>
-        </section>
+        </motion.section>
       )}
 
       {/* ── Upcoming Matches ── */}
       {upcomingMatches.length > 0 && (
-        <section className="matches-section">
+        <motion.section
+          className="matches-section"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.25 }}
+        >
           <div className="section-title">
             <h2>Akan Datang</h2>
-            <div className="title-underline" />
           </div>
           <div className="grid-auto">
-            {upcomingMatches.map(m => <MatchCard key={m.id} match={m} />)}
+            {upcomingMatches.map((m, i) => (
+              <motion.div key={m.id}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: 0.05 + i * 0.05 }}
+              >
+                <MatchCard match={m} />
+              </motion.div>
+            ))}
           </div>
-        </section>
+        </motion.section>
       )}
 
       {/* ── Finished Matches ── */}
       {finishedMatches.length > 0 && (
-        <section className="matches-section">
+        <motion.section
+          className="matches-section"
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, delay: 0.3 }}
+        >
           <div className="section-title">
             <h2>Selesai</h2>
-            <div className="title-underline muted" />
           </div>
           <div className="grid-auto">
-            {finishedMatches.map(m => <MatchCard key={m.id} match={m} />)}
+            {finishedMatches.map((m, i) => (
+              <motion.div key={m.id}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.35, delay: 0.05 + i * 0.04 }}
+              >
+                <MatchCard match={m} />
+              </motion.div>
+            ))}
           </div>
-        </section>
+        </motion.section>
       )}
 
       {!loading && filteredMatches.length === 0 && matches.length > 0 && (

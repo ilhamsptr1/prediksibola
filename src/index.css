@@ -72,13 +72,22 @@ body.has-league-bg::before {
 /* Layer foto stadion */
 body.has-league-bg {
   --league-bg: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-body.has-league-bg > * {
-  position: relative;
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
 }
 
-/* Pseudo element khusus untuk foto — dipasang via JS custom property */
+a { color: inherit; text-decoration: none; transition: color 0.2s ease; }
+
+/* ═══════════════════════════════════════════════════════
+   BACKGROUND LAYERS
+   ═══════════════════════════════════════════════════════ */
 .league-bg-layer {
   position: fixed;
   inset: 0;
@@ -92,182 +101,131 @@ body.has-league-bg > * {
   will-change: transform;
 }
 
-/* Dark overlay sopan agar teks tetap terbaca */
 .league-bg-layer::after {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(3, 5, 15, 0.72) 0%,
-    rgba(3, 5, 15, 0.55) 40%,
-    rgba(3, 5, 15, 0.78) 80%,
-    rgba(3, 5, 15, 0.95) 100%
+    rgba(7,11,23,0.88) 0%,
+    rgba(7,11,23,0.60) 35%,
+    rgba(7,11,23,0.85) 70%,
+    rgba(7,11,23,0.97) 100%
   );
 }
 
 @keyframes leagueBgZoom {
   0%   { transform: scale(1.00); }
-  100% { transform: scale(1.06); }
+  100% { transform: scale(1.05); }
 }
 
-/* ── Layer 1: Deep space aurora (di atas foto) ──────────────────── */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -3;
   background:
-    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(109, 40, 217, 0.28) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 50% at 90% 10%,  rgba(0, 212, 255, 0.18) 0%, transparent 55%),
-    radial-gradient(ellipse 60% 70% at 50% 90%,  rgba(0, 255, 136, 0.12) 0%, transparent 55%),
-    radial-gradient(ellipse 90% 80% at 80% 70%,  rgba(139, 20, 180, 0.15) 0%, transparent 60%),
-    linear-gradient(135deg, #03050f 0%, #080d1f 40%, #060912 70%, #03050f 100%);
-  animation: auroraPulse 18s ease-in-out infinite alternate;
+    radial-gradient(ellipse 70% 50% at 10% 15%, rgba(109,40,217,0.18) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 45% at 90% 10%, rgba(0,212,255,0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 55% 65% at 50% 90%, rgba(0,245,184,0.07) 0%, transparent 55%),
+    linear-gradient(160deg, #070B17 0%, #0A0F20 50%, #070B17 100%);
+  animation: auroraPulse 20s ease-in-out infinite alternate;
 }
 
 @keyframes auroraPulse {
-  0%   { opacity: 0.8; }
-  50%  { opacity: 1; }
-  100% { opacity: 0.8; }
+  0%   { opacity: 0.85; }
+  100% { opacity: 1; }
 }
 
-/* ── Layer 2: Hex / dot grid overlay ───────────────────────────── */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   z-index: -2;
-  background-image:
-    radial-gradient(circle, rgba(0, 255, 136, 0.12) 1px, transparent 1px),
-    radial-gradient(circle, rgba(0, 212, 255, 0.06) 1px, transparent 1px);
-  background-size: 48px 48px, 96px 96px;
-  background-position: 0 0, 24px 24px;
-  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 30%, transparent 80%);
-  animation: gridDrift 30s linear infinite;
+  background-image: radial-gradient(circle, rgba(0,245,184,0.08) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 20%, transparent 75%);
+  animation: gridDrift 40s linear infinite;
+  pointer-events: none;
 }
 
 @keyframes gridDrift {
   0%   { transform: translate(0, 0); }
-  50%  { transform: translate(-24px, -24px); }
-  100% { transform: translate(0, 0); }
+  100% { transform: translate(48px, 48px); }
 }
 
-/* ── Floating orbs (via App wrapper pseudo-elements) ─────────────── */
-.app-wrapper {
-  position: relative;
-  min-height: 100vh;
-}
+.app-wrapper { position: relative; min-height: 100vh; }
 
 .app-wrapper::before,
 .app-wrapper::after {
   content: '';
   position: fixed;
   border-radius: 50%;
-  filter: blur(80px);
+  filter: blur(90px);
   pointer-events: none;
   z-index: -1;
-  animation: orbFloat 20s ease-in-out infinite alternate;
+  animation: orbFloat 22s ease-in-out infinite alternate;
 }
 
 .app-wrapper::before {
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(109, 40, 217, 0.22) 0%, transparent 70%);
-  top: -100px;
-  left: -150px;
-  animation-duration: 22s;
+  width: 450px; height: 450px;
+  background: radial-gradient(circle, rgba(109,40,217,0.16) 0%, transparent 70%);
+  top: -80px; left: -120px;
 }
 
 .app-wrapper::after {
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(0, 212, 255, 0.18) 0%, transparent 70%);
-  bottom: -80px;
-  right: -100px;
+  width: 380px; height: 380px;
+  background: radial-gradient(circle, rgba(0,212,255,0.12) 0%, transparent 70%);
+  bottom: -60px; right: -80px;
   animation-duration: 18s;
   animation-direction: alternate-reverse;
 }
 
 @keyframes orbFloat {
   0%   { transform: translate(0, 0) scale(1); }
-  50%  { transform: translate(30px, 20px) scale(1.05); }
+  50%  { transform: translate(24px, 16px) scale(1.04); }
   100% { transform: translate(0, 0) scale(1); }
 }
 
-/* Mobile Performance Optimizations */
 @media (max-width: 768px) {
-  .app-wrapper::before,
-  .app-wrapper::after {
-    display: none; /* Sembunyikan orb floating di mobile agar tidak lag */
-  }
-  
-  body::after {
-    animation: none; /* Matikan animasi hex-grid drift di mobile */
-  }
-  
-  .league-bg-layer {
-    animation: none; /* Matikan animasi zoom foto stadion di mobile */
-    background-position: center center;
-  }
+  .app-wrapper::before, .app-wrapper::after { display: none; }
+  body::after { animation: none; }
+  .league-bg-layer { animation: none; background-position: center center; }
 }
 
-/* ── Scanline shimmer accent ────────────────────────────────────── */
-@keyframes scanline {
-  0%   { transform: translateY(-100%); opacity: 0; }
-  10%  { opacity: 0.4; }
-  90%  { opacity: 0.4; }
-  100% { transform: translateY(200vh); opacity: 0; }
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-heading);
-  font-weight: 700;
-  line-height: 1.2;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-/* Glassmorphism Utilities */
+/* ═══════════════════════════════════════════════════════
+   GLASSMORPHISM UTILITIES
+   ═══════════════════════════════════════════════════════ */
 .glass {
-  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+  background: linear-gradient(135deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.02) 100%);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: var(--radius-lg);
-  box-shadow:
-    0 4px 30px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255,255,255,0.08);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-modal);
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.07);
 }
 
 .glass-card {
-  background: linear-gradient(145deg, rgba(12,18,40,0.85) 0%, rgba(8,12,28,0.90) 100%);
+  background: linear-gradient(145deg, rgba(10,15,35,0.85) 0%, rgba(7,11,23,0.92) 100%);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-radius: var(--radius-md);
-  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow:
-    0 4px 24px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255,255,255,0.06);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s;
+  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
 .glass-card:hover {
-  border-color: rgba(0, 255, 136, 0.25);
-  transform: translateY(-5px);
-  box-shadow:
-    0 12px 40px rgba(0, 0, 0, 0.5),
-    0 0 20px rgba(0, 255, 136, 0.08),
-    inset 0 1px 0 rgba(0, 255, 136, 0.08);
+  border-color: var(--border-primary);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg), var(--shadow-glow), inset 0 1px 0 rgba(0,245,184,0.05);
 }
 
-/* Typography Utilities */
+/* ═══════════════════════════════════════════════════════
+   TYPOGRAPHY UTILITIES
+   ═══════════════════════════════════════════════════════ */
 .text-gradient {
-  background: linear-gradient(135deg, var(--primary), #00bfff);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -275,17 +233,24 @@ a {
 }
 
 .heading-lg {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  letter-spacing: -0.02em;
+  font-size: clamp(2rem, 5vw, var(--text-hero));
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  line-height: 1.1;
 }
 
-/* Button Utilities */
+.text-muted     { color: var(--text-muted); }
+.text-secondary { color: var(--text-secondary); }
+.text-center    { text-align: center; }
+.subtitle       { font-size: var(--text-caption); color: var(--text-muted); }
+
+/* ═══════════════════════════════════════════════════════
+   BUTTON UTILITIES
+   ═══════════════════════════════════════════════════════ */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
   border-radius: var(--radius-full);
   font-family: var(--font-heading);
   font-weight: 600;
