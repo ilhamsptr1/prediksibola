@@ -92,32 +92,35 @@ const MatchCard = ({ match }) => {
         {/* Home */}
         <div className="team home-team">
           <TeamBadge team={match.homeTeam} />
-          <span className="team-name">{match.homeTeam.name}</span>
+          <span className="team-name" title={match.homeTeam.name}>
+            {match.homeTeam.shortName || match.homeTeam.name}
+          </span>
+        </div>
+
+        {/* Center Score / VS */}
+        <div className="match-center-score">
           {(isLive || isFinished) && match.score.home !== null ? (
-            <span className={`real-score${isLive ? ' live-score' : ''}`}>{match.score.home}</span>
+            <div className="center-scores">
+              <span className={`real-score${isLive ? ' live-score' : ''}`}>{match.score.home}</span>
+              <span className="score-sep">:</span>
+              <span className={`real-score${isLive ? ' live-score' : ''}`}>{match.score.away}</span>
+            </div>
+          ) : pred ? (
+            <div className="center-scores predicted">
+              <span className="real-score predicted-score">{pred.homeScore}</span>
+              <span className="score-sep">:</span>
+              <span className="real-score predicted-score">{pred.awayScore}</span>
+            </div>
           ) : (
-            <span className="real-score predicted-score" style={{ opacity: pred ? 1 : 0.2 }}>
-              {pred ? pred.homeScore : '-'}
-            </span>
+            <span className="match-vs">VS</span>
           )}
         </div>
 
-        <span className="match-vs-wrapper">
-          <span className="match-vs">
-            {(isLive || isFinished) && match.score.home !== null ? '—' : 'VS'}
-          </span>
-        </span>
-
         {/* Away */}
         <div className="team away-team">
-          {(isLive || isFinished) && match.score.away !== null ? (
-            <span className={`real-score${isLive ? ' live-score' : ''}`}>{match.score.away}</span>
-          ) : (
-            <span className="real-score predicted-score" style={{ opacity: pred ? 1 : 0.2 }}>
-              {pred ? pred.awayScore : '-'}
-            </span>
-          )}
-          <span className="team-name">{match.awayTeam.name}</span>
+          <span className="team-name" title={match.awayTeam.name}>
+            {match.awayTeam.shortName || match.awayTeam.name}
+          </span>
           <TeamBadge team={match.awayTeam} />
         </div>
       </div>
