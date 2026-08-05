@@ -305,9 +305,9 @@ body::after {
 /* Layout Utilities */
 .container {
   width: 100%;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 0 var(--space-md);
+  padding: 0 var(--sp-3);
 }
 
 /* Animations */
@@ -323,8 +323,18 @@ body::after {
 /* Responsive Grid */
 .grid-auto {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: var(--space-lg);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+@media (min-width: 1400px) {
+  .grid-auto {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-auto { grid-template-columns: 1fr; gap: 10px; }
 }
 
 /* Custom Scrollbar */
