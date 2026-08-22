@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { X, TrendingUp, Target, Shield, Zap } from 'lucide-react';
 import './H2HModal.css';
 
@@ -102,7 +103,7 @@ const H2HModal = ({ match, onClose }) => {
     };
   }, [data, homeTeam.id]);
 
-  return (
+  return createPortal(
     <div className="h2h-overlay" onClick={e => e.target === e.currentTarget && onClose()}>
       <div className="h2h-modal">
         {/* Header */}
@@ -244,7 +245,8 @@ const H2HModal = ({ match, onClose }) => {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 
