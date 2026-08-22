@@ -2,7 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { X, TrendingUp, Target, Shield, Zap } from 'lucide-react';
 import './H2HModal.css';
 
-const API_KEY  = import.meta.env.VITE_FOOTBALL_API_KEY || '4eda5db232484db3b743c1544bf90b86';
+let userApiKey = import.meta.env.VITE_FOOTBALL_API_KEY;
+const FALLBACK_KEY = '4eda5db232484db3b743c1544bf90b86';
+let API_KEY = (!userApiKey || userApiKey.trim().length < 10) ? FALLBACK_KEY : userApiKey.trim();
 const BASE_URL = '/api/football-data/v4';
 
 const TeamCrest = ({ crest, name, size = 36 }) => {

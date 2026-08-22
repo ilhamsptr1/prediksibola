@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './LineupModal.css';
 
-const API_KEY = import.meta.env.VITE_FOOTBALL_API_KEY || '4eda5db232484db3b743c1544bf90b86';
-// Gunakan proxy Vite (/api/football-data) agar tidak kena CORS blocking
+let userApiKey = import.meta.env.VITE_FOOTBALL_API_KEY;
+const FALLBACK_KEY = '4eda5db232484db3b743c1544bf90b86';
+let API_KEY = (!userApiKey || userApiKey.trim().length < 10) ? FALLBACK_KEY : userApiKey.trim();
 const API_BASE = '/api/football-data';
 
 const formatName = (name) => {

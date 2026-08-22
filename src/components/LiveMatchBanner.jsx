@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './LiveMatchBanner.css';
 
-const API_KEY  = import.meta.env.VITE_FOOTBALL_API_KEY || '4eda5db232484db3b743c1544bf90b86';
+let userApiKey = import.meta.env.VITE_FOOTBALL_API_KEY;
+const FALLBACK_KEY = '4eda5db232484db3b743c1544bf90b86';
+let API_KEY = (!userApiKey || userApiKey.trim().length < 10) ? FALLBACK_KEY : userApiKey.trim();
 const BASE_URL = '/api/football-data/v4';
 
 // Hanya 2 request global (bukan 12 per-liga) → tidak kena rate limit
@@ -59,6 +61,11 @@ const LiveMatchBanner = () => {
       const liveRes = await fetch(`${BASE_URL}/matches?status=LIVE`, {
         headers: { 'X-Auth-Token': API_KEY },
       });
+
+      if (!liveRes.ok && liveRes.status === 400 && API_KEY !== FALLBACK_KEY) {
+        API_KEY = FALLBACK_KEY;
+        return fetchMatches();
+      }
 
       if (liveRes.ok) {
         const liveData = await liveRes.json();
