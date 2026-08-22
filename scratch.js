@@ -1,0 +1,1 @@
+fetch('https://prediksibola-two.vercel.app').then(r => r.text()).then(html => { const js = html.match(/src="(\/assets\/index-[^"]+\.js)"/)[1]; return fetch('https://prediksibola-two.vercel.app' + js); }).then(r => r.text()).then(t => { const m = t.match(/X-Auth-Token":"?([^"]+)"?/); console.log('API Key in bundle:', m ? m[1] : 'Not found'); });

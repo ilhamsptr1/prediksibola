@@ -2,7 +2,10 @@ import { getH2H } from '../data/h2hData';
 import { getTeamMeta, getVenueForMatch } from '../data/teamMeta';
 import { MOCK_MATCHES } from '../data/mockMatches';
 
-const API_KEY = import.meta.env.VITE_FOOTBALL_API_KEY || '4eda5db232484db3b743c1544bf90b86';
+let userApiKey = import.meta.env.VITE_FOOTBALL_API_KEY;
+const FALLBACK_KEY = '4eda5db232484db3b743c1544bf90b86';
+let API_KEY = (!userApiKey || userApiKey.trim().length < 10) ? FALLBACK_KEY : userApiKey.trim();
+
 const BASE_URL = '/api/football-data/v4'; // Gunakan proxy Vite untuk menghindari CORS
 
 const mapMatchData = (apiMatch) => {
@@ -106,6 +109,11 @@ export const fetchGroupStageMatches = async (competitionCode = 'WC') => {
     }
 
     if (!response.ok) {
+      if (response.status === 400 && API_KEY !== FALLBACK_KEY) {
+        console.warn(`[footballApi] Invalid API key (400), falling back to default key...`);
+        API_KEY = FALLBACK_KEY;
+        return fetchGroupStageMatches(competitionCode);
+      }
       throw new Error(`API error: ${response.status}`);
     }
 
@@ -147,7 +155,13 @@ export const fetchLeagueStandings = async (competitionCode = 'WC') => {
       if (stale) return { standings: stale, error: null, fromCache: true };
       throw new Error('Rate limit (429) — tunggu 1 menit lalu refresh');
     }
-    if (!response.ok) throw new Error(`API error: ${response.status}`);
+    if (!response.ok) {
+      if (response.status === 400 && API_KEY !== FALLBACK_KEY) {
+        API_KEY = FALLBACK_KEY;
+        return fetchLeagueStandings(competitionCode);
+      }
+      throw new Error(`API error: ${response.status}`);
+    }
 
     const data = await response.json();
     setCache(cacheKey, data.standings);
