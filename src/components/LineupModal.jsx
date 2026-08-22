@@ -173,8 +173,11 @@ const LineupModal = ({ match, onClose }) => {
           ) : (
             <>
               {/* Formasi label */}
-              <div style={{ textAlign: 'center', fontSize: '0.7rem', color: 'rgba(255,255,255,0.35)', padding: '0.4rem 0 0', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              <div style={{ textAlign: 'center', fontSize: '0.7rem', color: 'rgba(255,255,255,0.35)', padding: '0.4rem 0 0', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <span>Prediksi Formasi 4-3-3</span>
+                <span style={{ fontSize: '0.55rem', opacity: 0.8, textTransform: 'none', fontWeight: 400, color: '#f87171' }}>
+                  ⚠️ Lineup (Starting XI) asli dikunci oleh API Gratis. Ini hanyalah susunan prediksi acak.
+                </span>
               </div>
 
               {/* Pitch */}
