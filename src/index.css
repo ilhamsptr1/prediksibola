@@ -2,27 +2,30 @@
 
 :root {
   /* Brand Colors */
-  --primary: #00ff88;
+  --primary: #00F5B8;
   --primary-hover: #00cc6a;
-  --secondary: #0a0a0a;
-  --accent: #6d28d9;
-  --accent-glow: rgba(109, 40, 217, 0.5);
-  --cyan: #00d4ff;
-  --gold: #ffd700;
+  --secondary: #00D4FF;
+  --accent: #111827;
+  --accent-glow: rgba(0, 245, 184, 0.15);
   
   /* Backgrounds */
-  --bg-main: #03050f;
-  --bg-card: rgba(12, 18, 35, 0.75);
-  --bg-glass: rgba(255, 255, 255, 0.03);
-  --bg-glass-hover: rgba(255, 255, 255, 0.08);
+  --bg-main: #070B17;
+  --bg-card: rgba(10, 15, 28, 0.45); /* More transparent for true glass */
+  --bg-glass: rgba(255, 255, 255, 0.02);
+  --bg-glass-hover: rgba(255, 255, 255, 0.05);
 
-  /* Borders */
-  --border-glass: rgba(255, 255, 255, 0.08);
-  --border-glow: rgba(0, 255, 136, 0.2);
+  /* Borders & Depth */
+  --border-glass: rgba(255, 255, 255, 0.04);
+  --border-glow: rgba(0, 245, 184, 0.2);
+  --border-subtle: rgba(255, 255, 255, 0.03);
+  
+  /* Shadows */
+  --shadow-glass: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  --shadow-inner: inset 0 1px 1px 0 rgba(255, 255, 255, 0.1);
 
   /* Typography */
   --text-main: #ffffff;
-  --text-muted: #a1a1aa;
+  --text-muted: #9ca3af;
   
   /* Spacing */
   --space-xs: 0.5rem;
@@ -31,10 +34,12 @@
   --space-lg: 2rem;
   --space-xl: 3rem;
 
-  /* Border Radius */
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-full: 9999px;
+  /* Border Radius (Bento) */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-btn: 14px;
+  --radius-pill: 9999px;
   
   /* Fonts */
   --font-heading: 'Outfit', sans-serif;
@@ -194,31 +199,56 @@ body::after {
 }
 
 /* ═══════════════════════════════════════════════════════
-   GLASSMORPHISM UTILITIES
+   UI COMPONENTS (GLASSMORPHISM 2.0)
    ═══════════════════════════════════════════════════════ */
-.glass {
-  background: linear-gradient(135deg, rgba(255,255,255,0.055) 0%, rgba(255,255,255,0.02) 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+.glass-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
   border: 1px solid var(--border-glass);
-  border-radius: var(--radius-modal);
-  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.07);
+  box-shadow: var(--shadow-glass), var(--shadow-inner);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.glass-card {
-  background: linear-gradient(145deg, rgba(10,15,35,0.85) 0%, rgba(7,11,23,0.92) 100%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-card);
-  transition: transform 0.3s var(--ease-out), box-shadow 0.3s var(--ease-out), border-color 0.3s;
-  box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255,255,255,0.05);
+.glass-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, transparent 40%, transparent 60%, rgba(255,255,255,0.01) 100%);
+  pointer-events: none;
 }
 
 .glass-card:hover {
-  border-color: var(--border-primary);
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg), var(--shadow-glow), inset 0 1px 0 rgba(0,245,184,0.05);
+  border-color: rgba(255,255,255,0.1);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.4), inset 0 1px 1px 0 rgba(255,255,255,0.15);
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: rgba(0, 245, 184, 0.1);
+  color: var(--primary);
+  border: 1px solid rgba(0, 245, 184, 0.3);
+  padding: 10px 20px;
+  border-radius: var(--radius-btn);
+  font-weight: 600;
+  font-family: var(--font-heading);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 0 15px rgba(0, 245, 184, 0.05);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: rgba(0, 245, 184, 0.2);
+  border-color: rgba(0, 245, 184, 0.5);
+  box-shadow: 0 0 20px rgba(0, 245, 184, 0.15);
+  transform: translateY(-1px);
 }
 
 /* ═══════════════════════════════════════════════════════
