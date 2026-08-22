@@ -30,7 +30,6 @@ const Navbar = () => {
           />
           <div className="brand-text-group">
             <span className="brand-title">Prediksi <span className="text-gradient">Bola</span></span>
-            <span className="brand-sub">AI-Powered • Live Data</span>
           </div>
         </Link>
 
