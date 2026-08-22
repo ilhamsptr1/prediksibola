@@ -1,4 +1,4 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { usePredictions } from "../context/PredictionContext";
 import { Link } from "react-router-dom";
 import { Trophy, Target, TrendingUp, Trash2, ArrowLeft, CheckCircle, XCircle, Star } from "lucide-react";
@@ -58,7 +58,7 @@ const PredictionHistory = () => {
           <h3><span>Belum ada riwayat prediksi</span></h3>
           <p>
             <span>Buka jadwal pertandingan yang sudah SELESAI,</span><br />
-            <span>lalu tekan "Generate AI Prediction" untuk menyimpan riwayat.</span>
+            <span>lalu tekan "AI Prediction" untuk menyimpan riwayat.</span>
           </p>
           <Link to="/" className="btn-primary-link">
             <span>Lihat Jadwal</span>

@@ -223,7 +223,7 @@ const MatchCard = ({ match }) => {
               ? <><span className="spinner" /> <span>Menghitung probabilitas...</span></>
               : pred
               ? <><CheckCircle size={16} /> <span>AI Prediksi Selesai — Prediksi Ulang</span></>
-              : <><Cpu size={16} /> <span>Generate AI Prediction</span></>}
+              : <><Cpu size={16} /> <span>AI Prediction</span></>}
           </button>
         ) : isLive ? (
           <div className="info-text live-info"><span className="live-dot" /> <span>Pertandingan berlangsung</span></div>
