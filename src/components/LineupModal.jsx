@@ -29,6 +29,11 @@ const fetchSquadById = async (id) => {
       await new Promise(r => setTimeout(r, 6000));
       continue;
     }
+    if (res.status === 400 && API_KEY !== FALLBACK_KEY) {
+      API_KEY = FALLBACK_KEY;
+      attempt--; // retry this attempt
+      continue;
+    }
     if (!res.ok) return [];
     const data = await res.json();
     const squad = data.squad || [];
