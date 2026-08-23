@@ -80,11 +80,27 @@ const mapMatchData = (apiMatch) => {
 };
 
 export const fetchGroupStageMatches = async (competitionCode = 'WC') => {
-  // 1. Check cache first (served as live since it was fetched from API)
+  // 1. Check cache first — but skip if there are LIVE matches (force fresh data)
+  const LIVE_TTL_MS = 30_000; // 30 detik saat ada match live
   const cached = getCached(competitionCode);
   if (cached) {
-    console.log(`[footballApi] Using cached data for ${competitionCode}`);
-    return { matches: cached, isLive: true, error: null, fromCache: true };
+    const hasLive = cached.some(m => m.status === 'LIVE');
+    // Jika ada yang LIVE di cache, cek apakah cache lebih tua dari 30 detik
+    // Jika ya → ambil data baru; jika tidak → masih segar, pakai cache
+    const rawCacheEntry = (() => {
+      try {
+        const raw = localStorage.getItem(`${CACHE_PREFIX}${competitionCode}`);
+        return raw ? JSON.parse(raw) : null;
+      } catch { return null; }
+    })();
+    const cacheAge = rawCacheEntry ? Date.now() - rawCacheEntry.ts : Infinity;
+    const isFreshEnough = hasLive ? cacheAge < LIVE_TTL_MS : true;
+
+    if (isFreshEnough) {
+      console.log(`[footballApi] Using cached data for ${competitionCode} (age: ${Math.round(cacheAge/1000)}s${hasLive ? ', LIVE' : ''})`);
+      return { matches: cached, isLive: true, error: null, fromCache: true };
+    }
+    console.log(`[footballApi] Cache stale for LIVE matches (${Math.round(cacheAge/1000)}s), fetching fresh data...`);
   }
 
   if (!API_KEY) {
