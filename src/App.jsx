@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { PredictionProvider } from './context/PredictionContext';
 import Navbar from './components/Navbar';
 import LiveMatchBanner from './components/LiveMatchBanner';
+import LiveTicker from './components/LiveTicker';
 import Dashboard from './pages/Dashboard';
 import Standings from './pages/Standings';
 import Leaderboard from './pages/Leaderboard';
@@ -63,6 +64,7 @@ function App() {
             {/* Background layer — gambar stadion per liga */}
             <div className="league-bg-layer" aria-hidden="true" />
             <Navbar />
+            <LiveTicker />
             <LiveMatchBanner />
             <main className="container">
               <Routes>
