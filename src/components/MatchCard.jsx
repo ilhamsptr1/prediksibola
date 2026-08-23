@@ -89,27 +89,45 @@ const MatchCard = ({ match }) => {
 
       {/* Teams & Scores (Vertical Layout) */}
       <div className="match-teams-vert">
-        {/* Home Row */}
-        <div className="team-row">
-          <TeamBadge team={match.homeTeam} />
-          <span className="team-name" title={match.homeTeam.name}>
-            {match.homeTeam.shortName || match.homeTeam.name}
-          </span>
-          <span className={`team-score${isLive ? ' live-score' : ''}`}>
-            {match.score.home !== null ? match.score.home : (pred ? pred.homeScore : '-')}
-          </span>
-        </div>
+          {/* Home Row */}
+          <div className="team-row">
+            <TeamBadge team={match.homeTeam} />
+            <div className="team-info-col">
+              <span className="team-name" title={match.homeTeam.name}>
+                {match.homeTeam.shortName || match.homeTeam.name}
+              </span>
+              {match.form?.home && (
+                <div className="form-badges">
+                  {match.form.home.map((res, i) => (
+                    <span key={i} className={`form-badge form-${res}`}>{res}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+            <span className={`team-score${isLive ? ' live-score' : ''}`}>
+              {match.score.home !== null ? match.score.home : (pred ? pred.homeScore : '-')}
+            </span>
+          </div>
 
-        {/* Away Row */}
-        <div className="team-row">
-          <TeamBadge team={match.awayTeam} />
-          <span className="team-name" title={match.awayTeam.name}>
-            {match.awayTeam.shortName || match.awayTeam.name}
-          </span>
-          <span className={`team-score${isLive ? ' live-score' : ''}`}>
-            {match.score.away !== null ? match.score.away : (pred ? pred.awayScore : '-')}
-          </span>
-        </div>
+          {/* Away Row */}
+          <div className="team-row">
+            <TeamBadge team={match.awayTeam} />
+            <div className="team-info-col">
+              <span className="team-name" title={match.awayTeam.name}>
+                {match.awayTeam.shortName || match.awayTeam.name}
+              </span>
+              {match.form?.away && (
+                <div className="form-badges">
+                  {match.form.away.map((res, i) => (
+                    <span key={i} className={`form-badge form-${res}`}>{res}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+            <span className={`team-score${isLive ? ' live-score' : ''}`}>
+              {match.score.away !== null ? match.score.away : (pred ? pred.awayScore : '-')}
+            </span>
+          </div>
       </div>
 
       {/* AI Prediction Result Card */}
