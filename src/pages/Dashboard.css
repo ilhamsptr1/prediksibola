@@ -357,8 +357,174 @@
 
 /* ── Responsive ─────────────────────────────────────────── */
 @media (max-width: 768px) {
-  .dashboard { gap: var(--sp-3); }      /* 24px on mobile */
+  .dashboard { gap: var(--sp-3); }
   .dashboard-header { margin-top: var(--sp-2); gap: 10px; }
   .filter-label { min-width: 56px; font-size: 10px; }
-  .section-title h2 { font-size: var(--text-card); }   /* 18px */
+  .section-title h2 { font-size: var(--text-card); }
 }
+
+/* ══════════════════════════════════════════════════════════
+   FotMob-Style Match Layout
+   ══════════════════════════════════════════════════════════ */
+
+/* Container */
+.matches-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Matchday Navigator */
+.matchday-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow: hidden;
+}
+
+.md-nav-btn {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.05);
+  color: rgba(255,255,255,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.md-nav-btn:hover:not(:disabled) {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+
+.md-nav-btn:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.md-nav-pills {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  flex: 1;
+  padding: 2px 0;
+}
+.md-nav-pills::-webkit-scrollbar { display: none; }
+
+.md-pill {
+  flex-shrink: 0;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.45);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.md-pill:hover {
+  background: rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.8);
+}
+
+.md-pill--active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.md-pill-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #f87171;
+  animation: blink 1s step-start infinite;
+}
+
+/* Matchday Header */
+.matchday-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 2px;
+}
+
+.matchday-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.7);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.02em;
+}
+
+.matchday-meta {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+}
+
+/* Match list card */
+.match-list {
+  border-radius: 14px;
+  overflow: hidden;
+  padding: 0;
+}
+
+/* Group section (for group competitions) */
+.match-group-section + .match-group-section {
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.match-group-header {
+  padding: 8px 16px 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.3);
+  background: rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+/* Skeleton rows */
+.skeleton-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.skeleton-row {
+  height: 58px;
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0.04) 0%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0.04) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+@media (max-width: 640px) {
+  .matchday-nav { gap: 4px; }
+  .md-pill { padding: 5px 8px; font-size: 10px; }
+  .matchday-title { font-size: 12px; }
+}
+

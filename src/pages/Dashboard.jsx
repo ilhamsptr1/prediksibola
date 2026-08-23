@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+﻿import React, { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import MatchCard from '../components/MatchCard';
+import MatchRow from '../components/MatchRow';
 import LeagueSelector from '../components/LeagueSelector';
 import { usePredictions } from '../context/PredictionContext';
 import { useMatches } from '../hooks/useMatches';
 import { getLeague } from '../data/leagues';
-import { RefreshCw, Wifi, WifiOff, Zap, CalendarOff, Search, X } from 'lucide-react';
+import { RefreshCw, Wifi, WifiOff, Zap, CalendarOff, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import './Dashboard.css';
 
-// Mapping liga → file background di /public/img/
+// Mapping liga → file background
 const LEAGUE_BG = {
   WC:  '/img/bg_wc.jpg',
   PL:  '/img/bg_pl.png',
@@ -17,59 +17,107 @@ const LEAGUE_BG = {
   BL1: '/img/bg_bundesliga.jpg',
   FL1: '/img/bg_ligue1.jpg',
   PPL: '/img/bg_ligapt.jpg',
-  CL:  '/img/bg_wc.jpg',     // fallback
-  EC:  '/img/bg_wc.jpg',     // fallback Euro
+  CL:  '/img/bg_wc.jpg',
+  EC:  '/img/bg_wc.jpg',
+};
+
+/**
+ * Smart: pilih matchday yang paling relevan.
+ * Priority: ada yang LIVE → ada SCHEDULED terdekat → matchday terakhir selesai
+ */
+const getActiveMatchday = (matches) => {
+  if (!matches.length) return null;
+
+  // 1. Ada pertandingan LIVE → tampilkan matchday tersebut
+  const liveMatch = matches.find(m => m.status === 'LIVE');
+  if (liveMatch) return liveMatch.matchday;
+
+  // 2. Ada pertandingan SCHEDULED → ambil matchday dengan jadwal paling awal
+  const scheduledMatches = matches.filter(m => m.status === 'SCHEDULED');
+  if (scheduledMatches.length) {
+    // Sort by utcDate, ambil paling dekat
+    const sorted = [...scheduledMatches].sort((a, b) =>
+      new Date(a.utcDate) - new Date(b.utcDate)
+    );
+    return sorted[0].matchday;
+  }
+
+  // 3. Semua FINISHED → tampilkan matchday terbesar (paling baru)
+  const mds = [...new Set(matches.map(m => m.matchday).filter(Boolean))].map(Number).sort((a, b) => b - a);
+  return mds[0] ?? null;
 };
 
 const Dashboard = () => {
   const { selectedLeagueCode, setSelectedLeagueCode } = usePredictions();
   const selectedLeague = getLeague(selectedLeagueCode);
-
   const { matches, loading, isLive, lastUpdated, error, hasLiveNow, refresh } = useMatches(selectedLeagueCode);
 
-  const [selectedGroup, setSelectedGroup]     = useState('Semua');
-  const [selectedMatchday, setSelectedMatchday] = useState('Semua');
-  const [searchQuery, setSearchQuery]           = useState('');
+  const [searchQuery, setSearchQuery] = useState('');
 
-  // Reset filters when league changes
+  // Sorted unique matchdays
+  const matchdays = useMemo(() =>
+    [...new Set(matches.map(m => m.matchday).filter(Boolean))]
+      .map(Number).sort((a, b) => a - b),
+    [matches]
+  );
+
+  // Auto-detect active matchday when matches load
+  const autoMD = useMemo(() => getActiveMatchday(matches), [matches]);
+  const [selectedMatchday, setSelectedMatchday] = useState(null);
+
+  // Reset when league or auto-matchday changes
+  useEffect(() => {
+    setSelectedMatchday(autoMD);
+    setSearchQuery('');
+  }, [selectedLeagueCode, autoMD]);
+
   const handleLeagueSelect = (code) => {
     setSelectedLeagueCode(code);
-    setSelectedGroup('Semua');
-    setSelectedMatchday('Semua');
-    setSearchQuery('');
   };
 
-  // Unique group codes sorted
-  const groups = ['Semua', ...new Set(matches.map(m => m.group).filter(Boolean))].sort((a, b) =>
-    a === 'Semua' ? -1 : b === 'Semua' ? 1 : a.localeCompare(b)
-  );
+  // Filter matches
+  const filteredMatches = useMemo(() => {
+    return matches.filter(m => {
+      const mdOk = selectedMatchday === null || Number(m.matchday) === Number(selectedMatchday);
+      const searchOk = !searchQuery.trim() ||
+        m.homeTeam.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        m.awayTeam.name.toLowerCase().includes(searchQuery.toLowerCase());
+      return mdOk && searchOk;
+    });
+  }, [matches, selectedMatchday, searchQuery]);
 
-  // Matchdays
-  const matchdays = ['Semua', ...new Set(matches.map(m => m.matchday).filter(Boolean))].sort((a, b) =>
-    a === 'Semua' ? -1 : b === 'Semua' ? 1 : Number(a) - Number(b)
-  );
+  // Sort within matchday: LIVE first, then SCHEDULED by date, then FINISHED
+  const sortedMatches = useMemo(() => {
+    const order = { LIVE: 0, SCHEDULED: 1, FINISHED: 2 };
+    return [...filteredMatches].sort((a, b) => {
+      const statusDiff = (order[a.status] ?? 1) - (order[b.status] ?? 1);
+      if (statusDiff !== 0) return statusDiff;
+      return new Date(a.utcDate) - new Date(b.utcDate);
+    });
+  }, [filteredMatches]);
 
-  // Filter
-  const filteredMatches = matches.filter(m => {
-    const groupOk    = selectedGroup    === 'Semua' || m.group    === selectedGroup;
-    const matchdayOk = selectedMatchday === 'Semua' || String(m.matchday) === String(selectedMatchday);
-    const searchOk   = !searchQuery.trim() ||
-      m.homeTeam.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      m.awayTeam.name.toLowerCase().includes(searchQuery.toLowerCase());
-    return groupOk && matchdayOk && searchOk;
-  });
+  // For group competitions: group by group name
+  const isGroupComp = selectedLeague?.hasGroups;
+  const groups = useMemo(() => {
+    if (!isGroupComp) return null;
+    const grpMap = {};
+    sortedMatches.forEach(m => {
+      const key = m.group || 'Lainnya';
+      if (!grpMap[key]) grpMap[key] = [];
+      grpMap[key].push(m);
+    });
+    return grpMap;
+  }, [sortedMatches, isGroupComp]);
 
-  const liveMatches     = filteredMatches.filter(m => m.status === 'LIVE');
-  const upcomingMatches = filteredMatches.filter(m => m.status === 'SCHEDULED');
-  const finishedMatches = filteredMatches.filter(m => m.status === 'FINISHED');
+  // Navigate matchdays
+  const mdIndex = matchdays.indexOf(Number(selectedMatchday));
+  const prevMD = mdIndex > 0 ? matchdays[mdIndex - 1] : null;
+  const nextMD = mdIndex < matchdays.length - 1 ? matchdays[mdIndex + 1] : null;
 
   const lastUpdatedStr = lastUpdated
     ? lastUpdated.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', second: '2-digit' })
     : '—';
 
-  const isGroupCompetition = selectedLeague?.hasGroups;
-
-  // Ganti background body sesuai liga yang dipilih
   useEffect(() => {
     const bg = LEAGUE_BG[selectedLeagueCode] || LEAGUE_BG['WC'];
     document.body.style.setProperty('--league-bg', `url('${bg}')`);
@@ -80,10 +128,12 @@ const Dashboard = () => {
     };
   }, [selectedLeagueCode]);
 
+  const liveCount = filteredMatches.filter(m => m.status === 'LIVE').length;
+
   return (
     <div className="dashboard animate-fade-in">
 
-      {/* ── Hero Header ── */}
+      {/* Hero Header */}
       <motion.header
         className="dashboard-header text-center"
         initial={{ opacity: 0, y: -16 }}
@@ -100,32 +150,28 @@ const Dashboard = () => {
           {hasLiveNow && (
             <div className="live-pill glass">
               <span className="live-dot" />
-              {liveMatches.length} Live Sekarang
+              {liveCount} Live Sekarang
             </div>
           )}
         </div>
       </motion.header>
 
-      {/* ── League Selector ── */}
+      {/* League Selector */}
       <motion.div
         initial={{ opacity: 0, y: 12 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+        transition={{ duration: 0.4, delay: 0.1 }}
       >
         <LeagueSelector selectedLeague={selectedLeagueCode} onSelect={handleLeagueSelect} />
       </motion.div>
 
-      {/* ── Data Source Bar ── */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.4, delay: 0.15 }}
-      >
+      {/* Source Bar */}
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.4, delay: 0.15 }}>
         <div className="source-bar glass">
           <div className="source-left">
             {isLive
               ? <><Wifi size={14} className="icon-live" /> Data Live (football-data.org)</>
-              : <><WifiOff size={14} className="icon-offline" /> Data Lokal (aktifkan API key untuk live)</>
+              : <><WifiOff size={14} className="icon-offline" /> Data Lokal</>
             }
           </div>
           <div className="source-right">
@@ -137,7 +183,7 @@ const Dashboard = () => {
         </div>
       </motion.div>
 
-      {/* ── Search Bar ── */}
+      {/* Search */}
       {matches.length > 0 && (
         <div className="search-bar-wrapper">
           <div className="search-bar glass">
@@ -145,7 +191,7 @@ const Dashboard = () => {
             <input
               type="text"
               className="search-input"
-              placeholder="Cari tim... (misal: Arsenal, Real Madrid)"
+              placeholder="Cari tim..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
             />
@@ -158,66 +204,27 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* ── Error banner ── */}
+      {/* Error banner */}
       {error && (
         <div className="error-banner">
-          ⚠️ API tidak tersedia — {selectedLeagueCode === 'WC' ? 'menampilkan jadwal lokal.' : 'tidak ada data untuk liga ini.'} ({error})
+          ⚠️ {error}
         </div>
       )}
 
-      {/* ── Filters ── */}
-      {matches.length > 0 && (
-        <section className="filters-section">
-          {isGroupCompetition && groups.length > 2 && (
-            <div className="filter-group">
-              <span className="filter-label">Grup:</span>
-              <div className="filter-chips">
-                {groups.map(g => (
-                  <button
-                    key={g}
-                    className={`filter-btn ${selectedGroup === g ? 'active' : ''}`}
-                    onClick={() => setSelectedGroup(g)}
-                  >
-                    {g}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-          {matchdays.length > 2 && (
-            <div className="filter-group">
-              <span className="filter-label">Matchday:</span>
-              <div className="filter-chips">
-                {matchdays.map(md => (
-                  <button
-                    key={md}
-                    className={`filter-btn ${selectedMatchday === String(md) ? 'active' : ''}`}
-                    onClick={() => setSelectedMatchday(String(md))}
-                  >
-                    {md === 'Semua' ? 'Semua' : `MD ${md}`}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
-        </section>
-      )}
-
-      {/* ── Loading skeleton ── */}
+      {/* Loading skeleton */}
       {loading && matches.length === 0 && (
         <div className="skeleton-grid">
-          {[...Array(6)].map((_, i) => <div key={i} className="skeleton-card" />)}
+          {[...Array(8)].map((_, i) => <div key={i} className="skeleton-row" />)}
         </div>
       )}
 
-      {/* ── Empty state (no matches from API) ── */}
+      {/* Empty state */}
       {!loading && matches.length === 0 && (
         <div className="empty-state glass-card">
           <CalendarOff size={48} className="text-muted" style={{ marginBottom: '1rem' }} />
           <h3>Jadwal Tidak Tersedia</h3>
           <p className="text-muted">
-            Data untuk <strong>{selectedLeague?.name}</strong> belum tersedia.<br />
-            Kemungkinan liga sedang dalam masa jeda antar musim, atau API Key belum terpasang.
+            Data untuk <strong>{selectedLeague?.name}</strong> belum tersedia.
           </p>
           <button className="btn-primary" style={{ marginTop: '1.5rem' }} onClick={() => handleLeagueSelect('WC')}>
             Lihat Jadwal World Cup
@@ -225,84 +232,80 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* ── LIVE Matches ── */}
-      {liveMatches.length > 0 && (
-        <motion.section
-          className="matches-section"
+      {/* Main match list */}
+      {matches.length > 0 && (
+        <motion.div
+          className="matches-container"
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.2 }}
+          transition={{ duration: 0.4, delay: 0.2 }}
         >
-          <div className="section-title live-title">
-            <Zap size={18} className="icon-live" />
-            <h2>Sedang Berlangsung</h2>
-          </div>
-          <div className="grid-auto">
-            {liveMatches.map((m, i) => (
-              <motion.div key={m.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: i * 0.06 }}
+          {/* Matchday Navigator */}
+          {matchdays.length > 1 && (
+            <div className="matchday-nav">
+              <button
+                className="md-nav-btn"
+                onClick={() => prevMD !== null && setSelectedMatchday(prevMD)}
+                disabled={prevMD === null}
               >
-                <MatchCard match={m} />
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-      )}
+                <ChevronLeft size={16} />
+              </button>
 
-      {/* ── Upcoming Matches ── */}
-      {upcomingMatches.length > 0 && (
-        <motion.section
-          className="matches-section"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.25 }}
-        >
-          <div className="section-title">
-            <h2>Akan Datang</h2>
-          </div>
-          <div className="grid-auto">
-            {upcomingMatches.map((m, i) => (
-              <motion.div key={m.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 0.05 + i * 0.05 }}
+              <div className="md-nav-pills">
+                {matchdays.map(md => (
+                  <button
+                    key={md}
+                    className={`md-pill${Number(selectedMatchday) === md ? ' md-pill--active' : ''}${md === Number(autoMD) ? ' md-pill--auto' : ''}`}
+                    onClick={() => setSelectedMatchday(md)}
+                  >
+                    MD {md}
+                    {md === Number(autoMD) && <span className="md-pill-dot" />}
+                  </button>
+                ))}
+              </div>
+
+              <button
+                className="md-nav-btn"
+                onClick={() => nextMD !== null && setSelectedMatchday(nextMD)}
+                disabled={nextMD === null}
               >
-                <MatchCard match={m} />
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-      )}
+                <ChevronRight size={16} />
+              </button>
+            </div>
+          )}
 
-      {/* ── Finished Matches ── */}
-      {finishedMatches.length > 0 && (
-        <motion.section
-          className="matches-section"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.45, delay: 0.3 }}
-        >
-          <div className="section-title">
-            <h2>Selesai</h2>
-          </div>
-          <div className="grid-auto">
-            {finishedMatches.map((m, i) => (
-              <motion.div key={m.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 0.05 + i * 0.04 }}
-              >
-                <MatchCard match={m} />
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-      )}
+          {/* Matchday title */}
+          {selectedMatchday && !searchQuery && (
+            <div className="matchday-header">
+              <span className="matchday-title">
+                {hasLiveNow && liveCount > 0 && <><span className="live-dot" style={{marginRight:6}}/></>}
+                Matchday {selectedMatchday}
+              </span>
+              <span className="matchday-meta">
+                {sortedMatches.filter(m => m.status === 'FINISHED').length}/{sortedMatches.length} selesai
+              </span>
+            </div>
+          )}
 
-      {!loading && filteredMatches.length === 0 && matches.length > 0 && (
-        <div className="no-matches text-muted">Tidak ada pertandingan untuk filter ini.</div>
+          {/* Match rows — grouped by group for group competitions */}
+          <div className="match-list glass-card">
+            {isGroupComp && groups && !searchQuery
+              ? Object.entries(groups).sort(([a], [b]) => a.localeCompare(b)).map(([grpName, grpMatches]) => (
+                  <div key={grpName} className="match-group-section">
+                    <div className="match-group-header">
+                      <span>{grpName === 'Lainnya' ? 'Pertandingan' : `Grup ${grpName}`}</span>
+                    </div>
+                    {grpMatches.map(m => <MatchRow key={m.id} match={m} />)}
+                  </div>
+                ))
+              : sortedMatches.map(m => <MatchRow key={m.id} match={m} />)
+            }
+          </div>
+
+          {!loading && sortedMatches.length === 0 && matches.length > 0 && (
+            <div className="no-matches text-muted">Tidak ada pertandingan untuk filter ini.</div>
+          )}
+        </motion.div>
       )}
     </div>
   );

@@ -1,0 +1,267 @@
+﻿/* ============================================================
+   MatchRow.css — FotMob-style compact match row
+   ============================================================ */
+
+.match-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 10px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: background 0.18s ease;
+  position: relative;
+}
+
+.match-row:last-child { border-bottom: none; }
+
+.match-row:hover {
+  background: rgba(255,255,255,0.04);
+}
+
+.match-row--live {
+  background: rgba(239,68,68,0.04);
+}
+
+.match-row--live:hover {
+  background: rgba(239,68,68,0.08);
+}
+
+.match-row--finished {
+  opacity: 0.85;
+}
+
+/* ── Status column ── */
+.row-status {
+  width: 52px;
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.row-status--ft {
+  color: rgba(255,255,255,0.35);
+}
+
+.row-status--time {
+  color: rgba(255,255,255,0.6);
+}
+
+.row-status--live {
+  color: #f87171;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.row-live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #f87171;
+  flex-shrink: 0;
+  animation: rowDotPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes rowDotPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* ── Team columns ── */
+.row-team {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.row-team--home {
+  justify-content: flex-end;
+  flex-direction: row;
+}
+
+.row-team--away {
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.row-team-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.row-crest {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.row-flag {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+/* Form dots */
+.row-form-badges {
+  display: flex;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.row-form-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  display: block;
+}
+
+.row-form-W { background: #22c55e; }
+.row-form-D { background: #64748b; }
+.row-form-L { background: #ef4444; }
+
+/* ── Center: Score / vs ── */
+.row-center {
+  width: 80px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.row-vs {
+  font-size: 11px;
+  color: rgba(255,255,255,0.3);
+  font-weight: 500;
+}
+
+.row-score {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 16px;
+  font-weight: 800;
+  font-family: var(--font-heading);
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+
+.row-score--live {
+  color: #fbbf24;
+}
+
+.row-score--pred {
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 700;
+}
+
+.score-sep {
+  color: rgba(255,255,255,0.3);
+  font-weight: 400;
+}
+
+.pred-sep {
+  font-size: 12px;
+}
+
+.score-win {
+  color: #4ade80;
+}
+
+.pred-score-val {
+  color: rgba(255,255,255,0.5);
+}
+
+/* Probability mini bar under score */
+.row-prob-bar {
+  width: 60px;
+  height: 3px;
+  border-radius: 2px;
+  display: flex;
+  overflow: hidden;
+  gap: 1px;
+}
+
+.row-prob-seg {
+  height: 100%;
+  border-radius: 1px;
+  transition: width 0.6s ease;
+}
+
+.row-prob-home { background: #22c55e; }
+.row-prob-draw { background: #64748b; }
+.row-prob-away { background: #ef4444; }
+
+/* ── Action buttons (hidden by default, show on row hover) ── */
+.row-actions {
+  display: flex;
+  gap: 4px;
+  margin-left: 12px;
+  flex-shrink: 0;
+  opacity: 0;
+  transform: translateX(4px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  pointer-events: none;
+}
+
+.match-row:hover .row-actions {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.row-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.7);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.row-btn:hover {
+  background: rgba(255,255,255,0.14);
+  color: #fff;
+  border-color: rgba(255,255,255,0.25);
+}
+
+.row-btn--ai.has-pred {
+  background: rgba(34,197,94,0.15);
+  border-color: rgba(34,197,94,0.4);
+  color: #4ade80;
+}
+
+.row-btn--ai.loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .match-row { padding: 9px 10px; }
+  .row-team-name { max-width: 90px; font-size: 12px; }
+  .row-form-badges { display: none; }
+  .row-score { font-size: 14px; }
+  .row-actions { opacity: 1; transform: none; pointer-events: auto; }
+  .row-btn span { display: none; }
+  .row-btn { padding: 4px 6px; }
+}
