@@ -37,10 +37,20 @@ const H2HModal = ({ match, onClose }) => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
+      let res = await fetch(
         `${BASE_URL}/matches/${match.id}/head2head?limit=15`,
         { headers: { 'X-Auth-Token': API_KEY } }
       );
+      
+      // Fallback jika API key user tidak valid / terblokir untuk endpoint ini
+      if (res.status === 400 && API_KEY !== FALLBACK_KEY) {
+        API_KEY = FALLBACK_KEY;
+        res = await fetch(
+          `${BASE_URL}/matches/${match.id}/head2head?limit=15`,
+          { headers: { 'X-Auth-Token': API_KEY } }
+        );
+      }
+      
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const json = await res.json();
       setData(json);
