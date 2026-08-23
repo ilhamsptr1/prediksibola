@@ -299,15 +299,32 @@ export const generateMLPrediction = async ({
   predXGH = xGH * 0.80 + predXGH * 0.20;
   predXGA = xGA * 0.80 + predXGA * 0.20;
 
-  // Smart rounding: bukan sekadar Math.round
-  // Jika xG sangat dekat ke 0.5 ke atas, bulatkan ke atas (agar 2.5 → 3, bukan 2)
-  // Ini mencerminkan bahwa tim dengan xG 2.5 lebih sering cetak 3 daripada 2
-  const smartRound = (xg) => {
-    const base = Math.floor(xg);
-    const frac = xg - base;
-    // Threshold lebih rendah (0.45) → lebih agresif bulatkan ke atas
-    return frac >= 0.45 ? base + 1 : base;
+  // Tentukan prediksi skor yang PALING MUNGKIN dan SESUAI dengan prediksi 1X2
+  // Jadi jika AI memprediksi Menang/Seri/Kalah, skor spesifik harus sinkron dengan itu.
+  const getMostLikelyScore = (xgH, xgA, pHome, pDraw, pAway) => {
+    let outcome = 'H';
+    if (pDraw > pHome && pDraw > pAway) outcome = 'D';
+    else if (pAway > pHome && pAway > pDraw) outcome = 'A';
+
+    let bestH = 0, bestA = 0, maxP = -1;
+    for (let h = 0; h <= 8; h++) {
+      for (let a = 0; a <= 8; a++) {
+        if (outcome === 'H' && h <= a) continue;
+        if (outcome === 'D' && h !== a) continue;
+        if (outcome === 'A' && h >= a) continue;
+
+        const p = poissonPMF(h, xgH) * poissonPMF(a, xgA) * dixonColes(h, a, xgH, xgA);
+        if (p > maxP) {
+          maxP = p;
+          bestH = h;
+          bestA = a;
+        }
+      }
+    }
+    return { likelyHome: bestH, likelyAway: bestA };
   };
+
+  const { likelyHome, likelyAway } = getMostLikelyScore(predXGH, predXGA, finalH, finalD, finalA);
 
   // Build label breakdown per model untuk ditampilkan di UI
   const modelBreakdown = {
@@ -317,8 +334,7 @@ export const generateMLPrediction = async ({
     gb:   { home: (gb_probs[0]   * 100).toFixed(1), draw: (gb_probs[1]   * 100).toFixed(1), away: (gb_probs[2]   * 100).toFixed(1) },
   };
 
-  const likelyHome = smartRound(predXGH);
-  const likelyAway = smartRound(predXGA);
+    // smartRound and previous likelyHome/likelyAway assignments removed
 
   return {
     probabilities: {
