@@ -1,0 +1,11 @@
+﻿{
+  "appId": "com.prediksibola.app",
+  "appName": "Prediksi Bola",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}

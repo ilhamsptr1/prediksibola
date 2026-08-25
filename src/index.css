@@ -50,6 +50,18 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  /* Faster tap response on mobile — no 300ms delay */
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Mobile GPU acceleration ── */
+html {
+  height: 100%;
+  /* Fills status bar area on Android (Capacitor edge-to-edge) */
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 }
 
 body {
@@ -58,8 +70,17 @@ body {
   color: var(--text-main);
   line-height: 1.6;
   min-height: 100vh;
+  min-height: 100dvh; /* dynamic viewport height — fixes mobile browser bar */
   overflow-x: hidden;
   position: relative;
+  /* Performance */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  /* Smooth momentum scroll on iOS */
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: contain;
 }
 
 /* ── League Background Image Layer ─────────────────────────────── */
@@ -383,4 +404,70 @@ body::after {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
+}
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE PERFORMANCE — Reduce heavy effects on phones
+   ═══════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Hide scrollbar on mobile (touch scrolling works naturally) */
+  ::-webkit-scrollbar { display: none; }
+  * { scrollbar-width: none; }
+
+  /* Reduce backdrop-filter blur intensity on mobile for performance */
+  .glass,
+  .glass-card,
+  .navbar,
+  .modal-overlay,
+  [class*="glass"] {
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+  }
+
+  /* Disable heavy background animations on mobile */
+  .league-bg-layer {
+    animation: none !important;
+  }
+
+  /* Aurora pulse animation disabled on mobile */
+  body.has-league-bg::before {
+    animation: none !important;
+  }
+
+  /* Disable ticker scroll animation pause on hover (no hover on touch) */
+  .ticker-track:hover {
+    animation-play-state: running;
+  }
+
+  /* Better touch scrolling for match lists */
+  .match-list,
+  .standings-table,
+  [class*="scroll"] {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  /* Improve button tap area for mobile fingers */
+  .btn-primary,
+  .nav-link,
+  .md-pill,
+  .league-pill {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Prevent layout jumping from safe area on notch phones */
+  .live-ticker-bar {
+    top: calc(84px + env(safe-area-inset-top));
+  }
+}
+
+/* ─ Compact navbar on very small screens ─ */
+@media (max-width: 380px) {
+  .navbar-content { gap: 12px; padding: 0 12px; }
+  .brand-title { font-size: 0.95rem; }
+  .nav-link { padding: 6px 8px; font-size: 10px; }
+  .nav-link svg { width: 16px; height: 16px; }
 }

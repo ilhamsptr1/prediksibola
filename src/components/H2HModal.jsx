@@ -6,7 +6,8 @@ import './H2HModal.css';
 let userApiKey = import.meta.env.VITE_FOOTBALL_API_KEY;
 const FALLBACK_KEY = '4eda5db232484db3b743c1544bf90b86';
 let API_KEY = (!userApiKey || userApiKey.trim().length < 10) ? FALLBACK_KEY : userApiKey.trim();
-const BASE_URL = '/api/football-data/v4';
+const isNative = window.Capacitor?.isNativePlatform();
+const BASE_URL = isNative ? 'https://api.football-data.org/v4' : '/api/football-data/v4';
 
 const TeamCrest = ({ crest, name, size = 36 }) => {
   const [err, setErr] = useState(false);

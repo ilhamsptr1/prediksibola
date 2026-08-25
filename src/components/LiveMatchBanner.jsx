@@ -4,7 +4,8 @@ import './LiveMatchBanner.css';
 let userApiKey = import.meta.env.VITE_FOOTBALL_API_KEY;
 const FALLBACK_KEY = '4eda5db232484db3b743c1544bf90b86';
 let API_KEY = (!userApiKey || userApiKey.trim().length < 10) ? FALLBACK_KEY : userApiKey.trim();
-const BASE_URL = '/api/football-data/v4';
+const isNative = window.Capacitor?.isNativePlatform();
+const BASE_URL = isNative ? 'https://api.football-data.org/v4' : '/api/football-data/v4';
 
 // Hanya 2 request global (bukan 12 per-liga) → tidak kena rate limit
 const BANNER_CACHE_KEY = 'banner_cache_v1';

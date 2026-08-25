@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Prediksi Bola</string>
+    <string name="title_activity_main">Prediksi Bola</string>
+    <string name="package_name">com.prediksibola.app</string>
+    <string name="custom_url_scheme">com.prediksibola.app</string>
+</resources>

@@ -1,9 +1,10 @@
-﻿import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './LiveTicker.css';
 
 const FALLBACK_KEY = '4eda5db232484db3b743c1544bf90b86';
-const BASE_URL = '/api/football-data/v4';
+const isNative = window.Capacitor?.isNativePlatform();
+const BASE_URL = isNative ? 'https://api.football-data.org/v4' : '/api/football-data/v4';
 let tickerApiKey = (() => {
   const k = import.meta.env.VITE_FOOTBALL_API_KEY;
   return (!k || k.trim().length < 10) ? FALLBACK_KEY : k.trim();
