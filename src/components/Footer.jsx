@@ -1,11 +1,23 @@
 import React from 'react';
-import { Instagram, Github } from 'lucide-react';
-import { isNativePlatform } from '@capacitor/core';
 import './Footer.css';
+
+// SVG custom — lucide-react v1.17 tidak memiliki ikon brand Instagram/GitHub
+const InstagramIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+    <circle cx="12" cy="12" r="4"/>
+    <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor" stroke="none"/>
+  </svg>
+);
+
+const GithubIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+  </svg>
+);
 
 const Footer = () => {
   const openLink = (url) => {
-    // If native Android, use _system to open in external browser app
     if (window.Capacitor && window.Capacitor.isNativePlatform()) {
       window.open(url, '_system');
     } else {
@@ -20,19 +32,21 @@ const Footer = () => {
           <span>&copy; {new Date().getFullYear()} Ilham Saputra</span>
         </div>
         <div className="footer-socials">
-          <button 
-            className="social-btn glass-btn" 
+          <button
+            className="social-btn"
             onClick={() => openLink('https://www.instagram.com/ilhammsptra_/')}
             aria-label="Instagram"
+            title="Instagram @ilhammsptra_"
           >
-            <Instagram size={18} />
+            <InstagramIcon />
           </button>
-          <button 
-            className="social-btn glass-btn" 
+          <button
+            className="social-btn"
             onClick={() => openLink('https://github.com/ilhamsptr1')}
             aria-label="GitHub"
+            title="GitHub ilhamsptr1"
           >
-            <Github size={18} />
+            <GithubIcon />
           </button>
         </div>
       </div>
