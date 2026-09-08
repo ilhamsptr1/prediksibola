@@ -10,8 +10,9 @@ import {
 } from "recharts";
 import {
   ArrowLeft, Cpu, Users, BarChart2, Calendar,
-  MapPin, Clock, CheckCircle, Zap, Shield, Swords, Star, Activity
+  MapPin, Clock, CheckCircle, Zap, Shield, Swords, Star, Activity, Share2
 } from "lucide-react";
+import { Share } from '@capacitor/share';
 import "./MatchDetail.css";
 
 /* ─── helpers ─── */
@@ -243,12 +244,14 @@ const MatchDetail = () => {
 
   const match = matches.find(m => m.id === matchId);
 
-  const [activeTab,   setActiveTab]   = useState("Overview");
-  const [isPredicting,setIsPredicting]= useState(false);
-  const [matchStats,  setMatchStats]  = useState(null);
-  const [homeSquad,   setHomeSquad]   = useState([]);
-  const [awaySquad,   setAwaySquad]   = useState([]);
-  const [squadLoading,setSquadLoading]= useState(false);
+  const [activeTab,    setActiveTab]    = useState("Overview");
+  const [isPredicting, setIsPredicting] = useState(false);
+  const [matchStats,   setMatchStats]   = useState(null);
+  const [homeSquad,    setHomeSquad]    = useState([]);
+  const [awaySquad,    setAwaySquad]    = useState([]);
+  const [squadLoading, setSquadLoading] = useState(false);
+  const [h2hData,      setH2hData]      = useState(null);
+  const [h2hLoading,   setH2hLoading]   = useState(false);
 
   const pred = match ? getPredictionForMatch(match.id) : null;
 
@@ -258,6 +261,38 @@ const MatchDetail = () => {
       setMatchStats(generateMatchStats(match.homeTeam, match.awayTeam));
     }
   }, [match]);
+
+  // Fetch LIVE H2H from API when H2H tab opened
+  useEffect(() => {
+    if (activeTab !== "H2H" || !match || h2hData !== null) return;
+    setH2hLoading(true);
+    const fetchH2H = async () => {
+      try {
+        const isNative = window.Capacitor?.isNativePlatform();
+        const base = isNative ? 'https://api.football-data.org/v4' : '/api/football-data/v4';
+        const res = await fetch(`${base}/matches/${match.id}/head2head?limit=10`, {
+          headers: { 'X-Auth-Token': API_KEY }
+        });
+        if (!res.ok) throw new Error('API error');
+        const data = await res.json();
+        const parsed = (data.matches || []).map(m => ({
+          date: m.utcDate,
+          homeTeam: m.homeTeam.name,
+          awayTeam: m.awayTeam.name,
+          homeScore: m.score?.fullTime?.home ?? '?',
+          awayScore: m.score?.fullTime?.away ?? '?',
+          competition: m.competition?.name || '',
+        }));
+        setH2hData(parsed);
+      } catch (e) {
+        // Fallback ke data lokal
+        setH2hData(matchStats?.h2h || []);
+      } finally {
+        setH2hLoading(false);
+      }
+    };
+    fetchH2H();
+  }, [activeTab, match, h2hData, matchStats]);
 
   // Fetch lineup when switching to Lineup tab
   useEffect(() => {
@@ -280,6 +315,33 @@ const MatchDetail = () => {
     await new Promise(r => setTimeout(r, 900));
     await generateAIPrediction(match);
     setIsPredicting(false);
+  };
+
+  const handleShare = async () => {
+    if (!pred || !match) return;
+    const homeName = match.homeTeam.name;
+    const awayName = match.awayTeam.name;
+    const text = `🤖 Prediksi Bola AI\n\n⚽ ${homeName} ${pred.homeScore} - ${pred.awayScore} ${awayName}\n\n📊 Peluang Menang:\n${homeName}: ${pred.probabilities.home}%\nSeri: ${pred.probabilities.draw}%\n${awayName}: ${pred.probabilities.away}%\n\nDibuat otomatis oleh PrediksiBola AI 🚀`;
+    
+    try {
+      if (window.Capacitor?.isNativePlatform()) {
+        await Share.share({
+          title: 'Prediksi Bola AI',
+          text: text,
+          dialogTitle: 'Bagikan Prediksi',
+        });
+      } else {
+        // Fallback for web
+        if (navigator.share) {
+          await navigator.share({ title: 'Prediksi Bola AI', text });
+        } else {
+          navigator.clipboard.writeText(text);
+          alert('Teks disalin ke clipboard!');
+        }
+      }
+    } catch (e) {
+      console.log('Error sharing', e);
+    }
   };
 
   if (loading) return (
@@ -375,10 +437,16 @@ const MatchDetail = () => {
         {/* ── AI Prediction Result (mini banner) ── */}
         {pred && (
           <div className="md-pred-banner">
-            <Star size={14} className="pred-star" />
-            <span>AI Prediksi:</span>
-            <strong>{match.homeTeam.shortName || match.homeTeam.name} {pred.homeScore} – {pred.awayScore} {match.awayTeam.shortName || match.awayTeam.name}</strong>
-            <span className="pred-conf">({pred.probabilities?.home}% / {pred.probabilities?.draw}% / {pred.probabilities?.away}%)</span>
+            <div className="pred-banner-info">
+              <Star size={14} className="pred-star" />
+              <span>AI Prediksi:</span>
+              <strong>{match.homeTeam.shortName || match.homeTeam.name} {pred.homeScore} – {pred.awayScore} {match.awayTeam.shortName || match.awayTeam.name}</strong>
+              <span className="pred-conf">({pred.probabilities?.home}% / {pred.probabilities?.draw}% / {pred.probabilities?.away}%)</span>
+            </div>
+            <button className="md-share-btn" onClick={handleShare} title="Bagikan ke WhatsApp/IG">
+              <Share2 size={16} />
+              <span>Bagikan</span>
+            </button>
           </div>
         )}
       </div>
@@ -555,29 +623,54 @@ const MatchDetail = () => {
         )}
 
         {/* H2H TAB */}
-        {activeTab === "H2H" && matchStats && (
+        {activeTab === "H2H" && (
           <div className="tab-h2h">
-            {matchStats.h2h?.length > 0 ? matchStats.h2h.map((h, i) => {
-              const d = new Date(h.date);
-              const dateStr = d.toLocaleDateString("id-ID", { day:"numeric", month:"short", year:"numeric" });
-              return (
-                <div key={i} className="h2h-row glass-card">
-                  <span className="h2h-date">{dateStr}</span>
-                  <div className="h2h-match">
-                    <span className="h2h-team">{h.homeTeam}</span>
-                    <div className="h2h-score-box">
-                      <span>{h.homeScore}</span>
-                      <span className="h2h-dash">:</span>
-                      <span>{h.awayScore}</span>
-                    </div>
-                    <span className="h2h-team away">{h.awayTeam}</span>
-                  </div>
-                  <span className="h2h-comp">{h.competition || ""}</span>
+            {h2hLoading && (
+              <div className="squad-loading">
+                <div className="loading-spinner" />
+                <p>Mengambil data pertemuan...</p>
+              </div>
+            )}
+            {!h2hLoading && h2hData !== null && h2hData.length > 0 && (
+              <>
+                <div className="h2h-header-info glass-card">
+                  <span>📊 {h2hData.length} pertemuan terakhir</span>
+                  <span style={{ color: 'var(--text-muted)', fontSize: '0.78rem' }}>
+                    {match.homeTeam.shortName || match.homeTeam.name} vs {match.awayTeam.shortName || match.awayTeam.name}
+                  </span>
                 </div>
-              );
-            }) : (
+                {h2hData.map((h, i) => {
+                  const d = new Date(h.date);
+                  const dateStr = isNaN(d) ? h.date : d.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+                  const homeWon = h.homeScore > h.awayScore;
+                  const awayWon = h.awayScore > h.homeScore;
+                  return (
+                    <div key={i} className="h2h-row glass-card">
+                      <span className="h2h-date">{dateStr}</span>
+                      <div className="h2h-match">
+                        <span className={`h2h-team ${homeWon ? 'h2h-winner' : ''}`}>{h.homeTeam}</span>
+                        <div className="h2h-score-box">
+                          <span className={homeWon ? 'h2h-score-win' : ''}>{h.homeScore}</span>
+                          <span className="h2h-dash">:</span>
+                          <span className={awayWon ? 'h2h-score-win' : ''}>{h.awayScore}</span>
+                        </div>
+                        <span className={`h2h-team away ${awayWon ? 'h2h-winner' : ''}`}>{h.awayTeam}</span>
+                      </div>
+                      <span className="h2h-comp">{h.competition}</span>
+                    </div>
+                  );
+                })}
+              </>
+            )}
+            {!h2hLoading && h2hData !== null && h2hData.length === 0 && (
               <div className="squad-empty glass-card">
-                <p>Belum ada data pertemuan sebelumnya.</p>
+                <p style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📭</p>
+                <p>Belum ada data pertemuan sebelumnya antara kedua tim ini.</p>
+              </div>
+            )}
+            {!h2hLoading && h2hData === null && (
+              <div className="squad-empty glass-card">
+                <p>Gagal memuat data H2H.</p>
               </div>
             )}
           </div>

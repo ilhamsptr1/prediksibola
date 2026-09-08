@@ -1,52 +1,57 @@
 import React, { useState } from 'react';
-import { Trophy, Target, Shield, TrendingUp } from 'lucide-react';
-import teamRatingsData from '../data/teamRatings.json';
+import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { FIFA_RANKING, FIFA_RANKING_DATE, FIFA_NEXT_UPDATE } from '../data/fifaRanking';
 import './Leaderboard.css';
 
 const MEDAL = ['🥇', '🥈', '🥉'];
 
-const formColor = (c) => {
-  if (c === 'W') return '#4ade80';
-  if (c === 'D') return '#94a3b8';
-  return '#f87171';
+const CONF_COLORS = {
+  UEFA:     { bg: 'rgba(0,100,255,0.15)', border: 'rgba(0,100,255,0.4)', text: '#60a5fa' },
+  CONMEBOL: { bg: 'rgba(0,200,100,0.15)', border: 'rgba(0,200,100,0.4)', text: '#4ade80' },
+  CAF:      { bg: 'rgba(255,180,0,0.15)', border: 'rgba(255,180,0,0.4)', text: '#fbbf24' },
+  AFC:      { bg: 'rgba(255,60,0,0.15)',  border: 'rgba(255,60,0,0.4)',  text: '#f87171' },
+  CONCACAF: { bg: 'rgba(180,0,255,0.15)', border: 'rgba(180,0,255,0.4)', text: '#c084fc' },
+  OFC:      { bg: 'rgba(0,200,200,0.15)', border: 'rgba(0,200,200,0.4)', text: '#22d3ee' },
+};
+
+const CONF_FILTERS = ['Semua', 'UEFA', 'CONMEBOL', 'CAF', 'AFC', 'CONCACAF'];
+
+const ChangeIcon = ({ change }) => {
+  if (change > 0) return <span className="rank-up">▲ {change}</span>;
+  if (change < 0) return <span className="rank-down">▼ {Math.abs(change)}</span>;
+  return <span className="rank-same">—</span>;
 };
 
 const Leaderboard = () => {
-  const [search, setSearch] = useState('');
-  const ranking = teamRatingsData.aiPowerRanking || [];
+  const [search, setSearch]         = useState('');
+  const [activeConf, setActiveConf] = useState('Semua');
 
-  const filtered = search.trim()
-    ? ranking.filter(t => t.name.toLowerCase().includes(search.toLowerCase()))
-    : ranking;
+  const filtered = FIFA_RANKING.filter(t => {
+    const matchSearch = t.name.toLowerCase().includes(search.toLowerCase());
+    const matchConf   = activeConf === 'Semua' || t.confederation === activeConf;
+    return matchSearch && matchConf;
+  });
 
-  const top3 = ranking.slice(0, 3);
+  const top3 = FIFA_RANKING.slice(0, 3);
 
   return (
     <div className="leaderboard animate-fade-in">
+      {/* Header */}
       <header className="lb-header text-center">
-        <div className="lb-cpu-icon">
-          <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="url(#cpuGrad)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <defs>
-              <linearGradient id="cpuGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#00ff88"/>
-                <stop offset="100%" stopColor="#00b8ff"/>
-              </linearGradient>
-            </defs>
-            <rect x="4" y="4" width="16" height="16" rx="2"/>
-            <rect x="9" y="9" width="6" height="6"/>
-            <line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/>
-            <line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/>
-            <line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/>
-            <line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>
-          </svg>
+        <div className="lb-fifa-badge">
+          <span style={{ fontSize: '2.5rem' }}>🏆</span>
         </div>
-        <h1 className="heading-lg">AI Power <span className="text-gradient">Ranking</span></h1>
+        <h1 className="heading-lg">FIFA <span className="text-gradient">World Ranking</span></h1>
         <p className="text-muted">
-          Peringkat kekuatan tim berdasarkan analisis <strong>{ranking.length}</strong> negara
-          dari <strong>48.000+</strong> pertandingan historis — Algoritma FIFA-style Elo + Poisson.
+          Peringkat resmi FIFA/Coca-Cola Men's World Ranking — <strong>{FIFA_RANKING.length}</strong> negara
         </p>
-        <div className="lb-algo-badge">
-          Elo Rating · Time Decay · Opponent Weighting · Poisson xG
+        <div className="lb-update-info">
+          <span>📅 Update terakhir: <strong>{FIFA_RANKING_DATE}</strong></span>
+          <span className="lb-sep">·</span>
+          <span>🔜 Update berikutnya: <strong>{FIFA_NEXT_UPDATE}</strong></span>
+        </div>
+        <div className="lb-algo-badge" style={{ background: 'rgba(0,150,255,0.1)', borderColor: 'rgba(0,150,255,0.3)', color: '#60a5fa' }}>
+          Sumber Resmi: FIFA.com — Bukan AI Generated
         </div>
       </header>
 
@@ -55,20 +60,35 @@ const Leaderboard = () => {
         {[top3[1], top3[0], top3[2]].map((team, idx) => {
           if (!team) return null;
           const podiumOrder = [2, 1, 3][idx];
+          const conf = CONF_COLORS[team.confederation] || {};
           return (
             <div key={team.name} className={`podium-card podium-${podiumOrder} glass-card`}>
               <div className="podium-medal">{MEDAL[podiumOrder - 1]}</div>
+              <div className="podium-flag">{team.flag}</div>
               <p className="podium-name">{team.name}</p>
-              <p className="podium-elo">Elo <strong>{team.elo}</strong></p>
-              <p className="podium-pts">{team.powerIndex} <span>PWR</span></p>
-              <div className="podium-atk-def">
-                <span style={{ color: '#4ade80' }}>ATK {team.attack}</span>
-                <span style={{ color: '#f87171' }}>DEF {team.defense}</span>
-              </div>
+              <p className="podium-elo" style={{ color: '#60a5fa' }}>
+                <strong>{team.points.toFixed(2)}</strong> pts
+              </p>
+              <span className="podium-conf-badge" style={{ background: conf.bg, border: `1px solid ${conf.border}`, color: conf.text }}>
+                {team.confederation}
+              </span>
               <div className={`podium-bar bar-${podiumOrder}`} />
             </div>
           );
         })}
+      </div>
+
+      {/* Confederation Filter */}
+      <div className="lb-conf-filter">
+        {CONF_FILTERS.map(cf => (
+          <button
+            key={cf}
+            className={`lb-conf-btn ${activeConf === cf ? 'active' : ''}`}
+            onClick={() => setActiveConf(cf)}
+          >
+            {cf}
+          </button>
+        ))}
       </div>
 
       {/* Search */}
@@ -87,52 +107,39 @@ const Leaderboard = () => {
         <div className="lb-list-header">
           <span className="col-rank">#</span>
           <span className="col-name">Negara</span>
-          <span className="col-elo hide-sm">Elo</span>
-          <span className="col-atk hide-sm"><Target size={12}/> ATK</span>
-          <span className="col-def hide-sm"><Shield size={12}/> DEF</span>
-          <span className="col-form hide-sm">Form</span>
-          <span className="col-power"><TrendingUp size={12}/> PWR</span>
+          <span className="col-elo">Poin FIFA</span>
+          <span className="col-conf hide-sm">Konfederasi</span>
+          <span className="col-power">Perubahan</span>
         </div>
 
-        {filtered.map((team, index) => {
-          const globalIdx = ranking.indexOf(team);
+        {filtered.map((team) => {
+          const globalIdx = team.rank - 1;
+          const conf = CONF_COLORS[team.confederation] || {};
           return (
             <div key={team.name} className={`lb-row ${globalIdx < 3 ? 'lb-row-top' : ''}`}>
               <div className="lb-rank col-rank">
                 {globalIdx < 3
                   ? <span className="podium-emoji">{MEDAL[globalIdx]}</span>
-                  : <span className="rank-number">#{globalIdx + 1}</span>}
+                  : <span className="rank-number">#{team.rank}</span>}
               </div>
 
               <div className="lb-user col-name">
+                <span className="lb-flag">{team.flag}</span>
                 <span className="lb-name">{team.name}</span>
               </div>
 
-              <div className="lb-stat col-elo hide-sm" style={{ fontFamily: 'monospace', fontWeight: 700, color: 'var(--text-main)' }}>
-                {team.elo}
+              <div className="lb-stat col-elo" style={{ fontFamily: 'monospace', fontWeight: 700, color: '#60a5fa' }}>
+                {team.points.toFixed(2)}
               </div>
 
-              <div className="lb-stat col-atk hide-sm" style={{ color: '#4ade80' }}>{team.attack}</div>
-              <div className="lb-stat col-def hide-sm" style={{ color: '#f87171' }}>{team.defense}</div>
-
-              <div className="lb-stat col-form hide-sm">
-                <div style={{ display: 'flex', gap: '2px' }}>
-                  {(team.form || '').split('').map((c, i) => (
-                    <span key={i} style={{
-                      width: 18, height: 18, borderRadius: 3, fontSize: '0.6rem', fontWeight: 800,
-                      background: formColor(c) + '33', color: formColor(c),
-                      display: 'flex', alignItems: 'center', justifyContent: 'center'
-                    }}>{c}</span>
-                  ))}
-                </div>
+              <div className="lb-stat col-conf hide-sm">
+                <span style={{ background: conf.bg, border: `1px solid ${conf.border}`, color: conf.text, padding: '2px 8px', borderRadius: '999px', fontSize: '0.7rem', fontWeight: 700 }}>
+                  {team.confederation}
+                </span>
               </div>
 
               <div className="lb-points col-power">
-                <span className="pts-value" style={{
-                  background: `linear-gradient(90deg, #00ff88, #00b8ff)`,
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                }}>{team.powerIndex}</span>
+                <ChangeIcon change={team.change} />
               </div>
             </div>
           );
@@ -146,8 +153,9 @@ const Leaderboard = () => {
       </div>
 
       <p className="lb-note text-muted">
-        * Berdasarkan {ranking.length} tim dari 48.335 pertandingan (tahun 2000–2025).
-        Algoritma: FIFA-style Elo dengan K-factor per turnamen, Time Decay (half-life 4 tahun), dan Home Advantage (+50 Elo).
+        * Data peringkat resmi FIFA/Coca-Cola Men's World Ranking per {FIFA_RANKING_DATE}.
+        Peringkat diperbarui secara berkala sesuai jadwal resmi FIFA.
+        Sumber: <a href="https://www.fifa.com/en/fifa-world-ranking/men" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--primary)' }}>fifa.com</a>
       </p>
     </div>
   );

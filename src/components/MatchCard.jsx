@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePredictions } from '../context/PredictionContext';
-import { Calendar, MapPin, CheckCircle, Clock, BarChart2, Cpu, Users, ExternalLink } from 'lucide-react';
+import { useFavorites } from '../context/FavoritesContext';
+import { Calendar, MapPin, CheckCircle, Clock, BarChart2, Cpu, Users, ExternalLink, Star } from 'lucide-react';
 import { generateMatchStats } from '../services/footballApi';
 import teamRatingsData from '../data/teamRatings.json';
 import H2HModal from './H2HModal';
@@ -10,6 +11,7 @@ import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip
 } from 'recharts';
 import './MatchCard.css';
+
 
 const TeamBadge = ({ team }) => {
   const [imgError, setImgError] = useState(false);
@@ -29,7 +31,9 @@ const StatusBadge = ({ status, minute }) => {
 const MatchCard = ({ match }) => {
   const navigate = useNavigate();
   const { generateAIPrediction, getPredictionForMatch, savePredictionResult } = usePredictions();
+  const { isFavorite, toggleFavorite, updateFavoriteMatch } = useFavorites();
   const pred = getPredictionForMatch(match.id);
+  const favorited = isFavorite(match.id);
 
   // Auto-save ke riwayat jika match sudah selesai dan ada prediksi
   useEffect(() => {
@@ -37,6 +41,11 @@ const MatchCard = ({ match }) => {
       savePredictionResult(match, pred);
     }
   }, [match.status, pred]);
+
+  // Sync latest match data into favorites store
+  useEffect(() => {
+    updateFavoriteMatch(match);
+  }, [match.status, match.score]);
 
   const [isPredicting, setIsPredicting] = useState(false);
   const [showStats,    setShowStats]    = useState(false);
@@ -62,6 +71,11 @@ const MatchCard = ({ match }) => {
     setShowStats(!showStats);
   };
 
+  const handleFavClick = (e) => {
+    e.stopPropagation();
+    toggleFavorite(match);
+  };
+
   const matchDate = new Date(match.date).toLocaleDateString('id-ID', {
     day: 'numeric', month: 'short',
     hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Jakarta',
@@ -82,6 +96,13 @@ const MatchCard = ({ match }) => {
           </span>
         </div>
         <div className="header-right">
+          <button
+            className={`mc-fav-btn ${favorited ? 'mc-fav-active' : ''}`}
+            onClick={handleFavClick}
+            title={favorited ? 'Hapus dari favorit' : 'Tambah ke favorit'}
+          >
+            <Star size={14} fill={favorited ? '#f59e0b' : 'none'} stroke={favorited ? '#f59e0b' : 'currentColor'} />
+          </button>
           <StatusBadge status={match.status} minute={match.minute} />
           <span className="match-date">{matchDate}</span>
         </div>
@@ -96,6 +117,7 @@ const MatchCard = ({ match }) => {
               <span className="team-name" title={match.homeTeam.name}>
                 {match.homeTeam.shortName || match.homeTeam.name}
               </span>
+
               {match.form?.home && (
                 <div className="form-badges">
                   {match.form.home.map((res, i) => (

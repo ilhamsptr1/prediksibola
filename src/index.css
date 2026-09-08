@@ -58,7 +58,7 @@
 html {
   height: 100%;
   /* Fills status bar area on Android (Capacitor edge-to-edge) */
-  padding-top: env(safe-area-inset-top);
+  padding-top: max(24px, env(safe-area-inset-top));
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
@@ -73,6 +73,12 @@ body {
   min-height: 100dvh; /* dynamic viewport height — fixes mobile browser bar */
   overflow-x: hidden;
   position: relative;
+  
+  /* Native App Feel */
+  -webkit-touch-callout: none; /* Prevent iOS image popup */
+  -webkit-user-select: none;   /* Prevent text selection */
+  user-select: none;
+
   /* Performance */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -275,6 +281,25 @@ body::after {
 /* ═══════════════════════════════════════════════════════
    TYPOGRAPHY UTILITIES
    ═══════════════════════════════════════════════════════ */
+/* Utilities */
+.global-offline-banner {
+  position: fixed;
+  top: env(safe-area-inset-top);
+  left: 0;
+  right: 0;
+  background: #ef4444;
+  color: white;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
 .text-gradient {
   background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
   -webkit-background-clip: text;
@@ -355,10 +380,15 @@ body::after {
 
 /* Layout Utilities */
 .container {
-  width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 0 var(--sp-3);
+  padding: 0 var(--space-sm);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-bottom: calc(84px + env(safe-area-inset-bottom));
+  }
 }
 
 /* Animations */
@@ -444,7 +474,6 @@ body::after {
   .standings-table,
   [class*="scroll"] {
     -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
   }
 
   /* Improve button tap area for mobile fingers */

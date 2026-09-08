@@ -1,11 +1,12 @@
-﻿import React, { useState, useEffect, useMemo } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import MatchRow from '../components/MatchRow';
 import LeagueSelector from '../components/LeagueSelector';
 import { usePredictions } from '../context/PredictionContext';
 import { useMatches } from '../hooks/useMatches';
 import { getLeague } from '../data/leagues';
 import { RefreshCw, Wifi, WifiOff, Zap, CalendarOff, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Haptics, ImpactStyle } from '@capacitor/haptics';
 import './Dashboard.css';
 
 // Mapping liga → file background
@@ -130,10 +131,12 @@ const Dashboard = () => {
 
   const liveCount = filteredMatches.filter(m => m.status === 'LIVE').length;
 
+
+
   return (
     <div className="dashboard animate-fade-in">
 
-      {/* Hero Header */}
+        {/* Hero Header */}
       <motion.header
         className="dashboard-header text-center"
         initial={{ opacity: 0, y: -16 }}
@@ -307,7 +310,7 @@ const Dashboard = () => {
           )}
         </motion.div>
       )}
-    </div>
+      </div>
   );
 };
 

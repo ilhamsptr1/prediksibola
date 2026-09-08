@@ -1,0 +1,401 @@
+.favorites {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 860px;
+  margin: 0 auto;
+  padding-bottom: 5rem;
+}
+
+/* ── Header ── */
+.fav-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+.fav-icon-wrap {
+  filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.5));
+}
+.fav-star-icon {
+  display: block;
+}
+.fav-meta-row {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 0.25rem;
+}
+.fav-count-badge {
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #f59e0b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+}
+.fav-live-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  animation: pulseBadge 2s infinite;
+}
+@keyframes pulseBadge {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* ── Filter Tabs ── */
+.fav-filters {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.fav-filter-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.fav-filter-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+}
+.fav-filter-btn.active {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: rgba(245, 158, 11, 0.4);
+  color: #f59e0b;
+}
+.fav-filter-badge {
+  background: #ef4444;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Grid ── */
+.fav-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* ── Card ── */
+.fav-card {
+  cursor: pointer;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  transition: all 0.25s ease;
+}
+.fav-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(245, 158, 11, 0.25) !important;
+  box-shadow: 0 8px 32px rgba(245, 158, 11, 0.08) !important;
+}
+.fav-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+.fav-comp {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 160px;
+}
+.fav-badge {
+  font-size: 0.65rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.fav-status-live {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #f87171;
+}
+.fav-status-finished {
+  background: rgba(107, 114, 128, 0.15);
+  border: 1px solid rgba(107, 114, 128, 0.3);
+  color: #9ca3af;
+}
+.fav-status-upcoming {
+  background: rgba(0, 245, 184, 0.1);
+  border: 1px solid rgba(0, 245, 184, 0.25);
+  color: var(--primary);
+}
+.fav-status-cancelled {
+  background: rgba(239, 68, 68, 0.08);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  color: #f87171;
+}
+
+/* ── Teams ── */
+.fav-teams {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 0.5rem;
+}
+.fav-team {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.fav-team-away {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+.fav-team-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+  min-width: 0;
+}
+.fav-crest {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.fav-flag {
+  font-size: 1.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.fav-score-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  flex-shrink: 0;
+}
+.fav-score {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+}
+.fav-vs {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+}
+.fav-vs-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+.fav-time {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary);
+  font-family: monospace;
+}
+
+/* ── Card Bottom ── */
+.fav-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.fav-date {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.fav-remove-btn {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: 999px;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  color: #f59e0b;
+  transition: all 0.2s;
+}
+.fav-remove-btn:hover {
+  background: rgba(245, 158, 11, 0.2);
+  border-color: rgba(245, 158, 11, 0.5);
+}
+
+/* ── Live Dot ── */
+.fav-live-dot {
+  width: 6px;
+  height: 6px;
+  background: #ef4444;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulseLiveDot 1.5s infinite;
+}
+@keyframes pulseLiveDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* ── Empty States ── */
+.fav-empty {
+  text-align: center;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.fav-empty-icon {
+  color: var(--text-muted);
+  opacity: 0.4;
+}
+.fav-empty h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.fav-empty-filter {
+  text-align: center;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+.fav-go-btn {
+  margin-top: 0.5rem;
+  padding: 0.65rem 1.5rem;
+  border-radius: 999px;
+  border: 1px solid rgba(0, 245, 184, 0.3);
+  background: rgba(0, 245, 184, 0.1);
+  color: var(--primary);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.fav-go-btn:hover {
+  background: rgba(0, 245, 184, 0.2);
+}
+
+/* ── Clear All ── */
+.fav-clear-wrap {
+  display: flex;
+  justify-content: center;
+}
+.fav-clear-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #f87171;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.5rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.fav-clear-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.4);
+}
+.fav-confirm {
+  padding: 1.25rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 320px;
+  width: 100%;
+}
+.fav-confirm p {
+  font-size: 0.9rem;
+}
+.fav-confirm-btns {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+}
+.fav-confirm-yes {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #f87171;
+  font-weight: 700;
+  font-size: 0.82rem;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.fav-confirm-yes:hover {
+  background: rgba(239, 68, 68, 0.25);
+}
+.fav-confirm-no {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.fav-confirm-no:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .fav-grid { grid-template-columns: 1fr; }
+  .fav-team-name { font-size: 0.82rem; }
+}

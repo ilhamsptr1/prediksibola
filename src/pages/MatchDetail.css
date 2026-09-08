@@ -1,4 +1,4 @@
-﻿/* ══════════════════════════════════════════
+/* ══════════════════════════════════════════
    MATCH DETAIL — Premium Match Center Page
    ══════════════════════════════════════════ */
 
@@ -201,19 +201,50 @@
 /* ── Prediction Banner ──────────────────── */
 .md-pred-banner {
   display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: rgba(0, 245, 184, 0.1);
+  border: 1px solid rgba(0, 245, 184, 0.2);
+  padding: 12px 16px;
+  border-radius: var(--radius-btn);
+  font-size: 0.85rem;
+  margin-top: auto; /* push to bottom if height allows */
+  width: 100%;
+}
+
+.pred-banner-info {
+  display: flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  background: rgba(0,255,136,0.07);
-  border: 1px solid rgba(0,255,136,0.2);
-  border-radius: 12px;
-  padding: 0.75rem 1.2rem;
-  font-size: 0.88rem;
-  color: rgba(255,255,255,0.75);
-  margin-top: 0.5rem;
 }
-.pred-star { color: #fbbf24; }
+
+.md-share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: var(--primary);
+  color: var(--bg-main);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.md-share-btn:active {
+  transform: scale(0.97);
+  background: #00d977;
+}
+
+.pred-star {
+  color: var(--primary);
+}
 .md-pred-banner strong { color: #fff; font-size: 1rem; }
 .pred-conf { color: rgba(255,255,255,0.35); font-size: 0.78rem; }
 
@@ -543,6 +574,18 @@
 }
 .h2h-dash { color: rgba(255,255,255,0.3); }
 .h2h-comp { font-size: 0.68rem; color: rgba(255,255,255,0.2); }
+.h2h-winner { color: var(--primary) !important; font-weight: 700; }
+.h2h-score-win { color: var(--primary); font-weight: 800; }
+.h2h-header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
 
 /* ── Statistik Tab ──────────────────────── */
 .tab-stats { display: flex; flex-direction: column; gap: 1rem; }

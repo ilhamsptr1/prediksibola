@@ -48,7 +48,7 @@ export function useMatches(competitionCode = 'WC') {
   const refresh = useCallback(() => {
     if (timerRef.current) clearTimeout(timerRef.current);
     setLoading(true);
-    load();
+    return load();
   }, [load]);
 
   return { matches, loading, isLive, lastUpdated, error, hasLiveNow, refresh };
