@@ -28,6 +28,66 @@ const StatusBadge = ({ status, minute }) => {
   return null;
 };
 
+// ─── Countdown hook ───────────────────────────────────────────────────────────
+const useCountdown = (targetDate) => {
+  const calc = () => {
+    const diff = new Date(targetDate).getTime() - Date.now();
+    if (diff <= 0) return null;
+    const h = Math.floor(diff / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    const d = Math.floor(h / 24);
+    return { d, h: h % 24, m, s, diff };
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calc);
+
+  useEffect(() => {
+    const id = setInterval(() => setTimeLeft(calc()), 1000);
+    return () => clearInterval(id);
+  }, [targetDate]);
+
+  return timeLeft;
+};
+
+// ─── CountdownTimer component ─────────────────────────────────────────────────
+const CountdownTimer = ({ date }) => {
+  const t = useCountdown(date);
+  if (!t) return null;
+
+  // Lebih dari 7 hari — tidak perlu hitung mundur real-time
+  if (t.d >= 7) return null;
+
+  const pad = (n) => String(n).padStart(2, '0');
+
+  // Kurang dari 1 jam — tampilkan urgency
+  const isUrgent = t.diff < 3600000;
+  // Kurang dari 24 jam — tampilkan jam:menit:detik
+  const isToday  = t.d === 0;
+
+  return (
+    <div className={`cd-wrap${isUrgent ? ' cd-urgent' : ''}`}>
+      <span className="cd-icon">⏱</span>
+      {isToday ? (
+        <div className="cd-blocks">
+          {t.h > 0 && <><span className="cd-val">{pad(t.h)}</span><span className="cd-sep">:</span></>}
+          <span className="cd-val">{pad(t.m)}</span>
+          <span className="cd-sep">:</span>
+          <span className="cd-val">{pad(t.s)}</span>
+          <span className="cd-label">{t.h > 0 ? 'jam' : 'menit'}</span>
+        </div>
+      ) : (
+        <div className="cd-blocks">
+          <span className="cd-val">{t.d}</span>
+          <span className="cd-label">hari</span>
+          <span className="cd-val">{pad(t.h)}</span>
+          <span className="cd-label">jam</span>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const MatchCard = ({ match }) => {
   const navigate = useNavigate();
   const { generateAIPrediction, getPredictionForMatch, savePredictionResult } = usePredictions();
@@ -151,6 +211,9 @@ const MatchCard = ({ match }) => {
             </span>
           </div>
       </div>
+
+      {/* Countdown Timer — hanya untuk pertandingan yang belum dimulai */}
+      {canPredict && <CountdownTimer date={match.date} />}
 
       {/* AI Prediction Result Card */}
       {pred && (
