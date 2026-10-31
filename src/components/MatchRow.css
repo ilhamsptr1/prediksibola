@@ -1,12 +1,12 @@
-﻿/* ============================================================
-   MatchRow.css — FotMob-style compact match row
+/* ============================================================
+   MatchRow.css - FotMob-style compact match row
    ============================================================ */
 
 .match-row {
   display: flex;
   align-items: center;
   gap: 0;
-  padding: 10px 16px;
+  padding: 10px 14px;
   border-bottom: 1px solid rgba(255,255,255,0.05);
   cursor: pointer;
   transition: background 0.18s ease;
@@ -28,30 +28,67 @@
 }
 
 .match-row--finished {
-  opacity: 0.85;
+  opacity: 0.9;
 }
 
 /* ── Status column ── */
 .row-status {
-  width: 52px;
+  width: 64px;
   flex-shrink: 0;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.02em;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
 }
 
 .row-status--ft {
-  color: rgba(255,255,255,0.35);
+  color: rgba(255,255,255,0.45);
 }
 
 .row-status--time {
-  color: rgba(255,255,255,0.6);
+  color: rgba(255,255,255,0.85);
+}
+
+.row-time-main {
+  font-family: 'JetBrains Mono', monospace, sans-serif;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.88);
+}
+
+.row-status-date {
+  font-size: 9.5px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.42);
+}
+
+.row-countdown {
+  font-family: 'JetBrains Mono', monospace, sans-serif;
+  font-size: 9.5px;
+  font-weight: 700;
+  color: #33C771;
+  background: rgba(51, 199, 113, 0.12);
+  border: 1px solid rgba(51, 199, 113, 0.25);
+  padding: 1px 5px;
+  border-radius: 4px;
+  line-height: 1.25;
+}
+
+.row-countdown--urgent {
+  color: #fb923c;
+  background: rgba(251, 146, 60, 0.14);
+  border-color: rgba(251, 146, 60, 0.35);
 }
 
 .row-status--live {
   color: #f87171;
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 4px;
@@ -97,7 +134,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 140px;
+  max-width: 150px;
 }
 
 .row-crest {
@@ -132,7 +169,7 @@
 
 /* ── Center: Score / vs ── */
 .row-center {
-  width: 80px;
+  width: 72px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
@@ -142,8 +179,8 @@
 
 .row-vs {
   font-size: 11px;
-  color: rgba(255,255,255,0.3);
-  font-weight: 500;
+  color: rgba(255,255,255,0.35);
+  font-weight: 600;
 }
 
 .row-score {
@@ -163,7 +200,7 @@
 
 .row-score--pred {
   font-size: 14px;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.6);
   font-weight: 700;
 }
 
@@ -181,12 +218,12 @@
 }
 
 .pred-score-val {
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.65);
 }
 
 /* Probability mini bar under score */
 .row-prob-bar {
-  width: 60px;
+  width: 56px;
   height: 3px;
   border-radius: 2px;
   display: flex;
@@ -204,33 +241,26 @@
 .row-prob-draw { background: #64748b; }
 .row-prob-away { background: #ef4444; }
 
-/* ── Action buttons (hidden by default, show on row hover) ── */
+/* ── Action buttons (always visible so users can open Lineup in 1 click) ── */
 .row-actions {
   display: flex;
-  gap: 4px;
-  margin-left: 12px;
+  align-items: center;
+  gap: 5px;
+  margin-left: 10px;
   flex-shrink: 0;
-  opacity: 0;
-  transform: translateX(4px);
-  transition: opacity 0.18s ease, transform 0.18s ease;
-  pointer-events: none;
-}
-
-.match-row:hover .row-actions {
-  opacity: 1;
-  transform: translateX(0);
-  pointer-events: auto;
 }
 
 .row-btn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 4px;
-  padding: 4px 8px;
-  border-radius: 6px;
+  padding: 5px 9px;
+  min-height: 28px;
+  border-radius: 7px;
   border: 1px solid rgba(255,255,255,0.12);
   background: rgba(255,255,255,0.06);
-  color: rgba(255,255,255,0.7);
+  color: rgba(255,255,255,0.82);
   font-size: 11px;
   font-weight: 600;
   cursor: pointer;
@@ -239,9 +269,21 @@
 }
 
 .row-btn:hover {
-  background: rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.15);
   color: #fff;
-  border-color: rgba(255,255,255,0.25);
+  border-color: rgba(255,255,255,0.28);
+}
+
+.row-btn--lineup {
+  background: rgba(1, 147, 92, 0.18);
+  border-color: rgba(51, 199, 113, 0.35);
+  color: #33C771;
+}
+
+.row-btn--lineup:hover {
+  background: rgba(1, 147, 92, 0.32);
+  border-color: rgba(51, 199, 113, 0.6);
+  color: #fff;
 }
 
 .row-btn--ai.has-pred {
@@ -257,11 +299,13 @@
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
-  .match-row { padding: 9px 10px; }
-  .row-team-name { max-width: 90px; font-size: 12px; }
+  .match-row { padding: 9px 8px; }
+  .row-status { width: 50px; }
+  .row-team-name { max-width: 82px; font-size: 11.5px; }
   .row-form-badges { display: none; }
+  .row-center { width: 54px; }
   .row-score { font-size: 14px; }
-  .row-actions { opacity: 1; transform: none; pointer-events: auto; }
+  .row-actions { margin-left: 6px; gap: 4px; }
   .row-btn span { display: none; }
-  .row-btn { padding: 4px 6px; }
+  .row-btn { padding: 5px 6px; min-width: 28px; }
 }

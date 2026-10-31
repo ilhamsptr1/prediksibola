@@ -33,12 +33,12 @@ const getActiveMatchday = (matches) => {
   const liveMatch = matches.find(m => m.status === 'LIVE');
   if (liveMatch) return liveMatch.matchday;
 
-  // 2. Ada pertandingan SCHEDULED → ambil matchday dengan jadwal paling awal
+  // 2. Ada pertandingan SCHEDULED -> ambil matchday dengan jadwal paling awal
   const scheduledMatches = matches.filter(m => m.status === 'SCHEDULED');
   if (scheduledMatches.length) {
-    // Sort by utcDate, ambil paling dekat
+    // Sort by utcDate/date, ambil paling dekat
     const sorted = [...scheduledMatches].sort((a, b) =>
-      new Date(a.utcDate) - new Date(b.utcDate)
+      new Date(a.utcDate || a.date) - new Date(b.utcDate || b.date)
     );
     return sorted[0].matchday;
   }
@@ -93,7 +93,7 @@ const Dashboard = () => {
     return [...filteredMatches].sort((a, b) => {
       const statusDiff = (order[a.status] ?? 1) - (order[b.status] ?? 1);
       if (statusDiff !== 0) return statusDiff;
-      return new Date(a.utcDate) - new Date(b.utcDate);
+      return new Date(a.utcDate || a.date) - new Date(b.utcDate || b.date);
     });
   }, [filteredMatches]);
 

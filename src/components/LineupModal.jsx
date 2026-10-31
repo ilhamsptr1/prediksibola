@@ -1,227 +1,454 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import {
+  fetchMatchLineups,
+  getRatingColor,
+} from '../services/lineupService';
 import './LineupModal.css';
 
-let userApiKey = import.meta.env.VITE_FOOTBALL_API_KEY;
-const FALLBACK_KEY = '4eda5db232484db3b743c1544bf90b86';
-let API_KEY = (!userApiKey || userApiKey.trim().length < 10) ? FALLBACK_KEY : userApiKey.trim();
-const API_BASE = '/api/football-data';
+/**
+ * FotMob-style Player Node on the Pitch
+ */
+export const FotMobPlayerNode = ({ player, side = 'home', compact = false }) => {
+  const [imgErr, setImgErr] = useState(false);
+  if (!player) return null;
 
-const formatName = (name) => {
-  if (!name) return '';
-  const parts = name.split(' ');
-  return parts.length > 1 ? parts[parts.length - 1] : parts[0];
+  const isGK = player.role === 'GK';
+  const kitClass = isGK
+    ? 'fm-kit--gk'
+    : side === 'home'
+    ? 'fm-kit--home'
+    : 'fm-kit--away';
+
+  const ratingBg = getRatingColor(player.rating);
+  const hasPhoto = Boolean(player.headshot) && !imgErr;
+
+  return (
+    <div className={`fm-player-node${compact ? ' fm-player-node--compact' : ''}`} title={`${player.name} (${player.position})`}>
+      <div className="fm-player-visual">
+        {/* Avatar or Kit Circle */}
+        <div className={`fm-player-avatar ${hasPhoto ? 'fm-player-avatar--photo' : kitClass}`}>
+          {hasPhoto ? (
+            <img
+              src={player.headshot}
+              alt={player.name}
+              className="fm-player-headshot"
+              onError={() => setImgErr(true)}
+            />
+          ) : (
+            <span className="fm-player-shirt-num">{player.shirtNumber ?? '-'}</span>
+          )}
+        </div>
+
+        {/* Captain Badge (Top-Left, FotMob token --Lineup-captainBackground) */}
+        {player.captain && (
+          <span className="fm-badge-captain" title="Kapten (Captain)">C</span>
+        )}
+
+        {/* Match Rating Pill (Top-Right, FotMob token --PlayerRating-*) */}
+        {player.rating && ratingBg && (
+          <span className="fm-badge-rating" style={{ backgroundColor: ratingBg }}>
+            {player.rating}
+          </span>
+        )}
+
+        {/* Substitution Out Badge (Bottom-Left) */}
+        {player.subbedOut && (
+          <span className="fm-badge-sub fm-badge-sub--out" title="Digantikan">
+            ↓
+          </span>
+        )}
+
+        {/* Goal / Card Event Badges (Bottom-Right) */}
+        {(player.events?.goals > 0 || player.events?.yellowCard || player.events?.redCard) && (
+          <div className="fm-badge-events">
+            {player.events?.goals > 0 && (
+              <span className="fm-event-goal" title={`${player.events.goals} Gol`}>
+                ⚽{player.events.goals > 1 ? player.events.goals : ''}
+              </span>
+            )}
+            {player.events?.yellowCard && <span className="fm-event-card fm-event-card--yellow" title="Kartu Kuning" />}
+            {player.events?.redCard && <span className="fm-event-card fm-event-card--red" title="Kartu Merah" />}
+          </div>
+        )}
+      </div>
+
+      {/* Player Name Label */}
+      <div className="fm-player-label">
+        <span className="fm-player-label-num">{player.shirtNumber}</span>
+        <span className="fm-player-label-name">{player.shortName || player.name}</span>
+      </div>
+    </div>
+  );
 };
 
-// Cache agar tidak request ulang saat switch tab bolak-balik
-const squadCache = {};
+/**
+ * FotMob Bench / Substitute Row Item
+ */
+export const FotMobBenchItem = ({ player, side = 'home' }) => {
+  const [imgErr, setImgErr] = useState(false);
+  const ratingBg = getRatingColor(player.rating);
+  const hasPhoto = Boolean(player.headshot) && !imgErr;
+  const isGK = player.role === 'GK';
 
-const fetchSquadById = async (id) => {
-  if (!id) return [];
-  if (squadCache[id]) return squadCache[id];
-
-  // Coba max 2x dengan delay jika kena 429
-  for (let attempt = 0; attempt < 2; attempt++) {
-    const res = await fetch(`${API_BASE}/v4/teams/${id}`, {
-      headers: { 'X-Auth-Token': API_KEY }
-    });
-    if (res.status === 429) {
-      // Tunggu 6 detik lalu retry
-      await new Promise(r => setTimeout(r, 6000));
-      continue;
-    }
-    if (res.status === 400 && API_KEY !== FALLBACK_KEY) {
-      API_KEY = FALLBACK_KEY;
-      attempt--; // retry this attempt
-      continue;
-    }
-    if (!res.ok) return [];
-    const data = await res.json();
-    const squad = data.squad || [];
-    if (squad.length > 0) squadCache[id] = squad;
-    return squad;
-  }
-  return [];
+  return (
+    <div className="fm-bench-item">
+      <div className="fm-bench-left">
+        <div className={`fm-bench-avatar ${isGK ? 'fm-kit--gk' : side === 'home' ? 'fm-kit--home' : 'fm-kit--away'}`}>
+          {hasPhoto ? (
+            <img src={player.headshot} alt={player.name} onError={() => setImgErr(true)} />
+          ) : (
+            <span>{player.shirtNumber ?? '-'}</span>
+          )}
+        </div>
+        <div className="fm-bench-info">
+          <div className="fm-bench-name-row">
+            <span className="fm-bench-num">{player.shirtNumber}</span>
+            <span className="fm-bench-name">{player.name}</span>
+          </div>
+          <div className="fm-bench-meta">
+            <span>{player.position}</span>
+            {player.subbedIn && (
+              <span className="fm-bench-subin">
+                ↑ Masuk {player.events?.subMinute ? `(${player.events.subMinute})` : ''}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+      <div className="fm-bench-right">
+        {player.events?.goals > 0 && <span className="fm-bench-event">⚽</span>}
+        {player.events?.yellowCard && <span className="fm-event-card fm-event-card--yellow" />}
+        {player.events?.redCard && <span className="fm-event-card fm-event-card--red" />}
+        {player.rating && ratingBg && (
+          <span className="fm-bench-rating" style={{ backgroundColor: ratingBg }}>
+            {player.rating}
+          </span>
+        )}
+      </div>
+    </div>
+  );
 };
 
-const generatePredictedLineup = (squad) => {
-  const gks  = squad.filter(p => p.position === 'Goalkeeper');
-  const defs = squad.filter(p => ['Defence', 'Defender', 'Defender'].includes(p.position) || p.position?.includes('efenc') || p.position?.includes('ack'));
-  const mids = squad.filter(p => p.position?.includes('idfield') || p.position === 'Midfield');
-  const atts = squad.filter(p => p.position?.includes('ffence') || p.position?.includes('ttack') || p.position === 'Forward');
-
-  // Pastikan ada minimal 11 pemain dengan fallback dari posisi yang tersedia
-  const all = squad.filter(p => !gks.includes(p));
-  const fillDefs = defs.length >= 4 ? defs : [...defs, ...all.filter(p => !defs.includes(p))];
-  const fillMids = mids.length >= 3 ? mids : [...mids, ...all.filter(p => !fillDefs.slice(0,4).includes(p) && !mids.includes(p))];
-  const fillAtts = atts.length >= 3 ? atts : [...atts, ...all.filter(p => !fillDefs.slice(0,4).includes(p) && !fillMids.slice(0,3).includes(p) && !atts.includes(p))];
-
-  return {
-    gk:  gks.slice(0, 1),
-    def: fillDefs.slice(0, 4),
-    mid: fillMids.slice(0, 3),
-    att: fillAtts.slice(0, 3),
-  };
-};
-
-const groupSquad = (squad) => {
+/**
+ * Group full squad by role
+ */
+const groupSquadByRole = (squad = []) => {
   const groups = { Kiper: [], Bek: [], Gelandang: [], Penyerang: [] };
   squad.forEach(p => {
-    if (p.position?.includes('oalkeeper') || p.position === 'Goalkeeper') groups.Kiper.push(p);
-    else if (p.position?.includes('efenc') || p.position?.includes('ack') || p.position === 'Defence') groups.Bek.push(p);
-    else if (p.position?.includes('idfield') || p.position === 'Midfield') groups.Gelandang.push(p);
+    if (p.role === 'GK') groups.Kiper.push(p);
+    else if (p.role === 'DEF') groups.Bek.push(p);
+    else if (p.role === 'MID') groups.Gelandang.push(p);
     else groups.Penyerang.push(p);
   });
   return groups;
 };
 
 const LineupModal = ({ match, onClose }) => {
-  const [activeTab, setActiveTab] = useState('HOME');
-  // Simpan squad per tim ID
-  const [squads, setSquads]     = useState({ home: null, away: null }); // null = belum load, [] = kosong
-  const [loading, setLoading]   = useState(false);
+  // 'COMBINED' = FotMob Dual-Team Full Pitch, 'HOME' = Home Only, 'AWAY' = Away Only
+  const [viewMode, setViewMode] = useState('COMBINED');
+  const [lineups, setLineups] = useState({ home: null, away: null });
+  const [loading, setLoading] = useState(true);
 
-  // Tidak mengunci scroll background agar user masih bisa scroll halaman
-  // saat modal skuad sedang terbuka.
-
-  const loadSquad = useCallback(async (tab) => {
-    const isHome = tab === 'HOME';
-    const key = isHome ? 'home' : 'away';
-    const team = isHome ? match.homeTeam : match.awayTeam;
-
-    // Sudah pernah di-load, skip
-    if (squads[key] !== null) return;
-
-    setLoading(true);
-    const squad = await fetchSquadById(team.id);
-    setSquads(prev => ({ ...prev, [key]: squad }));
-    setLoading(false);
-  }, [match, squads]);
-
-  // Load home squad on first open
   useEffect(() => {
-    loadSquad('HOME');
+    let active = true;
+    setLoading(true);
+    fetchMatchLineups(match).then(res => {
+      if (!active) return;
+      setLineups(res);
+      if (res.home && !res.away) setViewMode('HOME');
+      else if (!res.home && res.away) setViewMode('AWAY');
+      setLoading(false);
+    });
+    return () => { active = false; };
   }, [match]);
 
-  // Load away squad ketika user switch ke tab AWAY
-  const handleTabSwitch = (tab) => {
-    setActiveTab(tab);
-    loadSquad(tab);
-  };
+  const homeData = lineups.home;
+  const awayData = lineups.away;
+  const hasAnyData = Boolean(homeData || awayData);
+  const isConfirmed = Boolean(homeData?.isConfirmed || awayData?.isConfirmed);
 
-  const currentSquad = activeTab === 'HOME' ? (squads.home ?? []) : (squads.away ?? []);
-  const currentLineup = currentSquad.length > 0 ? generatePredictedLineup(currentSquad) : null;
-  const grouped = groupSquad(currentSquad);
-  const isLoading = loading || (activeTab === 'HOME' ? squads.home === null : squads.away === null);
+  const homeName = match.homeTeam.shortName || match.homeTeam.name;
+  const awayName = match.awayTeam.shortName || match.awayTeam.name;
 
-  const renderPlayerNode = (player, teamType) => {
-    if (!player) return null;
-    const isGK = player.position?.includes('oalkeeper');
-    const jerseyClass = isGK ? 'jersey-gk' : teamType === 'HOME' ? 'jersey-home' : 'jersey-away';
-    const num = player.shirtNumber ?? '?';
-    return (
-      <div key={player.id} className="pitch-player">
-        <div className={`player-jersey ${jerseyClass}`}>{num}</div>
-        <div className="player-name">{formatName(player.name)}</div>
-      </div>
-    );
-  };
+  // Close on Escape key
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  const activeSingleData = viewMode === 'AWAY' ? awayData : homeData;
+  const activeSingleSide = viewMode === 'AWAY' ? 'away' : 'home';
+  const activeSingleTeam = viewMode === 'AWAY' ? match.awayTeam : match.homeTeam;
+  const activeGroupedSquad = groupSquadByRole(activeSingleData?.fullSquad || []);
 
   return createPortal(
-    <div className="lineup-overlay" onClick={onClose}>
+    <div className="lineup-overlay" onClick={onClose} role="dialog" aria-modal="true" aria-label="Susunan Pemain">
       <div className="lineup-modal" onClick={(e) => e.stopPropagation()}>
 
         {/* Header */}
         <div className="lineup-modal__header">
           <div className="lineup-modal__title">
-            <span>Skuad &amp; Prediksi Formasi</span>
+            <div className="lineup-modal__title-row">
+              <span>Susunan Pemain (Lineup)</span>
+              {hasAnyData && (
+                <span className={`fm-status-pill ${isConfirmed ? 'fm-status-pill--confirmed' : 'fm-status-pill--probable'}`}>
+                  {isConfirmed ? 'Resmi (Starting XI)' : 'Prediksi Lineup'}
+                </span>
+              )}
+            </div>
             <span className="lineup-modal__subtitle">
-              {match.homeTeam.shortName || match.homeTeam.name} vs {match.awayTeam.shortName || match.awayTeam.name}
+              {homeName} vs {awayName}
             </span>
           </div>
-          <button className="lineup-modal__close" onClick={onClose}>×</button>
+          <button className="lineup-modal__close" onClick={onClose} aria-label="Tutup">×</button>
         </div>
 
-        {/* Tabs */}
+        {/* Mode Switcher Tabs (FotMob Dual Pitch vs Individual Team) */}
         <div className="lineup-tabs">
-          <button className={`lineup-tab ${activeTab === 'HOME' ? 'active' : ''}`} onClick={() => handleTabSwitch('HOME')}>
-            {match.homeTeam.crest && <img src={match.homeTeam.crest} className="lineup-tab__crest" alt="" />}
-            <span>{match.homeTeam.shortName || match.homeTeam.name}</span>
+          <button
+            className={`lineup-tab ${viewMode === 'COMBINED' ? 'active' : ''}`}
+            onClick={() => setViewMode('COMBINED')}
+          >
+            <span>Lapangan Penuh</span>
           </button>
-          <button className={`lineup-tab ${activeTab === 'AWAY' ? 'active' : ''}`} onClick={() => handleTabSwitch('AWAY')}>
+          <button
+            className={`lineup-tab ${viewMode === 'HOME' ? 'active' : ''}`}
+            onClick={() => setViewMode('HOME')}
+          >
+            {match.homeTeam.crest && <img src={match.homeTeam.crest} className="lineup-tab__crest" alt="" />}
+            <span>{homeName}</span>
+            {homeData?.formation && <span className="fm-tab-formation">{homeData.formation}</span>}
+          </button>
+          <button
+            className={`lineup-tab ${viewMode === 'AWAY' ? 'active' : ''}`}
+            onClick={() => setViewMode('AWAY')}
+          >
             {match.awayTeam.crest && <img src={match.awayTeam.crest} className="lineup-tab__crest" alt="" />}
-            <span>{match.awayTeam.shortName || match.awayTeam.name}</span>
+            <span>{awayName}</span>
+            {awayData?.formation && <span className="fm-tab-formation">{awayData.formation}</span>}
           </button>
         </div>
 
         {/* Body */}
         <div className="lineup-modal__body">
-          {isLoading ? (
+          {loading ? (
             <div className="lineup-loading">
-              <div className="lineup-spinner"></div>
-              <span>Mengambil data skuad...</span>
+              <div className="lineup-spinner" />
+              <span>Memuat susunan pemain &amp; formasi...</span>
             </div>
-          ) : currentSquad.length === 0 ? (
+          ) : !hasAnyData ? (
             <div className="lineup-error">
               <span style={{ fontSize: '2.5rem' }}>⚽</span>
-              <span style={{ fontWeight: 700, marginTop: '0.5rem' }}>Data skuad tidak tersedia</span>
-              <span style={{ fontSize: '0.75rem', opacity: 0.5, textAlign: 'center', lineHeight: 1.5 }}>
-                <span>Tim ini tidak memiliki data skuad di database.</span><br />
-                <span>Coba lihat tim dari liga-liga Eropa (PL, La Liga, Serie A, dll).</span>
+              <span style={{ fontWeight: 700, marginTop: '0.5rem', color: '#fff' }}>Susunan pemain belum tersedia</span>
+              <span style={{ fontSize: '0.78rem', opacity: 0.65, textAlign: 'center', lineHeight: 1.5, maxWidth: '320px' }}>
+                Data Starting XI untuk pertandingan ini belum dirilis oleh penyelenggara kompetisi.
               </span>
             </div>
-          ) : (
+          ) : viewMode === 'COMBINED' && homeData && awayData ? (
+            /* ============================================================
+               FOTMOB DUAL-TEAM FULL VERTICAL PITCH
+               Top Half: Home Team (GK at top -> Strikers at center)
+               Bottom Half: Away Team (Strikers at center -> GK at bottom)
+               ============================================================ */
             <>
-              {/* Formasi label */}
-              <div style={{ textAlign: 'center', fontSize: '0.7rem', color: 'rgba(255,255,255,0.35)', padding: '0.4rem 0 0', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <span>Prediksi Formasi 4-3-3</span>
-                <span style={{ fontSize: '0.55rem', opacity: 0.8, textTransform: 'none', fontWeight: 400, color: '#f87171' }}>
-                  ⚠️ Lineup (Starting XI) asli dikunci oleh API Gratis. Ini hanyalah susunan prediksi acak.
-                </span>
-              </div>
+              <div className={`fm-dual-pitch-card ${isConfirmed ? 'fm-pitch--confirmed' : 'fm-pitch--probable'}`}>
+                {/* Top Team Bar (Home) */}
+                <div className="fm-team-bar fm-team-bar--top">
+                  <div className="fm-team-bar__left">
+                    {match.homeTeam.crest && <img src={match.homeTeam.crest} alt="" className="fm-team-bar__crest" />}
+                    <span className="fm-team-bar__name">{homeName}</span>
+                  </div>
+                  <div className="fm-team-bar__right">
+                    {homeData.avgRating && (
+                      <span className="fm-team-bar__rating" style={{ backgroundColor: getRatingColor(homeData.avgRating) }}>
+                        ★ {homeData.avgRating}
+                      </span>
+                    )}
+                    <span className="fm-team-bar__formation">{homeData.formation}</span>
+                  </div>
+                </div>
 
-              {/* Pitch */}
-              <div className="pitch-container">
-                <div className="pitch-line pitch-halfway" />
-                <div className="pitch-line pitch-circle" />
-                <div className="pitch-line pitch-penalty-top" />
-                <div className="pitch-line pitch-goal-top" />
-                <div className="pitch-line pitch-penalty-bottom" />
-                <div className="pitch-line pitch-goal-bottom" />
+                {/* Full Pitch Surface */}
+                <div className="fm-pitch-surface fm-pitch-surface--dual">
+                  {/* Pitch Markings */}
+                  <div className="fm-marking fm-marking--penalty-top" />
+                  <div className="fm-marking fm-marking--goal-top" />
+                  <div className="fm-marking fm-marking--arc-top" />
+                  <div className="fm-marking fm-marking--halfway" />
+                  <div className="fm-marking fm-marking--center-circle" />
+                  <div className="fm-marking fm-marking--center-spot" />
+                  <div className="fm-marking fm-marking--arc-bottom" />
+                  <div className="fm-marking fm-marking--penalty-bottom" />
+                  <div className="fm-marking fm-marking--goal-bottom" />
 
-                <div className="pitch-players">
-                  <div className="pitch-row">{(currentLineup?.att || []).map(p => renderPlayerNode(p, activeTab))}</div>
-                  <div className="pitch-row">{(currentLineup?.mid || []).map(p => renderPlayerNode(p, activeTab))}</div>
-                  <div className="pitch-row">{(currentLineup?.def || []).map(p => renderPlayerNode(p, activeTab))}</div>
-                  <div className="pitch-row">{(currentLineup?.gk  || []).map(p => renderPlayerNode(p, activeTab))}</div>
+                  {/* Home Half (Top: GK at row 0 -> Attack at last row) */}
+                  <div className="fm-half fm-half--home">
+                    {homeData.rows.map((row, rIdx) => (
+                      <div key={`home-r-${rIdx}`} className="fm-pitch-row">
+                        {row.map(player => (
+                          <FotMobPlayerNode key={player.id} player={player} side="home" compact />
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Away Half (Bottom: Attack near center -> GK at bottom) */}
+                  <div className="fm-half fm-half--away">
+                    {[...awayData.rows].reverse().map((row, rIdx) => (
+                      <div key={`away-r-${rIdx}`} className="fm-pitch-row">
+                        {row.map(player => (
+                          <FotMobPlayerNode key={player.id} player={player} side="away" compact />
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Bottom Team Bar (Away) */}
+                <div className="fm-team-bar fm-team-bar--bottom">
+                  <div className="fm-team-bar__left">
+                    {match.awayTeam.crest && <img src={match.awayTeam.crest} alt="" className="fm-team-bar__crest" />}
+                    <span className="fm-team-bar__name">{awayName}</span>
+                  </div>
+                  <div className="fm-team-bar__right">
+                    {awayData.avgRating && (
+                      <span className="fm-team-bar__rating" style={{ backgroundColor: getRatingColor(awayData.avgRating) }}>
+                        ★ {awayData.avgRating}
+                      </span>
+                    )}
+                    <span className="fm-team-bar__formation">{awayData.formation}</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Squad List */}
-              <div className="squad-list-container">
-                {Object.entries(grouped).map(([groupName, players]) => {
-                  if (players.length === 0) return null;
-                  return (
-                    <div className="squad-section" key={groupName}>
-                      <div className="squad-section__title">{groupName}</div>
-                      {players.map(p => (
-                        <div className="squad-item" key={p.id}>
-                          <div className="squad-item__info">
-                            <span className="squad-item__number">{p.shirtNumber ?? '—'}</span>
-                            <div>
-                              <div className="squad-item__name"><span>{p.name}</span></div>
-                              <div className="squad-item__meta">
-                                <span>{p.nationality}{p.dateOfBirth ? ` • Lhr: ${p.dateOfBirth.substring(0, 4)}` : ''}</span>
-                              </div>
-                            </div>
-                          </div>
+              {/* Coaches Row (Pelatih) */}
+              {(homeData.coach || awayData.coach) && (
+                <div className="fm-section-card">
+                  <div className="fm-section-header">Pelatih (Manager)</div>
+                  <div className="fm-coaches-grid">
+                    <div className="fm-coach-box">
+                      <span className="fm-coach-team">{homeName}</span>
+                      <span className="fm-coach-name">{homeData.coach || ' belum diumumkan'}</span>
+                    </div>
+                    <div className="fm-coach-box fm-coach-box--right">
+                      <span className="fm-coach-team">{awayName}</span>
+                      <span className="fm-coach-name">{awayData.coach || 'belum diumumkan'}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Substitutes / Bench Section (Pemain Cadangan) */}
+              {(homeData.bench?.length > 0 || awayData.bench?.length > 0) && (
+                <div className="fm-section-card">
+                  <div className="fm-section-header">Pemain Cadangan (Bench)</div>
+                  <div className="fm-bench-dual-grid">
+                    <div className="fm-bench-col">
+                      <div className="fm-bench-col__title">
+                        {match.homeTeam.crest && <img src={match.homeTeam.crest} alt="" />}
+                        <span>{homeName}</span>
+                      </div>
+                      {homeData.bench.map(p => (
+                        <FotMobBenchItem key={p.id} player={p} side="home" />
+                      ))}
+                    </div>
+                    <div className="fm-bench-col">
+                      <div className="fm-bench-col__title">
+                        {match.awayTeam.crest && <img src={match.awayTeam.crest} alt="" />}
+                        <span>{awayName}</span>
+                      </div>
+                      {awayData.bench.map(p => (
+                        <FotMobBenchItem key={p.id} player={p} side="away" />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          ) : (
+            /* ============================================================
+               SINGLE TEAM DETAILED VIEW (HOME OR AWAY)
+               ============================================================ */
+            activeSingleData && (
+              <>
+                <div className={`fm-dual-pitch-card ${activeSingleData.isConfirmed ? 'fm-pitch--confirmed' : 'fm-pitch--probable'}`}>
+                  <div className="fm-team-bar fm-team-bar--top">
+                    <div className="fm-team-bar__left">
+                      {activeSingleTeam.crest && <img src={activeSingleTeam.crest} alt="" className="fm-team-bar__crest" />}
+                      <span className="fm-team-bar__name">{activeSingleTeam.shortName || activeSingleTeam.name}</span>
+                    </div>
+                    <div className="fm-team-bar__right">
+                      {activeSingleData.coach && (
+                        <span className="fm-team-bar__coach">Pelatih: {activeSingleData.coach}</span>
+                      )}
+                      <span className="fm-team-bar__formation">{activeSingleData.formation}</span>
+                    </div>
+                  </div>
+
+                  {/* Single Team Pitch (Attack at top -> GK at bottom) */}
+                  <div className="fm-pitch-surface fm-pitch-surface--single">
+                    <div className="fm-marking fm-marking--penalty-top" />
+                    <div className="fm-marking fm-marking--goal-top" />
+                    <div className="fm-marking fm-marking--halfway" />
+                    <div className="fm-marking fm-marking--center-circle" />
+                    <div className="fm-marking fm-marking--penalty-bottom" />
+                    <div className="fm-marking fm-marking--goal-bottom" />
+
+                    <div className="fm-single-rows">
+                      {[...activeSingleData.rows].reverse().map((row, rIdx) => (
+                        <div key={`single-r-${rIdx}`} className="fm-pitch-row">
+                          {row.map(player => (
+                            <FotMobPlayerNode key={player.id} player={player} side={activeSingleSide} />
+                          ))}
                         </div>
                       ))}
                     </div>
-                  );
-                })}
-              </div>
-            </>
+                  </div>
+                </div>
+
+                {/* Bench for Single Team */}
+                {activeSingleData.bench?.length > 0 && (
+                  <div className="fm-section-card">
+                    <div className="fm-section-header">Pemain Cadangan ({activeSingleData.bench.length})</div>
+                    <div className="fm-bench-single-list">
+                      {activeSingleData.bench.map(p => (
+                        <FotMobBenchItem key={p.id} player={p} side={activeSingleSide} />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Full Squad List by Role */}
+                <div className="squad-list-container">
+                  {Object.entries(activeGroupedSquad).map(([groupName, players]) => {
+                    if (players.length === 0) return null;
+                    return (
+                      <div className="squad-section" key={groupName}>
+                        <div className="squad-section__title">{groupName} ({players.length})</div>
+                        {players.map(p => (
+                          <div className="squad-item" key={p.id}>
+                            <div className="squad-item__info">
+                              <span className="squad-item__number">{p.shirtNumber ?? '-'}</span>
+                              <div>
+                                <div className="squad-item__name"><span>{p.name}</span></div>
+                                <div className="squad-item__meta">
+                                  <span>
+                                    {p.nationality || p.position}
+                                    {p.dateOfBirth ? ` • ${p.dateOfBirth.substring(0, 4)}` : ''}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )
           )}
         </div>
       </div>

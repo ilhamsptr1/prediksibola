@@ -49,6 +49,7 @@ const mapMatchData = (apiMatch) => {
   return {
     id: apiMatch.id.toString(),
     date: apiMatch.utcDate || new Date().toISOString(),
+    utcDate: apiMatch.utcDate || new Date().toISOString(),
     group: groupName,
     groupCode: groupCode,
     matchday: apiMatch.matchday || 1,

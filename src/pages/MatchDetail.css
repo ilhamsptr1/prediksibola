@@ -424,6 +424,27 @@
 .odds-box.away .odds-val { color: #ef4444; }
 
 /* ── Lineup / Pitch ─────────────────────── */
+.md-fotmob-lineup-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.md-lineup-status-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.md-lineup-status-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #ffffff;
+}
 .pitch-container {
   position: relative;
   border-radius: 16px;

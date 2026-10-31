@@ -1,14 +1,29 @@
-/* ─── Lineup Modal Overlay ────────────────────────────────────────── */
+/* ============================================================
+   LineupModal.css - FotMob Authentic Lineup & Pitch Styling
+   Tokens extracted via REA capture:
+   ev_61e95e43d90e0389b0b9a7baa71a0e4b16e37cef18407ffd3261fa535997d028
+   --MFFullscreenColorScheme-pitch: #01935C
+   --MFFullscreenColorScheme-pitchLines: #0D9F68
+   --Lineup-teamHeaderBackground: #0D9F68 / #242424
+   --PlayerRating-blue: #14A0FF
+   --PlayerRating-green: #33C771
+   --PlayerRating-orange: #F08022
+   --PlayerRating-red: #DD3636
+   --Lineup-captainBackground: #FFFFFF
+   --Lineup-captainText: #464646
+   ============================================================ */
+
 .lineup-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(4, 6, 14, 0.95);
+  background: rgba(4, 7, 15, 0.92);
+  backdrop-filter: blur(8px);
   z-index: 1050;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
-  animation: lineupFadeIn 0.3s ease;
+  animation: lineupFadeIn 0.25s ease;
 }
 
 @keyframes lineupFadeIn {
@@ -16,35 +31,31 @@
   to   { opacity: 1; }
 }
 
-/* ─── Modal Box ──────────────────────────────────────────────────── */
 .lineup-modal {
   width: 100%;
-  max-width: 500px; /* Lebar menyerupai HP/Fotmob */
-  height: 90vh;
-  max-height: 850px;
-  background: linear-gradient(180deg, #121c2d 0%, #0b111e 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  max-width: 580px;
+  height: 92vh;
+  max-height: 900px;
+  background: linear-gradient(180deg, #131b2b 0%, #0b101b 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
-  animation: lineupSlideUp 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-  will-change: transform, opacity;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.85);
+  animation: lineupSlideUp 0.3s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 @keyframes lineupSlideUp {
-  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  from { opacity: 0; transform: translateY(28px) scale(0.97); }
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* ─── Header ─────────────────────────────────────────────────────── */
 .lineup-modal__header {
   background: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 0.9rem 1.1rem;
   position: relative;
   display: flex;
   align-items: center;
@@ -54,18 +65,47 @@
 .lineup-modal__title {
   font-family: 'Outfit', sans-serif;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 3px;
+}
+
+.lineup-modal__title-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.fm-status-pill {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.fm-status-pill--confirmed {
+  background: rgba(51, 199, 113, 0.18);
+  color: #33C771;
+  border: 1px solid rgba(51, 199, 113, 0.4);
+}
+
+.fm-status-pill--probable {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .lineup-modal__subtitle {
-  font-size: 0.65rem;
-  color: rgba(255,255,255,0.4);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 500;
 }
 
 .lineup-modal__close {
@@ -74,245 +114,720 @@
   right: 1rem;
   transform: translateY(-50%);
   background: rgba(255, 255, 255, 0.08);
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 50%;
-  width: 34px;
-  height: 34px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .lineup-modal__close:hover {
-  background: rgba(255, 255, 255, 0.15);
-  transform: translateY(-50%) scale(1.05);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 /* ─── Body (Scrollable) ──────────────────────────────────────────── */
 .lineup-modal__body {
   flex: 1;
   overflow-y: auto;
+  overflow-x: hidden;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255,0.1) transparent;
+  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
   display: flex;
   flex-direction: column;
+  padding-bottom: 1.5rem;
 }
 
-/* ─── Team Tabs (Home/Away toggle) ───────────────────────────────── */
+/* ─── Team / View Mode Tabs ──────────────────────────────────────── */
 .lineup-tabs {
   display: flex;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 0.5rem;
-  margin: 1rem 1rem 0;
+  background: rgba(0, 0, 0, 0.28);
+  padding: 4px;
+  margin: 0.75rem 1rem 0;
   border-radius: 12px;
-  gap: 0.2rem;
+  gap: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .lineup-tab {
   flex: 1;
-  padding: 0.6rem;
+  min-height: 38px;
+  padding: 0.45rem 0.5rem;
   text-align: center;
-  border-radius: 8px;
-  font-size: 0.85rem;
+  border-radius: 9px;
+  border: none;
+  background: transparent;
+  font-size: 0.78rem;
   font-weight: 600;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.55);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.18s;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
+  gap: 6px;
+  min-width: 0;
+}
+
+.lineup-tab span {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .lineup-tab.active {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.12);
   color: #fff;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
 }
 
 .lineup-tab__crest {
-  width: 20px;
-  height: 20px;
+  width: 18px;
+  height: 18px;
   object-fit: contain;
+  flex-shrink: 0;
 }
 
-/* ─── Pitch UI (Lapangan) ────────────────────────────────────────── */
-.pitch-container {
-  position: relative;
+.fm-tab-formation {
+  font-size: 0.65rem;
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.85);
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   FOTMOB PITCH CONTAINER & TEAM BARS
+   ============================================================ */
+.fm-dual-pitch-card {
   width: calc(100% - 2rem);
-  margin: 1rem auto;
-  aspect-ratio: 2 / 3; /* Proporsi lapangan sepak bola vertikal */
-  background: #2a5934; /* Warna dasar rumput */
-  background-image: 
-    repeating-linear-gradient(
-      to bottom,
-      rgba(255,255,255,0.03) 0,
-      rgba(255,255,255,0.03) 10%,
-      transparent 10%,
-      transparent 20%
-    );
-  border: 2px solid rgba(255,255,255,0.4);
-  border-radius: 8px;
+  margin: 0.85rem auto 0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+/* Team Header Bar (Top = Home, Bottom = Away) */
+.fm-team-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0.9rem;
+  background: #0b7a4c; /* FotMob --Lineup-teamHeaderBackground */
+  color: #ffffff;
+}
+
+.fm-team-bar--top {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.fm-team-bar--bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.fm-team-bar__left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.fm-team-bar__crest {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.fm-team-bar__name {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fm-team-bar__right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.fm-team-bar__coach {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.fm-team-bar__formation {
+  font-family: 'JetBrains Mono', monospace, sans-serif;
+  font-size: 0.76rem;
+  font-weight: 700;
+  background: rgba(0, 0, 0, 0.28);
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: #ffffff;
+}
+
+.fm-team-bar__rating {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 6px;
+  color: #fff;
+}
+
+/* Pitch Surface (FotMob #01935C with subtle grass stripes) */
+.fm-pitch-surface {
+  position: relative;
+  width: 100%;
+  background-color: #018854;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.035) 0px,
+    rgba(255, 255, 255, 0.035) 38px,
+    transparent 38px,
+    transparent 76px
+  );
   overflow: hidden;
 }
 
-/* Garis lapangan (Pitch Lines) */
-.pitch-line {
-  position: absolute;
-  border: 2px solid rgba(255,255,255,0.4);
+.fm-pitch-surface--dual {
+  min-height: 680px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Garis tengah */
-.pitch-halfway {
+.fm-pitch-surface--single {
+  min-height: 430px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Pitch Lines & Markings */
+.fm-marking {
+  position: absolute;
+  border: 1.5px solid rgba(255, 255, 255, 0.26);
+  pointer-events: none;
+}
+
+.fm-marking--halfway {
   top: 50%;
   left: 0;
-  width: 100%;
-  height: 2px;
-  background: rgba(255,255,255,0.4);
+  right: 0;
+  height: 0;
   border: none;
+  border-top: 1.5px solid rgba(255, 255, 255, 0.26);
   transform: translateY(-50%);
 }
 
-/* Lingkaran tengah */
-.pitch-circle {
+.fm-marking--center-circle {
   top: 50%;
   left: 50%;
-  width: 25%;
-  aspect-ratio: 1;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   transform: translate(-50%, -50%);
 }
 
-/* Area penalti atas (Away) */
-.pitch-penalty-top {
+.fm-marking--center-spot {
+  top: 50%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.35);
+  border: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.fm-marking--penalty-top {
   top: 0;
-  left: 20%;
-  width: 60%;
-  height: 15%;
+  left: 22%;
+  width: 56%;
+  height: 13%;
   border-top: none;
 }
 
-/* Area gawang atas */
-.pitch-goal-top {
+.fm-marking--goal-top {
   top: 0;
-  left: 35%;
-  width: 30%;
+  left: 36%;
+  width: 28%;
   height: 5%;
   border-top: none;
 }
 
-/* Area penalti bawah (Home) */
-.pitch-penalty-bottom {
+.fm-marking--arc-top {
+  top: 10.5%;
+  left: 50%;
+  width: 54px;
+  height: 26px;
+  border-radius: 0 0 50px 50px;
+  border-top: none;
+  transform: translateX(-50%);
+}
+
+.fm-marking--penalty-bottom {
   bottom: 0;
-  left: 20%;
-  width: 60%;
-  height: 15%;
+  left: 22%;
+  width: 56%;
+  height: 13%;
   border-bottom: none;
 }
 
-/* Area gawang bawah */
-.pitch-goal-bottom {
+.fm-marking--goal-bottom {
   bottom: 0;
-  left: 35%;
-  width: 30%;
+  left: 36%;
+  width: 28%;
   height: 5%;
   border-bottom: none;
 }
 
-/* ─── Pemain di Lapangan ─────────────────────────────────────────── */
-.pitch-players {
-  position: absolute;
-  inset: 0;
+.fm-marking--arc-bottom {
+  bottom: 10.5%;
+  left: 50%;
+  width: 54px;
+  height: 26px;
+  border-radius: 50px 50px 0 0;
+  border-bottom: none;
+  transform: translateX(-50%);
+}
+
+/* Halves on Dual Pitch */
+.fm-half {
+  position: relative;
+  z-index: 2;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  padding: 1rem 0;
+  padding: 10px 6px;
 }
 
-.pitch-row {
+.fm-half--home {
+  border-bottom: 1px solid transparent;
+}
+
+.fm-single-rows {
+  position: relative;
+  z-index: 2;
+  flex: 1;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
+  padding: 16px 8px;
+}
+
+.fm-pitch-row {
+  display: flex;
+  justify-content: space-evenly;
   align-items: center;
   width: 100%;
+  gap: 2px;
 }
 
-.pitch-player {
+/* ============================================================
+   FOTMOB PLAYER NODE ON PITCH
+   ============================================================ */
+.fm-player-node {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  width: 60px;
+  gap: 3px;
+  width: 68px;
+  position: relative;
+  user-select: none;
 }
 
-/* Jersey (titik warna) */
-.player-jersey {
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #fff;
-  border: 2px solid #000;
+.fm-player-node--compact {
+  width: 62px;
+}
+
+.fm-player-visual {
+  position: relative;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: 700;
-  font-size: 0.75rem;
-  color: #000;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
-/* Kustomisasi warna jersey */
-.jersey-home {
-  background: #4ade80;
-  border-color: #166534;
-  color: #166534;
+.fm-player-node--compact .fm-player-visual {
+  width: 34px;
+  height: 34px;
 }
 
-.jersey-away {
-  background: #f87171;
-  border-color: #991b1b;
-  color: #991b1b;
+.fm-player-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.78rem;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.45);
+  border: 2px solid #ffffff;
+  overflow: hidden;
+  background: #1e293b;
+  color: #ffffff;
 }
 
-.jersey-gk {
-  background: #fbbf24;
-  border-color: #b45309;
-  color: #b45309;
+.fm-player-avatar--photo {
+  background: #0f172a;
 }
 
-/* Nama Pemain di Lapangan */
-.player-name {
-  background: rgba(0, 0, 0, 0.6);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.6rem;
+.fm-player-headshot {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fm-kit--home {
+  background: linear-gradient(145deg, #ffffff 0%, #e2e8f0 100%);
+  color: #0f172a;
+  border-color: #10b981;
+}
+
+.fm-kit--away {
+  background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+  color: #ffffff;
+  border-color: #f43f5e;
+}
+
+.fm-kit--gk {
+  background: linear-gradient(145deg, #fbbf24 0%, #d97706 100%);
+  color: #0f172a;
+  border-color: #fef08a;
+}
+
+.fm-player-shirt-num {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 800;
+  font-size: 0.76rem;
+  line-height: 1;
+}
+
+/* Badges around Player Avatar */
+.fm-badge-captain {
+  position: absolute;
+  top: -3px;
+  left: -5px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff; /* --Lineup-captainBackground */
+  color: #262626;      /* --Lineup-captainText */
+  font-size: 0.55rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.fm-badge-rating {
+  position: absolute;
+  top: -4px;
+  right: -10px;
+  padding: 1px 4px;
+  border-radius: 5px;
+  color: #ffffff;
+  font-size: 0.58rem;
+  font-weight: 800;
+  line-height: 1.2;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.45);
+}
+
+.fm-badge-sub {
+  position: absolute;
+  bottom: -3px;
+  left: -5px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  font-size: 0.55rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   color: #fff;
-  text-align: center;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+}
+
+.fm-badge-sub--out {
+  background: #DD3636;
+}
+
+.fm-badge-events {
+  position: absolute;
+  bottom: -4px;
+  right: -6px;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.fm-event-goal {
+  font-size: 0.62rem;
+  background: #ffffff;
+  color: #0f172a;
+  border-radius: 999px;
+  padding: 0 3px;
+  font-weight: 800;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+.fm-event-card {
+  display: inline-block;
+  width: 7px;
+  height: 10px;
+  border-radius: 1.5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.fm-event-card--yellow { background: #facc15; }
+.fm-event-card--red    { background: #ef4444; }
+
+/* Player Name Pill (High-Contrast WCAG AA Scrim) */
+.fm-player-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(10, 15, 24, 0.82);
+  padding: 2px 6px;
+  border-radius: 5px;
+  max-width: 68px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.fm-player-label-num {
+  font-size: 0.56rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.65);
+  flex-shrink: 0;
+}
+
+.fm-player-label-name {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #ffffff;
   white-space: nowrap;
-  max-width: 60px;
   overflow: hidden;
   text-overflow: ellipsis;
-  backdrop-filter: blur(4px);
+}
+
+/* ============================================================
+   COACHES & BENCH SECTIONS (FOTMOB STYLE)
+   ============================================================ */
+.fm-section-card {
+  width: calc(100% - 2rem);
+  margin: 0.85rem auto 0;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 0.85rem 1rem;
+}
+
+.fm-section-header {
+  font-size: 0.74rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 0.65rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.fm-coaches-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.fm-coach-box {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.fm-coach-box--right {
+  text-align: right;
+  align-items: flex-end;
+}
+
+.fm-coach-team {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.48);
+  font-weight: 600;
+}
+
+.fm-coach-name {
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Bench Dual Grid & Items */
+.fm-bench-dual-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.fm-bench-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.fm-bench-col__title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 4px;
+}
+
+.fm-bench-col__title img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.fm-bench-single-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 6px;
+}
+
+.fm-bench-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 9px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  min-width: 0;
+}
+
+.fm-bench-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.fm-bench-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.68rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+}
+
+.fm-bench-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fm-bench-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.fm-bench-name-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+.fm-bench-num {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.45);
+  flex-shrink: 0;
+}
+
+.fm-bench-name {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fm-bench-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.fm-bench-subin {
+  color: #33C771; /* --Lineup-benchSubInText */
+  font-weight: 700;
+}
+
+.fm-bench-right {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.fm-bench-rating {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 5px;
 }
 
 /* ─── Daftar Skuad Lengkap ───────────────────────────────────────── */
 .squad-list-container {
-  padding: 0 1rem 2rem;
+  padding: 0 1rem 1rem;
 }
 
 .squad-section {
-  margin-top: 1.5rem;
+  margin-top: 1.1rem;
 }
 
 .squad-section__title {
-  font-size: 0.8rem;
-  color: rgba(255,255,255,0.4);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
   text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 0.5rem;
-  border-bottom: 1px solid rgba(255,255,255,0.05);
+  letter-spacing: 0.06em;
+  margin-bottom: 0.4rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   padding-bottom: 0.3rem;
 }
 
@@ -320,37 +835,38 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem 0.5rem;
+  padding: 0.45rem 0.5rem;
   border-radius: 8px;
-  transition: background 0.2s;
+  transition: background 0.18s;
 }
 
 .squad-item:hover {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .squad-item__info {
   display: flex;
   align-items: center;
-  gap: 0.8rem;
+  gap: 0.75rem;
 }
 
 .squad-item__number {
-  color: rgba(255,255,255,0.3);
+  color: rgba(255, 255, 255, 0.4);
   font-weight: 700;
-  font-size: 0.85rem;
-  width: 20px;
+  font-size: 0.82rem;
+  width: 22px;
   text-align: center;
 }
 
 .squad-item__name {
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 0.86rem;
+  font-weight: 600;
 }
 
 .squad-item__meta {
-  color: rgba(255,255,255,0.4);
-  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.72rem;
 }
 
 /* ─── State Load & Error ─────────────────────────────────────────── */
@@ -359,16 +875,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 300px;
-  color: rgba(255,255,255,0.5);
+  height: 320px;
+  padding: 1.5rem;
+  color: rgba(255, 255, 255, 0.6);
   font-size: 0.9rem;
 }
 
 .lineup-spinner {
-  width: 30px;
-  height: 30px;
-  border: 3px solid rgba(255,255,255,0.1);
-  border-top-color: #4ade80;
+  width: 32px;
+  height: 32px;
+  border: 3px solid rgba(255, 255, 255, 0.12);
+  border-top-color: #33C771;
   border-radius: 50%;
   animation: lineupSpin 0.8s linear infinite;
   margin-bottom: 1rem;
@@ -378,8 +895,8 @@
   to { transform: rotate(360deg); }
 }
 
-/* ── Mobile UI Optimizations ─────────────────────────────────────── */
-@media (max-width: 480px) {
+/* ── Mobile UI Optimizations (360px - 480px) ─────────────────────── */
+@media (max-width: 520px) {
   .lineup-overlay {
     padding: 0;
   }
@@ -389,18 +906,31 @@
     max-height: none;
     border-radius: 0;
   }
-  .pitch-container {
+  .fm-dual-pitch-card,
+  .fm-section-card {
     width: calc(100% - 1rem);
-    margin: 0.5rem auto;
   }
-  .player-jersey {
-    width: 22px;
-    height: 22px;
-    font-size: 0.6rem;
+  .fm-pitch-surface--dual {
+    min-height: 600px;
   }
-  .player-name {
-    font-size: 0.55rem;
-    max-width: 50px;
+  .fm-player-node,
+  .fm-player-node--compact {
+    width: 54px;
+  }
+  .fm-player-visual,
+  .fm-player-node--compact .fm-player-visual {
+    width: 30px;
+    height: 30px;
+  }
+  .fm-player-label {
+    max-width: 56px;
+    padding: 1.5px 4px;
+  }
+  .fm-player-label-name {
+    font-size: 0.56rem;
+  }
+  .fm-bench-dual-grid {
+    grid-template-columns: 1fr;
   }
   .lineup-tabs {
     margin: 0.5rem 0.5rem 0;
